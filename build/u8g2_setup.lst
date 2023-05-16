@@ -1,0 +1,1792 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"u8g2_setup.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.u8g2_update_dimension_common,"ax",%progbits
+  16              		.align	1
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	u8g2_update_dimension_common:
+  23              	.LFB4:
+  24              		.file 1 "Core/u8g2/u8g2_setup.c"
+   1:Core/u8g2/u8g2_setup.c **** /*
+   2:Core/u8g2/u8g2_setup.c **** 
+   3:Core/u8g2/u8g2_setup.c ****   u8g2_setup.c
+   4:Core/u8g2/u8g2_setup.c **** 
+   5:Core/u8g2/u8g2_setup.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/u8g2/u8g2_setup.c **** 
+   7:Core/u8g2/u8g2_setup.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/u8g2/u8g2_setup.c ****   All rights reserved.
+   9:Core/u8g2/u8g2_setup.c **** 
+  10:Core/u8g2/u8g2_setup.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/u8g2/u8g2_setup.c ****   are permitted provided that the following conditions are met:
+  12:Core/u8g2/u8g2_setup.c **** 
+  13:Core/u8g2/u8g2_setup.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/u8g2/u8g2_setup.c ****     of conditions and the following disclaimer.
+  15:Core/u8g2/u8g2_setup.c ****     
+  16:Core/u8g2/u8g2_setup.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/u8g2/u8g2_setup.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/u8g2/u8g2_setup.c ****     materials provided with the distribution.
+  19:Core/u8g2/u8g2_setup.c **** 
+  20:Core/u8g2/u8g2_setup.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/u8g2/u8g2_setup.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/u8g2/u8g2_setup.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/u8g2/u8g2_setup.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/u8g2/u8g2_setup.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/u8g2/u8g2_setup.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/u8g2/u8g2_setup.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/u8g2/u8g2_setup.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/u8g2/u8g2_setup.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/u8g2/u8g2_setup.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:Core/u8g2/u8g2_setup.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/u8g2/u8g2_setup.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/u8g2/u8g2_setup.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/u8g2/u8g2_setup.c **** 
+  34:Core/u8g2/u8g2_setup.c **** */
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 2
+
+
+  35:Core/u8g2/u8g2_setup.c **** 
+  36:Core/u8g2/u8g2_setup.c **** #include <string.h>
+  37:Core/u8g2/u8g2_setup.c **** #include <assert.h>
+  38:Core/u8g2/u8g2_setup.c **** #include "../u8g2/u8g2.h"
+  39:Core/u8g2/u8g2_setup.c **** 
+  40:Core/u8g2/u8g2_setup.c **** 
+  41:Core/u8g2/u8g2_setup.c **** /*============================================*/
+  42:Core/u8g2/u8g2_setup.c **** 
+  43:Core/u8g2/u8g2_setup.c **** 
+  44:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  45:Core/u8g2/u8g2_setup.c **** 
+  46:Core/u8g2/u8g2_setup.c **** void u8g2_SetMaxClipWindow(u8g2_t *u8g2)
+  47:Core/u8g2/u8g2_setup.c **** {
+  48:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = 0;
+  49:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = 0;
+  50:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  51:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+  52:Core/u8g2/u8g2_setup.c ****   
+  53:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  54:Core/u8g2/u8g2_setup.c **** }
+  55:Core/u8g2/u8g2_setup.c **** 
+  56:Core/u8g2/u8g2_setup.c **** void u8g2_SetClipWindow(u8g2_t *u8g2, u8g2_uint_t clip_x0, u8g2_uint_t clip_y0, u8g2_uint_t clip_x1
+  57:Core/u8g2/u8g2_setup.c **** {
+  58:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = clip_x0;
+  59:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = clip_y0;
+  60:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = clip_x1;
+  61:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = clip_y1;
+  62:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  63:Core/u8g2/u8g2_setup.c **** }
+  64:Core/u8g2/u8g2_setup.c **** #endif
+  65:Core/u8g2/u8g2_setup.c **** 
+  66:Core/u8g2/u8g2_setup.c **** /*============================================*/
+  67:Core/u8g2/u8g2_setup.c **** /*
+  68:Core/u8g2/u8g2_setup.c ****   This procedure is called after setting up the display (u8x8 structure).
+  69:Core/u8g2/u8g2_setup.c ****   --> This is the central init procedure for u8g2 object
+  70:Core/u8g2/u8g2_setup.c **** */
+  71:Core/u8g2/u8g2_setup.c **** void u8g2_SetupBuffer(u8g2_t *u8g2, uint8_t *buf, uint8_t tile_buf_height, u8g2_draw_ll_hvline_cb l
+  72:Core/u8g2/u8g2_setup.c **** {
+  73:Core/u8g2/u8g2_setup.c ****   u8g2->font = NULL;
+  74:Core/u8g2/u8g2_setup.c ****   //u8g2->kerning = NULL;
+  75:Core/u8g2/u8g2_setup.c ****   //u8g2->get_kerning_cb = u8g2_GetNullKerning;
+  76:Core/u8g2/u8g2_setup.c ****   
+  77:Core/u8g2/u8g2_setup.c ****   //u8g2->ll_hvline = u8g2_ll_hvline_vertical_top_lsb;
+  78:Core/u8g2/u8g2_setup.c ****   u8g2->ll_hvline = ll_hvline_cb;
+  79:Core/u8g2/u8g2_setup.c ****   
+  80:Core/u8g2/u8g2_setup.c ****   u8g2->tile_buf_ptr = buf;
+  81:Core/u8g2/u8g2_setup.c ****   u8g2->tile_buf_height = tile_buf_height;
+  82:Core/u8g2/u8g2_setup.c ****   
+  83:Core/u8g2/u8g2_setup.c ****   u8g2->tile_curr_row = 0;
+  84:Core/u8g2/u8g2_setup.c ****   
+  85:Core/u8g2/u8g2_setup.c ****   u8g2->font_decode.is_transparent = 0; /* issue 443 */
+  86:Core/u8g2/u8g2_setup.c ****   u8g2->bitmap_transparency = 0;
+  87:Core/u8g2/u8g2_setup.c ****   
+  88:Core/u8g2/u8g2_setup.c ****   u8g2->draw_color = 1;
+  89:Core/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+  90:Core/u8g2/u8g2_setup.c ****   
+  91:Core/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 3
+
+
+  92:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+  93:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+  94:Core/u8g2/u8g2_setup.c ****   u8g2_SetMaxClipWindow(u8g2);		/* assign a clip window and call the update() procedure */
+  95:Core/u8g2/u8g2_setup.c **** #else
+  96:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+  97:Core/u8g2/u8g2_setup.c **** #endif
+  98:Core/u8g2/u8g2_setup.c **** 
+  99:Core/u8g2/u8g2_setup.c ****   u8g2_SetFontPosBaseline(u8g2);  /* issue 195 */
+ 100:Core/u8g2/u8g2_setup.c ****   
+ 101:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_FONT_ROTATION  
+ 102:Core/u8g2/u8g2_setup.c ****   u8g2->font_decode.dir = 0;
+ 103:Core/u8g2/u8g2_setup.c **** #endif
+ 104:Core/u8g2/u8g2_setup.c **** }
+ 105:Core/u8g2/u8g2_setup.c **** 
+ 106:Core/u8g2/u8g2_setup.c **** /*
+ 107:Core/u8g2/u8g2_setup.c ****   Usually the display rotation is set initially, but it could be done later also
+ 108:Core/u8g2/u8g2_setup.c ****   u8g2_cb can be U8G2_R0..U8G2_R3
+ 109:Core/u8g2/u8g2_setup.c **** */
+ 110:Core/u8g2/u8g2_setup.c **** void u8g2_SetDisplayRotation(u8g2_t *u8g2, const u8g2_cb_t *u8g2_cb)
+ 111:Core/u8g2/u8g2_setup.c **** {
+ 112:Core/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ 113:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 114:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 115:Core/u8g2/u8g2_setup.c **** }
+ 116:Core/u8g2/u8g2_setup.c **** 
+ 117:Core/u8g2/u8g2_setup.c **** 
+ 118:Core/u8g2/u8g2_setup.c **** /*============================================*/
+ 119:Core/u8g2/u8g2_setup.c **** /* 
+ 120:Core/u8g2/u8g2_setup.c ****   update dimension: 
+ 121:Core/u8g2/u8g2_setup.c ****   calculate the following variables:
+ 122:Core/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_x0;	left corner of the buffer
+ 123:Core/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_x1;	right corner of the buffer (excluded)
+ 124:Core/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_y0;
+ 125:Core/u8g2/u8g2_setup.c ****     u8g2_uint_t buf_y1; 	
+ 126:Core/u8g2/u8g2_setup.c **** */
+ 127:Core/u8g2/u8g2_setup.c **** 
+ 128:Core/u8g2/u8g2_setup.c **** static void u8g2_update_dimension_common(u8g2_t *u8g2)
+ 129:Core/u8g2/u8g2_setup.c **** {
+  25              		.loc 1 129 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+  31 0000 70B4     		push	{r4, r5, r6}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 12
+  34              		.cfi_offset 4, -12
+  35              		.cfi_offset 5, -8
+  36              		.cfi_offset 6, -4
+ 130:Core/u8g2/u8g2_setup.c ****   const u8x8_display_info_t *display_info = u8g2_GetU8x8(u8g2)->display_info;
+  37              		.loc 1 130 0
+  38 0002 0168     		ldr	r1, [r0]
+  39              	.LVL1:
+ 131:Core/u8g2/u8g2_setup.c ****   u8g2_uint_t t;
+ 132:Core/u8g2/u8g2_setup.c ****   
+ 133:Core/u8g2/u8g2_setup.c ****   t = u8g2->tile_buf_height;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 4
+
+
+  40              		.loc 1 133 0
+  41 0004 90F83C30 		ldrb	r3, [r0, #60]	@ zero_extendqisi2
+  42              	.LVL2:
+ 134:Core/u8g2/u8g2_setup.c ****   t *= 8;
+  43              		.loc 1 134 0
+  44 0008 DA00     		lsls	r2, r3, #3
+  45              	.LVL3:
+ 135:Core/u8g2/u8g2_setup.c ****   u8g2->pixel_buf_height = t;
+  46              		.loc 1 135 0
+  47 000a 80F83F20 		strb	r2, [r0, #63]
+ 136:Core/u8g2/u8g2_setup.c ****   
+ 137:Core/u8g2/u8g2_setup.c ****   t = display_info->tile_width;
+  48              		.loc 1 137 0
+  49 000e 0A7C     		ldrb	r2, [r1, #16]	@ zero_extendqisi2
+  50              	.LVL4:
+ 138:Core/u8g2/u8g2_setup.c **** #ifndef U8G2_16BIT
+ 139:Core/u8g2/u8g2_setup.c ****   if ( t >= 32 )
+  51              		.loc 1 139 0
+  52 0010 1F2A     		cmp	r2, #31
+  53 0012 00D9     		bls	.L2
+ 140:Core/u8g2/u8g2_setup.c ****     t = 31;
+  54              		.loc 1 140 0
+  55 0014 1F22     		movs	r2, #31
+  56              	.LVL5:
+  57              	.L2:
+ 141:Core/u8g2/u8g2_setup.c **** #endif
+ 142:Core/u8g2/u8g2_setup.c ****   t *= 8;
+  58              		.loc 1 142 0
+  59 0016 D200     		lsls	r2, r2, #3
+  60              	.LVL6:
+ 143:Core/u8g2/u8g2_setup.c ****   u8g2->pixel_buf_width = t;
+  61              		.loc 1 143 0
+  62 0018 80F83E20 		strb	r2, [r0, #62]
+ 144:Core/u8g2/u8g2_setup.c ****   
+ 145:Core/u8g2/u8g2_setup.c ****   t = u8g2->tile_curr_row;
+  63              		.loc 1 145 0
+  64 001c 90F83D50 		ldrb	r5, [r0, #61]	@ zero_extendqisi2
+  65              	.LVL7:
+ 146:Core/u8g2/u8g2_setup.c ****   t *= 8;
+  66              		.loc 1 146 0
+  67 0020 EA00     		lsls	r2, r5, #3
+  68 0022 D2B2     		uxtb	r2, r2
+  69              	.LVL8:
+ 147:Core/u8g2/u8g2_setup.c ****   u8g2->pixel_curr_row = t;
+  70              		.loc 1 147 0
+  71 0024 80F84020 		strb	r2, [r0, #64]
+  72              	.LVL9:
+ 148:Core/u8g2/u8g2_setup.c ****   
+ 149:Core/u8g2/u8g2_setup.c ****   t = u8g2->tile_buf_height;
+ 150:Core/u8g2/u8g2_setup.c ****   /* handle the case, where the buffer is larger than the (remaining) part of the display */
+ 151:Core/u8g2/u8g2_setup.c ****   if ( t + u8g2->tile_curr_row > display_info->tile_height )
+  73              		.loc 1 151 0
+  74 0028 5E19     		adds	r6, r3, r5
+  75 002a 4C7C     		ldrb	r4, [r1, #17]	@ zero_extendqisi2
+  76 002c A642     		cmp	r6, r4
+  77 002e 01DD     		ble	.L3
+ 152:Core/u8g2/u8g2_setup.c ****     t = display_info->tile_height - u8g2->tile_curr_row;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 5
+
+
+  78              		.loc 1 152 0
+  79 0030 631B     		subs	r3, r4, r5
+  80              	.LVL10:
+  81 0032 DBB2     		uxtb	r3, r3
+  82              	.LVL11:
+  83              	.L3:
+ 153:Core/u8g2/u8g2_setup.c ****   t *= 8;
+  84              		.loc 1 153 0
+  85 0034 DB00     		lsls	r3, r3, #3
+  86              	.LVL12:
+  87 0036 DBB2     		uxtb	r3, r3
+  88              	.LVL13:
+ 154:Core/u8g2/u8g2_setup.c ****   
+ 155:Core/u8g2/u8g2_setup.c ****   u8g2->buf_y0 = u8g2->pixel_curr_row;   
+  89              		.loc 1 155 0
+  90 0038 80F84120 		strb	r2, [r0, #65]
+ 156:Core/u8g2/u8g2_setup.c ****   u8g2->buf_y1 = u8g2->buf_y0;
+ 157:Core/u8g2/u8g2_setup.c ****   u8g2->buf_y1 += t;
+  91              		.loc 1 157 0
+  92 003c 1344     		add	r3, r3, r2
+  93              	.LVL14:
+  94 003e 80F84230 		strb	r3, [r0, #66]
+ 158:Core/u8g2/u8g2_setup.c **** 
+ 159:Core/u8g2/u8g2_setup.c ****   
+ 160:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_16BIT
+ 161:Core/u8g2/u8g2_setup.c ****   u8g2->width = display_info->pixel_width;
+ 162:Core/u8g2/u8g2_setup.c ****   u8g2->height = display_info->pixel_height;
+ 163:Core/u8g2/u8g2_setup.c **** #else
+ 164:Core/u8g2/u8g2_setup.c ****   u8g2->width = 240;
+  95              		.loc 1 164 0
+  96 0042 F023     		movs	r3, #240
+  97 0044 80F84330 		strb	r3, [r0, #67]
+ 165:Core/u8g2/u8g2_setup.c ****   if ( display_info->pixel_width <= 240 )
+  98              		.loc 1 165 0
+  99 0048 8B8A     		ldrh	r3, [r1, #20]
+ 100 004a F02B     		cmp	r3, #240
+ 101 004c 01D8     		bhi	.L4
+ 166:Core/u8g2/u8g2_setup.c ****     u8g2->width = display_info->pixel_width;
+ 102              		.loc 1 166 0
+ 103 004e 80F84330 		strb	r3, [r0, #67]
+ 104              	.L4:
+ 167:Core/u8g2/u8g2_setup.c ****   u8g2->height = display_info->pixel_height;
+ 105              		.loc 1 167 0
+ 106 0052 CB8A     		ldrh	r3, [r1, #22]
+ 107 0054 80F84430 		strb	r3, [r0, #68]
+ 168:Core/u8g2/u8g2_setup.c **** #endif
+ 169:Core/u8g2/u8g2_setup.c **** 
+ 170:Core/u8g2/u8g2_setup.c **** }
+ 108              		.loc 1 170 0
+ 109 0058 70BC     		pop	{r4, r5, r6}
+ 110              	.LCFI1:
+ 111              		.cfi_restore 6
+ 112              		.cfi_restore 5
+ 113              		.cfi_restore 4
+ 114              		.cfi_def_cfa_offset 0
+ 115 005a 7047     		bx	lr
+ 116              		.cfi_endproc
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 6
+
+
+ 117              	.LFE4:
+ 119              		.section	.text.u8g2_update_dimension_r0,"ax",%progbits
+ 120              		.align	1
+ 121              		.global	u8g2_update_dimension_r0
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu softvfp
+ 127              	u8g2_update_dimension_r0:
+ 128              	.LFB6:
+ 171:Core/u8g2/u8g2_setup.c **** 
+ 172:Core/u8g2/u8g2_setup.c **** /*==========================================================*/
+ 173:Core/u8g2/u8g2_setup.c **** /* apply clip window */
+ 174:Core/u8g2/u8g2_setup.c **** 
+ 175:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 176:Core/u8g2/u8g2_setup.c **** static void u8g2_apply_clip_window(u8g2_t *u8g2)
+ 177:Core/u8g2/u8g2_setup.c **** {
+ 178:Core/u8g2/u8g2_setup.c ****   /* check aganst the current user_??? window */
+ 179:Core/u8g2/u8g2_setup.c ****   if ( u8g2_IsIntersection(u8g2, u8g2->clip_x0, u8g2->clip_y0, u8g2->clip_x1, u8g2->clip_y1) == 0 )
+ 180:Core/u8g2/u8g2_setup.c ****   {
+ 181:Core/u8g2/u8g2_setup.c ****     u8g2->is_page_clip_window_intersection = 0;
+ 182:Core/u8g2/u8g2_setup.c ****   }
+ 183:Core/u8g2/u8g2_setup.c ****   else
+ 184:Core/u8g2/u8g2_setup.c ****   {
+ 185:Core/u8g2/u8g2_setup.c ****     u8g2->is_page_clip_window_intersection = 1;
+ 186:Core/u8g2/u8g2_setup.c **** 
+ 187:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_x0 < u8g2->clip_x0 )
+ 188:Core/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 189:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_x1 > u8g2->clip_x1 )
+ 190:Core/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 191:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_y0 < u8g2->clip_y0 )
+ 192:Core/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 193:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_y1 > u8g2->clip_y1 )
+ 194:Core/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 195:Core/u8g2/u8g2_setup.c ****   }
+ 196:Core/u8g2/u8g2_setup.c **** }
+ 197:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 198:Core/u8g2/u8g2_setup.c **** 
+ 199:Core/u8g2/u8g2_setup.c **** /*==========================================================*/
+ 200:Core/u8g2/u8g2_setup.c **** 
+ 201:Core/u8g2/u8g2_setup.c **** 
+ 202:Core/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r0(u8g2_t *u8g2)
+ 203:Core/u8g2/u8g2_setup.c **** {
+ 129              		.loc 1 203 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              	.LVL15:
+ 134 0000 08B5     		push	{r3, lr}
+ 135              	.LCFI2:
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 3, -8
+ 138              		.cfi_offset 14, -4
+ 204:Core/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);  
+ 139              		.loc 1 204 0
+ 140 0002 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 141              	.LVL16:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 7
+
+
+ 205:Core/u8g2/u8g2_setup.c **** }
+ 142              		.loc 1 205 0
+ 143 0006 08BD     		pop	{r3, pc}
+ 144              		.cfi_endproc
+ 145              	.LFE6:
+ 147              		.section	.text.u8g2_update_dimension_r1,"ax",%progbits
+ 148              		.align	1
+ 149              		.global	u8g2_update_dimension_r1
+ 150              		.syntax unified
+ 151              		.thumb
+ 152              		.thumb_func
+ 153              		.fpu softvfp
+ 155              	u8g2_update_dimension_r1:
+ 156              	.LFB8:
+ 206:Core/u8g2/u8g2_setup.c **** 
+ 207:Core/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r0(u8g2_t *u8g2)
+ 208:Core/u8g2/u8g2_setup.c **** {
+ 209:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 210:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->pixel_buf_width;	/* pixel_buf_width replaced with width */
+ 211:Core/u8g2/u8g2_setup.c ****   
+ 212:Core/u8g2/u8g2_setup.c ****   u8g2->user_y0 = u8g2->buf_y0;
+ 213:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 214:Core/u8g2/u8g2_setup.c ****   
+ 215:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 216:Core/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 217:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 218:Core/u8g2/u8g2_setup.c **** }
+ 219:Core/u8g2/u8g2_setup.c **** 
+ 220:Core/u8g2/u8g2_setup.c **** 
+ 221:Core/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r1(u8g2_t *u8g2)
+ 222:Core/u8g2/u8g2_setup.c **** {
+ 157              		.loc 1 222 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 0
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161              	.LVL17:
+ 162 0000 10B5     		push	{r4, lr}
+ 163              	.LCFI3:
+ 164              		.cfi_def_cfa_offset 8
+ 165              		.cfi_offset 4, -8
+ 166              		.cfi_offset 14, -4
+ 167 0002 0446     		mov	r4, r0
+ 223:Core/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 168              		.loc 1 223 0
+ 169 0004 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 170              	.LVL18:
+ 224:Core/u8g2/u8g2_setup.c ****   
+ 225:Core/u8g2/u8g2_setup.c ****   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+ 171              		.loc 1 225 0
+ 172 0008 2368     		ldr	r3, [r4]
+ 173 000a 9A8A     		ldrh	r2, [r3, #20]
+ 174 000c 84F84420 		strb	r2, [r4, #68]
+ 226:Core/u8g2/u8g2_setup.c ****   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+ 175              		.loc 1 226 0
+ 176 0010 DB8A     		ldrh	r3, [r3, #22]
+ 177 0012 84F84330 		strb	r3, [r4, #67]
+ 227:Core/u8g2/u8g2_setup.c ****   
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 8
+
+
+ 228:Core/u8g2/u8g2_setup.c **** }
+ 178              		.loc 1 228 0
+ 179 0016 10BD     		pop	{r4, pc}
+ 180              		.cfi_endproc
+ 181              	.LFE8:
+ 183              		.section	.text.u8g2_update_dimension_r2,"ax",%progbits
+ 184              		.align	1
+ 185              		.global	u8g2_update_dimension_r2
+ 186              		.syntax unified
+ 187              		.thumb
+ 188              		.thumb_func
+ 189              		.fpu softvfp
+ 191              	u8g2_update_dimension_r2:
+ 192              	.LFB10:
+ 229:Core/u8g2/u8g2_setup.c **** 
+ 230:Core/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r1(u8g2_t *u8g2)
+ 231:Core/u8g2/u8g2_setup.c **** {
+ 232:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = u8g2->buf_y0;
+ 233:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 234:Core/u8g2/u8g2_setup.c ****   
+ 235:Core/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 236:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel wi
+ 237:Core/u8g2/u8g2_setup.c ****   
+ 238:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 239:Core/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 240:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 241:Core/u8g2/u8g2_setup.c **** }
+ 242:Core/u8g2/u8g2_setup.c **** 
+ 243:Core/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r2(u8g2_t *u8g2)
+ 244:Core/u8g2/u8g2_setup.c **** {
+ 193              		.loc 1 244 0
+ 194              		.cfi_startproc
+ 195              		@ args = 0, pretend = 0, frame = 0
+ 196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 197              	.LVL19:
+ 198 0000 08B5     		push	{r3, lr}
+ 199              	.LCFI4:
+ 200              		.cfi_def_cfa_offset 8
+ 201              		.cfi_offset 3, -8
+ 202              		.cfi_offset 14, -4
+ 245:Core/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 203              		.loc 1 245 0
+ 204 0002 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 205              	.LVL20:
+ 246:Core/u8g2/u8g2_setup.c **** }
+ 206              		.loc 1 246 0
+ 207 0006 08BD     		pop	{r3, pc}
+ 208              		.cfi_endproc
+ 209              	.LFE10:
+ 211              		.section	.text.u8g2_update_dimension_r3,"ax",%progbits
+ 212              		.align	1
+ 213              		.global	u8g2_update_dimension_r3
+ 214              		.syntax unified
+ 215              		.thumb
+ 216              		.thumb_func
+ 217              		.fpu softvfp
+ 219              	u8g2_update_dimension_r3:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 9
+
+
+ 220              	.LFB12:
+ 247:Core/u8g2/u8g2_setup.c **** 
+ 248:Core/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r2(u8g2_t *u8g2)
+ 249:Core/u8g2/u8g2_setup.c **** {
+ 250:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 251:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
+ 252:Core/u8g2/u8g2_setup.c ****   
+ 253:Core/u8g2/u8g2_setup.c ****   /* there are ases where the height is not a multiple of 8. */
+ 254:Core/u8g2/u8g2_setup.c ****   /* in such a case u8g2->buf_y1 might be heigher than u8g2->height */
+ 255:Core/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 256:Core/u8g2/u8g2_setup.c ****   if ( u8g2->height >= u8g2->buf_y1 )
+ 257:Core/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 258:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 259:Core/u8g2/u8g2_setup.c **** 
+ 260:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 261:Core/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 262:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 263:Core/u8g2/u8g2_setup.c **** }
+ 264:Core/u8g2/u8g2_setup.c **** 
+ 265:Core/u8g2/u8g2_setup.c **** 
+ 266:Core/u8g2/u8g2_setup.c **** void u8g2_update_dimension_r3(u8g2_t *u8g2)
+ 267:Core/u8g2/u8g2_setup.c **** {
+ 221              		.loc 1 267 0
+ 222              		.cfi_startproc
+ 223              		@ args = 0, pretend = 0, frame = 0
+ 224              		@ frame_needed = 0, uses_anonymous_args = 0
+ 225              	.LVL21:
+ 226 0000 10B5     		push	{r4, lr}
+ 227              	.LCFI5:
+ 228              		.cfi_def_cfa_offset 8
+ 229              		.cfi_offset 4, -8
+ 230              		.cfi_offset 14, -4
+ 231 0002 0446     		mov	r4, r0
+ 268:Core/u8g2/u8g2_setup.c ****   u8g2_update_dimension_common(u8g2);
+ 232              		.loc 1 268 0
+ 233 0004 FFF7FEFF 		bl	u8g2_update_dimension_common
+ 234              	.LVL22:
+ 269:Core/u8g2/u8g2_setup.c ****   
+ 270:Core/u8g2/u8g2_setup.c ****   u8g2->height = u8g2_GetU8x8(u8g2)->display_info->pixel_width;
+ 235              		.loc 1 270 0
+ 236 0008 2368     		ldr	r3, [r4]
+ 237 000a 9A8A     		ldrh	r2, [r3, #20]
+ 238 000c 84F84420 		strb	r2, [r4, #68]
+ 271:Core/u8g2/u8g2_setup.c ****   u8g2->width = u8g2_GetU8x8(u8g2)->display_info->pixel_height;
+ 239              		.loc 1 271 0
+ 240 0010 DB8A     		ldrh	r3, [r3, #22]
+ 241 0012 84F84330 		strb	r3, [r4, #67]
+ 272:Core/u8g2/u8g2_setup.c **** 
+ 273:Core/u8g2/u8g2_setup.c **** }
+ 242              		.loc 1 273 0
+ 243 0016 10BD     		pop	{r4, pc}
+ 244              		.cfi_endproc
+ 245              	.LFE12:
+ 247              		.section	.text.u8g2_apply_clip_window,"ax",%progbits
+ 248              		.align	1
+ 249              		.syntax unified
+ 250              		.thumb
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 10
+
+
+ 251              		.thumb_func
+ 252              		.fpu softvfp
+ 254              	u8g2_apply_clip_window:
+ 255              	.LFB5:
+ 177:Core/u8g2/u8g2_setup.c ****   /* check aganst the current user_??? window */
+ 256              		.loc 1 177 0
+ 257              		.cfi_startproc
+ 258              		@ args = 0, pretend = 0, frame = 0
+ 259              		@ frame_needed = 0, uses_anonymous_args = 0
+ 260              	.LVL23:
+ 261 0000 30B5     		push	{r4, r5, lr}
+ 262              	.LCFI6:
+ 263              		.cfi_def_cfa_offset 12
+ 264              		.cfi_offset 4, -12
+ 265              		.cfi_offset 5, -8
+ 266              		.cfi_offset 14, -4
+ 267 0002 83B0     		sub	sp, sp, #12
+ 268              	.LCFI7:
+ 269              		.cfi_def_cfa_offset 24
+ 270 0004 0446     		mov	r4, r0
+ 179:Core/u8g2/u8g2_setup.c ****   {
+ 271              		.loc 1 179 0
+ 272 0006 90F84A30 		ldrb	r3, [r0, #74]	@ zero_extendqisi2
+ 273 000a 90F84B20 		ldrb	r2, [r0, #75]	@ zero_extendqisi2
+ 274 000e 90F84910 		ldrb	r1, [r0, #73]	@ zero_extendqisi2
+ 275 0012 90F84C50 		ldrb	r5, [r0, #76]	@ zero_extendqisi2
+ 276 0016 0095     		str	r5, [sp]
+ 277 0018 FFF7FEFF 		bl	u8g2_IsIntersection
+ 278              	.LVL24:
+ 279 001c 18B3     		cbz	r0, .L22
+ 185:Core/u8g2/u8g2_setup.c **** 
+ 280              		.loc 1 185 0
+ 281 001e 0123     		movs	r3, #1
+ 282 0020 84F88030 		strb	r3, [r4, #128]
+ 187:Core/u8g2/u8g2_setup.c ****       u8g2->user_x0 = u8g2->clip_x0;
+ 283              		.loc 1 187 0
+ 284 0024 94F84520 		ldrb	r2, [r4, #69]	@ zero_extendqisi2
+ 285 0028 94F84930 		ldrb	r3, [r4, #73]	@ zero_extendqisi2
+ 286 002c 9A42     		cmp	r2, r3
+ 287 002e 01D2     		bcs	.L18
+ 188:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_x1 > u8g2->clip_x1 )
+ 288              		.loc 1 188 0
+ 289 0030 84F84530 		strb	r3, [r4, #69]
+ 290              	.L18:
+ 189:Core/u8g2/u8g2_setup.c ****       u8g2->user_x1 = u8g2->clip_x1;
+ 291              		.loc 1 189 0
+ 292 0034 94F84620 		ldrb	r2, [r4, #70]	@ zero_extendqisi2
+ 293 0038 94F84A30 		ldrb	r3, [r4, #74]	@ zero_extendqisi2
+ 294 003c 9A42     		cmp	r2, r3
+ 295 003e 01D9     		bls	.L19
+ 190:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_y0 < u8g2->clip_y0 )
+ 296              		.loc 1 190 0
+ 297 0040 84F84630 		strb	r3, [r4, #70]
+ 298              	.L19:
+ 191:Core/u8g2/u8g2_setup.c ****       u8g2->user_y0 = u8g2->clip_y0;
+ 299              		.loc 1 191 0
+ 300 0044 94F84720 		ldrb	r2, [r4, #71]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 11
+
+
+ 301 0048 94F84B30 		ldrb	r3, [r4, #75]	@ zero_extendqisi2
+ 302 004c 9A42     		cmp	r2, r3
+ 303 004e 01D2     		bcs	.L20
+ 192:Core/u8g2/u8g2_setup.c ****     if ( u8g2->user_y1 > u8g2->clip_y1 )
+ 304              		.loc 1 192 0
+ 305 0050 84F84730 		strb	r3, [r4, #71]
+ 306              	.L20:
+ 193:Core/u8g2/u8g2_setup.c ****       u8g2->user_y1 = u8g2->clip_y1;
+ 307              		.loc 1 193 0
+ 308 0054 94F84820 		ldrb	r2, [r4, #72]	@ zero_extendqisi2
+ 309 0058 94F84C30 		ldrb	r3, [r4, #76]	@ zero_extendqisi2
+ 310 005c 9A42     		cmp	r2, r3
+ 311 005e 05D9     		bls	.L15
+ 194:Core/u8g2/u8g2_setup.c ****   }
+ 312              		.loc 1 194 0
+ 313 0060 84F84830 		strb	r3, [r4, #72]
+ 196:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 314              		.loc 1 196 0
+ 315 0064 02E0     		b	.L15
+ 316              	.L22:
+ 181:Core/u8g2/u8g2_setup.c ****   }
+ 317              		.loc 1 181 0
+ 318 0066 0023     		movs	r3, #0
+ 319 0068 84F88030 		strb	r3, [r4, #128]
+ 320              	.L15:
+ 196:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 321              		.loc 1 196 0
+ 322 006c 03B0     		add	sp, sp, #12
+ 323              	.LCFI8:
+ 324              		.cfi_def_cfa_offset 12
+ 325              		@ sp needed
+ 326 006e 30BD     		pop	{r4, r5, pc}
+ 327              		.cfi_endproc
+ 328              	.LFE5:
+ 330              		.section	.text.u8g2_update_page_win_r0,"ax",%progbits
+ 331              		.align	1
+ 332              		.global	u8g2_update_page_win_r0
+ 333              		.syntax unified
+ 334              		.thumb
+ 335              		.thumb_func
+ 336              		.fpu softvfp
+ 338              	u8g2_update_page_win_r0:
+ 339              	.LFB7:
+ 208:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 340              		.loc 1 208 0
+ 341              		.cfi_startproc
+ 342              		@ args = 0, pretend = 0, frame = 0
+ 343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 344              	.LVL25:
+ 345 0000 08B5     		push	{r3, lr}
+ 346              	.LCFI9:
+ 347              		.cfi_def_cfa_offset 8
+ 348              		.cfi_offset 3, -8
+ 349              		.cfi_offset 14, -4
+ 209:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->pixel_buf_width;	/* pixel_buf_width replaced with width */
+ 350              		.loc 1 209 0
+ 351 0002 0022     		movs	r2, #0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 12
+
+
+ 352 0004 80F84520 		strb	r2, [r0, #69]
+ 210:Core/u8g2/u8g2_setup.c ****   
+ 353              		.loc 1 210 0
+ 354 0008 90F83E20 		ldrb	r2, [r0, #62]	@ zero_extendqisi2
+ 355 000c 80F84620 		strb	r2, [r0, #70]
+ 212:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->buf_y1;
+ 356              		.loc 1 212 0
+ 357 0010 90F84120 		ldrb	r2, [r0, #65]	@ zero_extendqisi2
+ 358 0014 80F84720 		strb	r2, [r0, #71]
+ 213:Core/u8g2/u8g2_setup.c ****   
+ 359              		.loc 1 213 0
+ 360 0018 90F84220 		ldrb	r2, [r0, #66]	@ zero_extendqisi2
+ 361 001c 80F84820 		strb	r2, [r0, #72]
+ 216:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 362              		.loc 1 216 0
+ 363 0020 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 364              	.LVL26:
+ 218:Core/u8g2/u8g2_setup.c **** 
+ 365              		.loc 1 218 0
+ 366 0024 08BD     		pop	{r3, pc}
+ 367              		.cfi_endproc
+ 368              	.LFE7:
+ 370              		.section	.text.u8g2_update_page_win_r1,"ax",%progbits
+ 371              		.align	1
+ 372              		.global	u8g2_update_page_win_r1
+ 373              		.syntax unified
+ 374              		.thumb
+ 375              		.thumb_func
+ 376              		.fpu softvfp
+ 378              	u8g2_update_page_win_r1:
+ 379              	.LFB9:
+ 231:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = u8g2->buf_y0;
+ 380              		.loc 1 231 0
+ 381              		.cfi_startproc
+ 382              		@ args = 0, pretend = 0, frame = 0
+ 383              		@ frame_needed = 0, uses_anonymous_args = 0
+ 384              	.LVL27:
+ 385 0000 08B5     		push	{r3, lr}
+ 386              	.LCFI10:
+ 387              		.cfi_def_cfa_offset 8
+ 388              		.cfi_offset 3, -8
+ 389              		.cfi_offset 14, -4
+ 232:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->buf_y1;
+ 390              		.loc 1 232 0
+ 391 0002 90F84120 		ldrb	r2, [r0, #65]	@ zero_extendqisi2
+ 392 0006 80F84520 		strb	r2, [r0, #69]
+ 233:Core/u8g2/u8g2_setup.c ****   
+ 393              		.loc 1 233 0
+ 394 000a 90F84220 		ldrb	r2, [r0, #66]	@ zero_extendqisi2
+ 395 000e 80F84620 		strb	r2, [r0, #70]
+ 235:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (which is the real pixel wi
+ 396              		.loc 1 235 0
+ 397 0012 0022     		movs	r2, #0
+ 398 0014 80F84720 		strb	r2, [r0, #71]
+ 236:Core/u8g2/u8g2_setup.c ****   
+ 399              		.loc 1 236 0
+ 400 0018 90F84420 		ldrb	r2, [r0, #68]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 13
+
+
+ 401 001c 80F84820 		strb	r2, [r0, #72]
+ 239:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 402              		.loc 1 239 0
+ 403 0020 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 404              	.LVL28:
+ 241:Core/u8g2/u8g2_setup.c **** 
+ 405              		.loc 1 241 0
+ 406 0024 08BD     		pop	{r3, pc}
+ 407              		.cfi_endproc
+ 408              	.LFE9:
+ 410              		.section	.text.u8g2_update_page_win_r2,"ax",%progbits
+ 411              		.align	1
+ 412              		.global	u8g2_update_page_win_r2
+ 413              		.syntax unified
+ 414              		.thumb
+ 415              		.thumb_func
+ 416              		.fpu softvfp
+ 418              	u8g2_update_page_win_r2:
+ 419              	.LFB11:
+ 249:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 420              		.loc 1 249 0
+ 421              		.cfi_startproc
+ 422              		@ args = 0, pretend = 0, frame = 0
+ 423              		@ frame_needed = 0, uses_anonymous_args = 0
+ 424              	.LVL29:
+ 425 0000 08B5     		push	{r3, lr}
+ 426              	.LCFI11:
+ 427              		.cfi_def_cfa_offset 8
+ 428              		.cfi_offset 3, -8
+ 429              		.cfi_offset 14, -4
+ 250:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width;	/* pixel_buf_width replaced with width */
+ 430              		.loc 1 250 0
+ 431 0002 0023     		movs	r3, #0
+ 432 0004 80F84530 		strb	r3, [r0, #69]
+ 251:Core/u8g2/u8g2_setup.c ****   
+ 433              		.loc 1 251 0
+ 434 0008 90F84320 		ldrb	r2, [r0, #67]	@ zero_extendqisi2
+ 435 000c 80F84620 		strb	r2, [r0, #70]
+ 255:Core/u8g2/u8g2_setup.c ****   if ( u8g2->height >= u8g2->buf_y1 )
+ 436              		.loc 1 255 0
+ 437 0010 80F84730 		strb	r3, [r0, #71]
+ 256:Core/u8g2/u8g2_setup.c ****     u8g2->user_y0 = u8g2->height - u8g2->buf_y1;
+ 438              		.loc 1 256 0
+ 439 0014 90F84430 		ldrb	r3, [r0, #68]	@ zero_extendqisi2
+ 440 0018 90F84220 		ldrb	r2, [r0, #66]	@ zero_extendqisi2
+ 441 001c 9342     		cmp	r3, r2
+ 442 001e 02D3     		bcc	.L28
+ 257:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height - u8g2->buf_y0;
+ 443              		.loc 1 257 0
+ 444 0020 9A1A     		subs	r2, r3, r2
+ 445 0022 80F84720 		strb	r2, [r0, #71]
+ 446              	.L28:
+ 258:Core/u8g2/u8g2_setup.c **** 
+ 447              		.loc 1 258 0
+ 448 0026 90F84120 		ldrb	r2, [r0, #65]	@ zero_extendqisi2
+ 449 002a 9B1A     		subs	r3, r3, r2
+ 450 002c 80F84830 		strb	r3, [r0, #72]
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 14
+
+
+ 261:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 451              		.loc 1 261 0
+ 452 0030 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 453              	.LVL30:
+ 263:Core/u8g2/u8g2_setup.c **** 
+ 454              		.loc 1 263 0
+ 455 0034 08BD     		pop	{r3, pc}
+ 456              		.cfi_endproc
+ 457              	.LFE11:
+ 459              		.section	.text.u8g2_update_page_win_r3,"ax",%progbits
+ 460              		.align	1
+ 461              		.global	u8g2_update_page_win_r3
+ 462              		.syntax unified
+ 463              		.thumb
+ 464              		.thumb_func
+ 465              		.fpu softvfp
+ 467              	u8g2_update_page_win_r3:
+ 468              	.LFB13:
+ 274:Core/u8g2/u8g2_setup.c **** 
+ 275:Core/u8g2/u8g2_setup.c **** void u8g2_update_page_win_r3(u8g2_t *u8g2)
+ 276:Core/u8g2/u8g2_setup.c **** {
+ 469              		.loc 1 276 0
+ 470              		.cfi_startproc
+ 471              		@ args = 0, pretend = 0, frame = 0
+ 472              		@ frame_needed = 0, uses_anonymous_args = 0
+ 473              	.LVL31:
+ 474 0000 08B5     		push	{r3, lr}
+ 475              	.LCFI12:
+ 476              		.cfi_def_cfa_offset 8
+ 477              		.cfi_offset 3, -8
+ 478              		.cfi_offset 14, -4
+ 277:Core/u8g2/u8g2_setup.c ****   /* there are ases where the height is not a multiple of 8. */
+ 278:Core/u8g2/u8g2_setup.c ****   /* in such a case u8g2->buf_y1 might be heigher than u8g2->width */
+ 279:Core/u8g2/u8g2_setup.c ****   u8g2->user_x0 = 0;
+ 479              		.loc 1 279 0
+ 480 0002 0023     		movs	r3, #0
+ 481 0004 80F84530 		strb	r3, [r0, #69]
+ 280:Core/u8g2/u8g2_setup.c ****   if ( u8g2->width >= u8g2->buf_y1 )
+ 482              		.loc 1 280 0
+ 483 0008 90F84330 		ldrb	r3, [r0, #67]	@ zero_extendqisi2
+ 484 000c 90F84220 		ldrb	r2, [r0, #66]	@ zero_extendqisi2
+ 485 0010 9342     		cmp	r3, r2
+ 486 0012 02D3     		bcc	.L31
+ 281:Core/u8g2/u8g2_setup.c ****     u8g2->user_x0 = u8g2->width - u8g2->buf_y1;
+ 487              		.loc 1 281 0
+ 488 0014 9A1A     		subs	r2, r3, r2
+ 489 0016 80F84520 		strb	r2, [r0, #69]
+ 490              	.L31:
+ 282:Core/u8g2/u8g2_setup.c ****   u8g2->user_x1 = u8g2->width - u8g2->buf_y0;
+ 491              		.loc 1 282 0
+ 492 001a 90F84120 		ldrb	r2, [r0, #65]	@ zero_extendqisi2
+ 493 001e 9B1A     		subs	r3, r3, r2
+ 494 0020 80F84630 		strb	r3, [r0, #70]
+ 283:Core/u8g2/u8g2_setup.c ****   
+ 284:Core/u8g2/u8g2_setup.c ****   u8g2->user_y0 = 0;
+ 495              		.loc 1 284 0
+ 496 0024 0023     		movs	r3, #0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 15
+
+
+ 497 0026 80F84730 		strb	r3, [r0, #71]
+ 285:Core/u8g2/u8g2_setup.c ****   u8g2->user_y1 = u8g2->height;	/* pixel_buf_width replaced with height (pixel_width) */
+ 498              		.loc 1 285 0
+ 499 002a 90F84430 		ldrb	r3, [r0, #68]	@ zero_extendqisi2
+ 500 002e 80F84830 		strb	r3, [r0, #72]
+ 286:Core/u8g2/u8g2_setup.c **** 
+ 287:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 288:Core/u8g2/u8g2_setup.c ****   u8g2_apply_clip_window(u8g2);
+ 501              		.loc 1 288 0
+ 502 0032 FFF7FEFF 		bl	u8g2_apply_clip_window
+ 503              	.LVL32:
+ 289:Core/u8g2/u8g2_setup.c **** #endif /* U8G2_WITH_CLIP_WINDOW_SUPPORT */
+ 290:Core/u8g2/u8g2_setup.c **** }
+ 504              		.loc 1 290 0
+ 505 0036 08BD     		pop	{r3, pc}
+ 506              		.cfi_endproc
+ 507              	.LFE13:
+ 509              		.section	.text.u8g2_draw_l90_r0,"ax",%progbits
+ 510              		.align	1
+ 511              		.global	u8g2_draw_l90_r0
+ 512              		.syntax unified
+ 513              		.thumb
+ 514              		.thumb_func
+ 515              		.fpu softvfp
+ 517              	u8g2_draw_l90_r0:
+ 518              	.LFB14:
+ 291:Core/u8g2/u8g2_setup.c **** 
+ 292:Core/u8g2/u8g2_setup.c **** 
+ 293:Core/u8g2/u8g2_setup.c **** /*============================================*/
+ 294:Core/u8g2/u8g2_setup.c **** extern void u8g2_draw_hv_line_2dir(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uin
+ 295:Core/u8g2/u8g2_setup.c **** 
+ 296:Core/u8g2/u8g2_setup.c **** 
+ 297:Core/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 298:Core/u8g2/u8g2_setup.c **** {
+ 519              		.loc 1 298 0
+ 520              		.cfi_startproc
+ 521              		@ args = 4, pretend = 0, frame = 0
+ 522              		@ frame_needed = 0, uses_anonymous_args = 0
+ 523              	.LVL33:
+ 524 0000 10B5     		push	{r4, lr}
+ 525              	.LCFI13:
+ 526              		.cfi_def_cfa_offset 8
+ 527              		.cfi_offset 4, -8
+ 528              		.cfi_offset 14, -4
+ 529 0002 82B0     		sub	sp, sp, #8
+ 530              	.LCFI14:
+ 531              		.cfi_def_cfa_offset 16
+ 299:Core/u8g2/u8g2_setup.c **** #ifdef __unix
+ 300:Core/u8g2/u8g2_setup.c ****   assert( dir <= 1 );
+ 301:Core/u8g2/u8g2_setup.c **** #endif
+ 302:Core/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, x, y, len, dir);
+ 532              		.loc 1 302 0
+ 533 0004 9DF81040 		ldrb	r4, [sp, #16]	@ zero_extendqisi2
+ 534 0008 0094     		str	r4, [sp]
+ 535 000a FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 536              	.LVL34:
+ 303:Core/u8g2/u8g2_setup.c **** }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 16
+
+
+ 537              		.loc 1 303 0
+ 538 000e 02B0     		add	sp, sp, #8
+ 539              	.LCFI15:
+ 540              		.cfi_def_cfa_offset 8
+ 541              		@ sp needed
+ 542 0010 10BD     		pop	{r4, pc}
+ 543              		.cfi_endproc
+ 544              	.LFE14:
+ 546              		.section	.text.u8g2_draw_l90_mirrorr_r0,"ax",%progbits
+ 547              		.align	1
+ 548              		.global	u8g2_draw_l90_mirrorr_r0
+ 549              		.syntax unified
+ 550              		.thumb
+ 551              		.thumb_func
+ 552              		.fpu softvfp
+ 554              	u8g2_draw_l90_mirrorr_r0:
+ 555              	.LFB15:
+ 304:Core/u8g2/u8g2_setup.c **** 
+ 305:Core/u8g2/u8g2_setup.c **** void u8g2_draw_l90_mirrorr_r0(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t 
+ 306:Core/u8g2/u8g2_setup.c **** {
+ 556              		.loc 1 306 0
+ 557              		.cfi_startproc
+ 558              		@ args = 4, pretend = 0, frame = 0
+ 559              		@ frame_needed = 0, uses_anonymous_args = 0
+ 560              	.LVL35:
+ 561 0000 30B5     		push	{r4, r5, lr}
+ 562              	.LCFI16:
+ 563              		.cfi_def_cfa_offset 12
+ 564              		.cfi_offset 4, -12
+ 565              		.cfi_offset 5, -8
+ 566              		.cfi_offset 14, -4
+ 567 0002 83B0     		sub	sp, sp, #12
+ 568              	.LCFI17:
+ 569              		.cfi_def_cfa_offset 24
+ 570 0004 9DF81850 		ldrb	r5, [sp, #24]	@ zero_extendqisi2
+ 307:Core/u8g2/u8g2_setup.c ****   u8g2_uint_t xx;
+ 308:Core/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 571              		.loc 1 308 0
+ 572 0008 90F84340 		ldrb	r4, [r0, #67]	@ zero_extendqisi2
+ 573              	.LVL36:
+ 309:Core/u8g2/u8g2_setup.c ****   xx -= x;
+ 574              		.loc 1 309 0
+ 575 000c 611A     		subs	r1, r4, r1
+ 576              	.LVL37:
+ 577 000e C9B2     		uxtb	r1, r1
+ 578              	.LVL38:
+ 310:Core/u8g2/u8g2_setup.c ****   if ( (dir & 1) == 0 )
+ 579              		.loc 1 310 0
+ 580 0010 15F0010F 		tst	r5, #1
+ 581 0014 06D0     		beq	.L39
+ 311:Core/u8g2/u8g2_setup.c ****   {
+ 312:Core/u8g2/u8g2_setup.c ****     xx -= len;
+ 313:Core/u8g2/u8g2_setup.c ****   }
+ 314:Core/u8g2/u8g2_setup.c ****   else
+ 315:Core/u8g2/u8g2_setup.c ****   {
+ 316:Core/u8g2/u8g2_setup.c ****     xx--;
+ 582              		.loc 1 316 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 17
+
+
+ 583 0016 0139     		subs	r1, r1, #1
+ 584              	.LVL39:
+ 585 0018 C9B2     		uxtb	r1, r1
+ 586              	.LVL40:
+ 587              	.L37:
+ 317:Core/u8g2/u8g2_setup.c ****   }
+ 318:Core/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, y, len, dir);
+ 588              		.loc 1 318 0
+ 589 001a 0095     		str	r5, [sp]
+ 590 001c FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 591              	.LVL41:
+ 319:Core/u8g2/u8g2_setup.c **** }
+ 592              		.loc 1 319 0
+ 593 0020 03B0     		add	sp, sp, #12
+ 594              	.LCFI18:
+ 595              		.cfi_remember_state
+ 596              		.cfi_def_cfa_offset 12
+ 597              		@ sp needed
+ 598 0022 30BD     		pop	{r4, r5, pc}
+ 599              	.LVL42:
+ 600              	.L39:
+ 601              	.LCFI19:
+ 602              		.cfi_restore_state
+ 312:Core/u8g2/u8g2_setup.c ****   }
+ 603              		.loc 1 312 0
+ 604 0024 C91A     		subs	r1, r1, r3
+ 605              	.LVL43:
+ 606 0026 C9B2     		uxtb	r1, r1
+ 607              	.LVL44:
+ 608 0028 F7E7     		b	.L37
+ 609              		.cfi_endproc
+ 610              	.LFE15:
+ 612              		.section	.text.u8g2_draw_l90_r1,"ax",%progbits
+ 613              		.align	1
+ 614              		.global	u8g2_draw_l90_r1
+ 615              		.syntax unified
+ 616              		.thumb
+ 617              		.thumb_func
+ 618              		.fpu softvfp
+ 620              	u8g2_draw_l90_r1:
+ 621              	.LFB16:
+ 320:Core/u8g2/u8g2_setup.c **** 
+ 321:Core/u8g2/u8g2_setup.c **** /* dir = 0 or 1 */
+ 322:Core/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r1(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 323:Core/u8g2/u8g2_setup.c **** {
+ 622              		.loc 1 323 0
+ 623              		.cfi_startproc
+ 624              		@ args = 4, pretend = 0, frame = 0
+ 625              		@ frame_needed = 0, uses_anonymous_args = 0
+ 626              	.LVL45:
+ 627 0000 30B5     		push	{r4, r5, lr}
+ 628              	.LCFI20:
+ 629              		.cfi_def_cfa_offset 12
+ 630              		.cfi_offset 4, -12
+ 631              		.cfi_offset 5, -8
+ 632              		.cfi_offset 14, -4
+ 633 0002 83B0     		sub	sp, sp, #12
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 18
+
+
+ 634              	.LCFI21:
+ 635              		.cfi_def_cfa_offset 24
+ 636 0004 0D46     		mov	r5, r1
+ 637              	.LVL46:
+ 324:Core/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 325:Core/u8g2/u8g2_setup.c **** 
+ 326:Core/u8g2/u8g2_setup.c **** #ifdef __unix
+ 327:Core/u8g2/u8g2_setup.c ****   assert( dir <= 1 );
+ 328:Core/u8g2/u8g2_setup.c **** #endif
+ 329:Core/u8g2/u8g2_setup.c ****   
+ 330:Core/u8g2/u8g2_setup.c ****   yy = x;
+ 331:Core/u8g2/u8g2_setup.c ****   
+ 332:Core/u8g2/u8g2_setup.c ****   xx = u8g2->height;
+ 638              		.loc 1 332 0
+ 639 0006 90F84440 		ldrb	r4, [r0, #68]	@ zero_extendqisi2
+ 640              	.LVL47:
+ 333:Core/u8g2/u8g2_setup.c ****   xx -= y;
+ 641              		.loc 1 333 0
+ 642 000a A21A     		subs	r2, r4, r2
+ 643              	.LVL48:
+ 644 000c D2B2     		uxtb	r2, r2
+ 645              	.LVL49:
+ 334:Core/u8g2/u8g2_setup.c ****   xx--;
+ 646              		.loc 1 334 0
+ 647 000e 013A     		subs	r2, r2, #1
+ 648              	.LVL50:
+ 649 0010 D1B2     		uxtb	r1, r2
+ 650              	.LVL51:
+ 335:Core/u8g2/u8g2_setup.c ****   
+ 336:Core/u8g2/u8g2_setup.c ****   dir ++;
+ 651              		.loc 1 336 0
+ 652 0012 9DF81820 		ldrb	r2, [sp, #24]	@ zero_extendqisi2
+ 653 0016 0132     		adds	r2, r2, #1
+ 654 0018 D2B2     		uxtb	r2, r2
+ 655              	.LVL52:
+ 337:Core/u8g2/u8g2_setup.c ****   if ( dir == 2 )
+ 656              		.loc 1 337 0
+ 657 001a 022A     		cmp	r2, #2
+ 658 001c 05D0     		beq	.L43
+ 659              	.LVL53:
+ 660              	.L41:
+ 338:Core/u8g2/u8g2_setup.c ****   {
+ 339:Core/u8g2/u8g2_setup.c ****     xx -= len;
+ 340:Core/u8g2/u8g2_setup.c ****     xx++;
+ 341:Core/u8g2/u8g2_setup.c ****     dir = 0;
+ 342:Core/u8g2/u8g2_setup.c ****   }
+ 343:Core/u8g2/u8g2_setup.c ****   
+ 344:Core/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 661              		.loc 1 344 0
+ 662 001e 0092     		str	r2, [sp]
+ 663 0020 2A46     		mov	r2, r5
+ 664              	.LVL54:
+ 665 0022 FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 666              	.LVL55:
+ 345:Core/u8g2/u8g2_setup.c **** }
+ 667              		.loc 1 345 0
+ 668 0026 03B0     		add	sp, sp, #12
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 19
+
+
+ 669              	.LCFI22:
+ 670              		.cfi_remember_state
+ 671              		.cfi_def_cfa_offset 12
+ 672              		@ sp needed
+ 673 0028 30BD     		pop	{r4, r5, pc}
+ 674              	.LVL56:
+ 675              	.L43:
+ 676              	.LCFI23:
+ 677              		.cfi_restore_state
+ 339:Core/u8g2/u8g2_setup.c ****     xx++;
+ 678              		.loc 1 339 0
+ 679 002a CA1A     		subs	r2, r1, r3
+ 680              	.LVL57:
+ 681 002c D2B2     		uxtb	r2, r2
+ 682              	.LVL58:
+ 340:Core/u8g2/u8g2_setup.c ****     dir = 0;
+ 683              		.loc 1 340 0
+ 684 002e 0132     		adds	r2, r2, #1
+ 685              	.LVL59:
+ 686 0030 D1B2     		uxtb	r1, r2
+ 687              	.LVL60:
+ 341:Core/u8g2/u8g2_setup.c ****   }
+ 688              		.loc 1 341 0
+ 689 0032 0022     		movs	r2, #0
+ 690 0034 F3E7     		b	.L41
+ 691              		.cfi_endproc
+ 692              	.LFE16:
+ 694              		.section	.text.u8g2_draw_l90_r2,"ax",%progbits
+ 695              		.align	1
+ 696              		.global	u8g2_draw_l90_r2
+ 697              		.syntax unified
+ 698              		.thumb
+ 699              		.thumb_func
+ 700              		.fpu softvfp
+ 702              	u8g2_draw_l90_r2:
+ 703              	.LFB17:
+ 346:Core/u8g2/u8g2_setup.c **** 
+ 347:Core/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r2(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 348:Core/u8g2/u8g2_setup.c **** {
+ 704              		.loc 1 348 0
+ 705              		.cfi_startproc
+ 706              		@ args = 4, pretend = 0, frame = 0
+ 707              		@ frame_needed = 0, uses_anonymous_args = 0
+ 708              	.LVL61:
+ 709 0000 30B5     		push	{r4, r5, lr}
+ 710              	.LCFI24:
+ 711              		.cfi_def_cfa_offset 12
+ 712              		.cfi_offset 4, -12
+ 713              		.cfi_offset 5, -8
+ 714              		.cfi_offset 14, -4
+ 715 0002 83B0     		sub	sp, sp, #12
+ 716              	.LCFI25:
+ 717              		.cfi_def_cfa_offset 24
+ 718 0004 9DF81850 		ldrb	r5, [sp, #24]	@ zero_extendqisi2
+ 349:Core/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 350:Core/u8g2/u8g2_setup.c **** 
+ 351:Core/u8g2/u8g2_setup.c ****   /*
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 20
+
+
+ 352:Core/u8g2/u8g2_setup.c ****   yy = u8g2->height;
+ 353:Core/u8g2/u8g2_setup.c ****   yy -= y;
+ 354:Core/u8g2/u8g2_setup.c ****   yy--;
+ 355:Core/u8g2/u8g2_setup.c ****   
+ 356:Core/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 357:Core/u8g2/u8g2_setup.c ****   xx -= x;
+ 358:Core/u8g2/u8g2_setup.c ****   xx--;
+ 359:Core/u8g2/u8g2_setup.c ****   
+ 360:Core/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 361:Core/u8g2/u8g2_setup.c ****   {
+ 362:Core/u8g2/u8g2_setup.c ****     xx -= len;
+ 363:Core/u8g2/u8g2_setup.c ****     xx++;
+ 364:Core/u8g2/u8g2_setup.c ****   }
+ 365:Core/u8g2/u8g2_setup.c ****   else if ( dir == 1 )
+ 366:Core/u8g2/u8g2_setup.c ****   {
+ 367:Core/u8g2/u8g2_setup.c ****     yy -= len;
+ 368:Core/u8g2/u8g2_setup.c ****     yy++;
+ 369:Core/u8g2/u8g2_setup.c ****   }
+ 370:Core/u8g2/u8g2_setup.c ****   */
+ 371:Core/u8g2/u8g2_setup.c **** 
+ 372:Core/u8g2/u8g2_setup.c ****   yy = u8g2->height;
+ 719              		.loc 1 372 0
+ 720 0008 90F84440 		ldrb	r4, [r0, #68]	@ zero_extendqisi2
+ 721              	.LVL62:
+ 373:Core/u8g2/u8g2_setup.c ****   yy -= y;
+ 722              		.loc 1 373 0
+ 723 000c A21A     		subs	r2, r4, r2
+ 724              	.LVL63:
+ 725 000e D2B2     		uxtb	r2, r2
+ 726              	.LVL64:
+ 374:Core/u8g2/u8g2_setup.c ****   
+ 375:Core/u8g2/u8g2_setup.c ****   xx = u8g2->width;
+ 727              		.loc 1 375 0
+ 728 0010 90F84340 		ldrb	r4, [r0, #67]	@ zero_extendqisi2
+ 729              	.LVL65:
+ 376:Core/u8g2/u8g2_setup.c ****   xx -= x;
+ 730              		.loc 1 376 0
+ 731 0014 611A     		subs	r1, r4, r1
+ 732              	.LVL66:
+ 733 0016 C9B2     		uxtb	r1, r1
+ 734              	.LVL67:
+ 377:Core/u8g2/u8g2_setup.c ****   
+ 378:Core/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 735              		.loc 1 378 0
+ 736 0018 35B1     		cbz	r5, .L48
+ 379:Core/u8g2/u8g2_setup.c ****   {
+ 380:Core/u8g2/u8g2_setup.c ****     yy--;
+ 381:Core/u8g2/u8g2_setup.c ****     xx -= len;
+ 382:Core/u8g2/u8g2_setup.c ****   }
+ 383:Core/u8g2/u8g2_setup.c ****   else if ( dir == 1 )
+ 737              		.loc 1 383 0
+ 738 001a 012D     		cmp	r5, #1
+ 739 001c 08D1     		bne	.L46
+ 384:Core/u8g2/u8g2_setup.c ****   {
+ 385:Core/u8g2/u8g2_setup.c ****     xx--;
+ 740              		.loc 1 385 0
+ 741 001e 0139     		subs	r1, r1, #1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 21
+
+
+ 742              	.LVL68:
+ 743 0020 C9B2     		uxtb	r1, r1
+ 744              	.LVL69:
+ 386:Core/u8g2/u8g2_setup.c ****     yy -= len;
+ 745              		.loc 1 386 0
+ 746 0022 D21A     		subs	r2, r2, r3
+ 747              	.LVL70:
+ 748 0024 D2B2     		uxtb	r2, r2
+ 749              	.LVL71:
+ 750 0026 03E0     		b	.L46
+ 751              	.L48:
+ 380:Core/u8g2/u8g2_setup.c ****     xx -= len;
+ 752              		.loc 1 380 0
+ 753 0028 013A     		subs	r2, r2, #1
+ 754              	.LVL72:
+ 755 002a D2B2     		uxtb	r2, r2
+ 756              	.LVL73:
+ 381:Core/u8g2/u8g2_setup.c ****   }
+ 757              		.loc 1 381 0
+ 758 002c C91A     		subs	r1, r1, r3
+ 759              	.LVL74:
+ 760 002e C9B2     		uxtb	r1, r1
+ 761              	.LVL75:
+ 762              	.L46:
+ 387:Core/u8g2/u8g2_setup.c ****   }
+ 388:Core/u8g2/u8g2_setup.c **** 
+ 389:Core/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 763              		.loc 1 389 0
+ 764 0030 0095     		str	r5, [sp]
+ 765 0032 FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 766              	.LVL76:
+ 390:Core/u8g2/u8g2_setup.c **** }
+ 767              		.loc 1 390 0
+ 768 0036 03B0     		add	sp, sp, #12
+ 769              	.LCFI26:
+ 770              		.cfi_def_cfa_offset 12
+ 771              		@ sp needed
+ 772 0038 30BD     		pop	{r4, r5, pc}
+ 773              		.cfi_endproc
+ 774              	.LFE17:
+ 776              		.section	.text.u8g2_draw_l90_r3,"ax",%progbits
+ 777              		.align	1
+ 778              		.global	u8g2_draw_l90_r3
+ 779              		.syntax unified
+ 780              		.thumb
+ 781              		.thumb_func
+ 782              		.fpu softvfp
+ 784              	u8g2_draw_l90_r3:
+ 785              	.LFB18:
+ 391:Core/u8g2/u8g2_setup.c **** 
+ 392:Core/u8g2/u8g2_setup.c **** void u8g2_draw_l90_r3(u8g2_t *u8g2, u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t len, uint8_t dir)
+ 393:Core/u8g2/u8g2_setup.c **** {
+ 786              		.loc 1 393 0
+ 787              		.cfi_startproc
+ 788              		@ args = 4, pretend = 0, frame = 0
+ 789              		@ frame_needed = 0, uses_anonymous_args = 0
+ 790              	.LVL77:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 22
+
+
+ 791 0000 30B5     		push	{r4, r5, lr}
+ 792              	.LCFI27:
+ 793              		.cfi_def_cfa_offset 12
+ 794              		.cfi_offset 4, -12
+ 795              		.cfi_offset 5, -8
+ 796              		.cfi_offset 14, -4
+ 797 0002 83B0     		sub	sp, sp, #12
+ 798              	.LCFI28:
+ 799              		.cfi_def_cfa_offset 24
+ 800 0004 1446     		mov	r4, r2
+ 801 0006 9DF81850 		ldrb	r5, [sp, #24]	@ zero_extendqisi2
+ 802              	.LVL78:
+ 394:Core/u8g2/u8g2_setup.c ****   u8g2_uint_t xx, yy;
+ 395:Core/u8g2/u8g2_setup.c **** 
+ 396:Core/u8g2/u8g2_setup.c ****   xx = y;
+ 397:Core/u8g2/u8g2_setup.c ****   
+ 398:Core/u8g2/u8g2_setup.c ****   yy = u8g2->width;
+ 803              		.loc 1 398 0
+ 804 000a 90F84320 		ldrb	r2, [r0, #67]	@ zero_extendqisi2
+ 805              	.LVL79:
+ 399:Core/u8g2/u8g2_setup.c ****   yy -= x;
+ 806              		.loc 1 399 0
+ 807 000e 521A     		subs	r2, r2, r1
+ 808              	.LVL80:
+ 809 0010 D2B2     		uxtb	r2, r2
+ 810              	.LVL81:
+ 400:Core/u8g2/u8g2_setup.c ****   
+ 401:Core/u8g2/u8g2_setup.c ****   if ( dir == 0 )
+ 811              		.loc 1 401 0
+ 812 0012 45B1     		cbz	r5, .L53
+ 402:Core/u8g2/u8g2_setup.c ****   {
+ 403:Core/u8g2/u8g2_setup.c ****     yy--;
+ 404:Core/u8g2/u8g2_setup.c ****     yy -= len;
+ 405:Core/u8g2/u8g2_setup.c ****     yy++;
+ 406:Core/u8g2/u8g2_setup.c ****     dir = 1;
+ 407:Core/u8g2/u8g2_setup.c ****   }
+ 408:Core/u8g2/u8g2_setup.c ****   else
+ 409:Core/u8g2/u8g2_setup.c ****   {
+ 410:Core/u8g2/u8g2_setup.c ****     yy--;
+ 813              		.loc 1 410 0
+ 814 0014 013A     		subs	r2, r2, #1
+ 815              	.LVL82:
+ 816 0016 D2B2     		uxtb	r2, r2
+ 817              	.LVL83:
+ 411:Core/u8g2/u8g2_setup.c ****     dir = 0;
+ 818              		.loc 1 411 0
+ 819 0018 0021     		movs	r1, #0
+ 820              	.LVL84:
+ 821              	.L51:
+ 412:Core/u8g2/u8g2_setup.c ****   }
+ 413:Core/u8g2/u8g2_setup.c ****   
+ 414:Core/u8g2/u8g2_setup.c ****   
+ 415:Core/u8g2/u8g2_setup.c ****   u8g2_draw_hv_line_2dir(u8g2, xx, yy, len, dir);
+ 822              		.loc 1 415 0
+ 823 001a 0091     		str	r1, [sp]
+ 824 001c 2146     		mov	r1, r4
+ 825              	.LVL85:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 23
+
+
+ 826 001e FFF7FEFF 		bl	u8g2_draw_hv_line_2dir
+ 827              	.LVL86:
+ 416:Core/u8g2/u8g2_setup.c **** }
+ 828              		.loc 1 416 0
+ 829 0022 03B0     		add	sp, sp, #12
+ 830              	.LCFI29:
+ 831              		.cfi_remember_state
+ 832              		.cfi_def_cfa_offset 12
+ 833              		@ sp needed
+ 834 0024 30BD     		pop	{r4, r5, pc}
+ 835              	.LVL87:
+ 836              	.L53:
+ 837              	.LCFI30:
+ 838              		.cfi_restore_state
+ 403:Core/u8g2/u8g2_setup.c ****     yy -= len;
+ 839              		.loc 1 403 0
+ 840 0026 013A     		subs	r2, r2, #1
+ 841              	.LVL88:
+ 842 0028 D2B2     		uxtb	r2, r2
+ 843              	.LVL89:
+ 404:Core/u8g2/u8g2_setup.c ****     yy++;
+ 844              		.loc 1 404 0
+ 845 002a D21A     		subs	r2, r2, r3
+ 846              	.LVL90:
+ 847 002c D2B2     		uxtb	r2, r2
+ 848              	.LVL91:
+ 405:Core/u8g2/u8g2_setup.c ****     dir = 1;
+ 849              		.loc 1 405 0
+ 850 002e 0132     		adds	r2, r2, #1
+ 851              	.LVL92:
+ 852 0030 D2B2     		uxtb	r2, r2
+ 853              	.LVL93:
+ 406:Core/u8g2/u8g2_setup.c ****   }
+ 854              		.loc 1 406 0
+ 855 0032 0121     		movs	r1, #1
+ 856              	.LVL94:
+ 857 0034 F1E7     		b	.L51
+ 858              		.cfi_endproc
+ 859              	.LFE18:
+ 861              		.section	.text.u8g2_SetMaxClipWindow,"ax",%progbits
+ 862              		.align	1
+ 863              		.global	u8g2_SetMaxClipWindow
+ 864              		.syntax unified
+ 865              		.thumb
+ 866              		.thumb_func
+ 867              		.fpu softvfp
+ 869              	u8g2_SetMaxClipWindow:
+ 870              	.LFB0:
+  47:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = 0;
+ 871              		.loc 1 47 0
+ 872              		.cfi_startproc
+ 873              		@ args = 0, pretend = 0, frame = 0
+ 874              		@ frame_needed = 0, uses_anonymous_args = 0
+ 875              	.LVL95:
+ 876 0000 08B5     		push	{r3, lr}
+ 877              	.LCFI31:
+ 878              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 24
+
+
+ 879              		.cfi_offset 3, -8
+ 880              		.cfi_offset 14, -4
+  48:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = 0;
+ 881              		.loc 1 48 0
+ 882 0002 0022     		movs	r2, #0
+ 883 0004 80F84920 		strb	r2, [r0, #73]
+  49:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 884              		.loc 1 49 0
+ 885 0008 80F84B20 		strb	r2, [r0, #75]
+  50:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = (u8g2_uint_t)~(u8g2_uint_t)0;
+ 886              		.loc 1 50 0
+ 887 000c FF22     		movs	r2, #255
+ 888 000e 80F84A20 		strb	r2, [r0, #74]
+  51:Core/u8g2/u8g2_setup.c ****   
+ 889              		.loc 1 51 0
+ 890 0012 80F84C20 		strb	r2, [r0, #76]
+  53:Core/u8g2/u8g2_setup.c **** }
+ 891              		.loc 1 53 0
+ 892 0016 436B     		ldr	r3, [r0, #52]
+ 893 0018 5B68     		ldr	r3, [r3, #4]
+ 894 001a 9847     		blx	r3
+ 895              	.LVL96:
+  54:Core/u8g2/u8g2_setup.c **** 
+ 896              		.loc 1 54 0
+ 897 001c 08BD     		pop	{r3, pc}
+ 898              		.cfi_endproc
+ 899              	.LFE0:
+ 901              		.section	.text.u8g2_SetClipWindow,"ax",%progbits
+ 902              		.align	1
+ 903              		.global	u8g2_SetClipWindow
+ 904              		.syntax unified
+ 905              		.thumb
+ 906              		.thumb_func
+ 907              		.fpu softvfp
+ 909              	u8g2_SetClipWindow:
+ 910              	.LFB1:
+  57:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x0 = clip_x0;
+ 911              		.loc 1 57 0
+ 912              		.cfi_startproc
+ 913              		@ args = 4, pretend = 0, frame = 0
+ 914              		@ frame_needed = 0, uses_anonymous_args = 0
+ 915              	.LVL97:
+ 916 0000 10B5     		push	{r4, lr}
+ 917              	.LCFI32:
+ 918              		.cfi_def_cfa_offset 8
+ 919              		.cfi_offset 4, -8
+ 920              		.cfi_offset 14, -4
+  58:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y0 = clip_y0;
+ 921              		.loc 1 58 0
+ 922 0002 80F84910 		strb	r1, [r0, #73]
+  59:Core/u8g2/u8g2_setup.c ****   u8g2->clip_x1 = clip_x1;
+ 923              		.loc 1 59 0
+ 924 0006 80F84B20 		strb	r2, [r0, #75]
+  60:Core/u8g2/u8g2_setup.c ****   u8g2->clip_y1 = clip_y1;
+ 925              		.loc 1 60 0
+ 926 000a 80F84A30 		strb	r3, [r0, #74]
+  61:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 25
+
+
+ 927              		.loc 1 61 0
+ 928 000e 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 929              	.LVL98:
+ 930 0012 80F84C30 		strb	r3, [r0, #76]
+  62:Core/u8g2/u8g2_setup.c **** }
+ 931              		.loc 1 62 0
+ 932 0016 436B     		ldr	r3, [r0, #52]
+ 933 0018 5B68     		ldr	r3, [r3, #4]
+ 934 001a 9847     		blx	r3
+ 935              	.LVL99:
+  63:Core/u8g2/u8g2_setup.c **** #endif
+ 936              		.loc 1 63 0
+ 937 001c 10BD     		pop	{r4, pc}
+ 938              		.cfi_endproc
+ 939              	.LFE1:
+ 941              		.section	.text.u8g2_SetupBuffer,"ax",%progbits
+ 942              		.align	1
+ 943              		.global	u8g2_SetupBuffer
+ 944              		.syntax unified
+ 945              		.thumb
+ 946              		.thumb_func
+ 947              		.fpu softvfp
+ 949              	u8g2_SetupBuffer:
+ 950              	.LFB2:
+  72:Core/u8g2/u8g2_setup.c ****   u8g2->font = NULL;
+ 951              		.loc 1 72 0
+ 952              		.cfi_startproc
+ 953              		@ args = 4, pretend = 0, frame = 0
+ 954              		@ frame_needed = 0, uses_anonymous_args = 0
+ 955              	.LVL100:
+ 956 0000 70B5     		push	{r4, r5, r6, lr}
+ 957              	.LCFI33:
+ 958              		.cfi_def_cfa_offset 16
+ 959              		.cfi_offset 4, -16
+ 960              		.cfi_offset 5, -12
+ 961              		.cfi_offset 6, -8
+ 962              		.cfi_offset 14, -4
+ 963 0002 0446     		mov	r4, r0
+ 964 0004 049E     		ldr	r6, [sp, #16]
+  73:Core/u8g2/u8g2_setup.c ****   //u8g2->kerning = NULL;
+ 965              		.loc 1 73 0
+ 966 0006 0025     		movs	r5, #0
+ 967 0008 0565     		str	r5, [r0, #80]
+  78:Core/u8g2/u8g2_setup.c ****   
+ 968              		.loc 1 78 0
+ 969 000a 0363     		str	r3, [r0, #48]
+  80:Core/u8g2/u8g2_setup.c ****   u8g2->tile_buf_height = tile_buf_height;
+ 970              		.loc 1 80 0
+ 971 000c 8163     		str	r1, [r0, #56]
+  81:Core/u8g2/u8g2_setup.c ****   
+ 972              		.loc 1 81 0
+ 973 000e 80F83C20 		strb	r2, [r0, #60]
+  83:Core/u8g2/u8g2_setup.c ****   
+ 974              		.loc 1 83 0
+ 975 0012 80F83D50 		strb	r5, [r0, #61]
+  85:Core/u8g2/u8g2_setup.c ****   u8g2->bitmap_transparency = 0;
+ 976              		.loc 1 85 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 26
+
+
+ 977 0016 80F86350 		strb	r5, [r0, #99]
+  86:Core/u8g2/u8g2_setup.c ****   
+ 978              		.loc 1 86 0
+ 979 001a 80F88550 		strb	r5, [r0, #133]
+  88:Core/u8g2/u8g2_setup.c ****   u8g2->is_auto_page_clear = 1;
+ 980              		.loc 1 88 0
+ 981 001e 0123     		movs	r3, #1
+ 982              	.LVL101:
+ 983 0020 80F88630 		strb	r3, [r0, #134]
+  89:Core/u8g2/u8g2_setup.c ****   
+ 984              		.loc 1 89 0
+ 985 0024 80F88730 		strb	r3, [r0, #135]
+  91:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 986              		.loc 1 91 0
+ 987 0028 4663     		str	r6, [r0, #52]
+  92:Core/u8g2/u8g2_setup.c **** #ifdef U8G2_WITH_CLIP_WINDOW_SUPPORT
+ 988              		.loc 1 92 0
+ 989 002a 3368     		ldr	r3, [r6]
+ 990 002c 9847     		blx	r3
+ 991              	.LVL102:
+  94:Core/u8g2/u8g2_setup.c **** #else
+ 992              		.loc 1 94 0
+ 993 002e 2046     		mov	r0, r4
+ 994 0030 FFF7FEFF 		bl	u8g2_SetMaxClipWindow
+ 995              	.LVL103:
+  99:Core/u8g2/u8g2_setup.c ****   
+ 996              		.loc 1 99 0
+ 997 0034 2046     		mov	r0, r4
+ 998 0036 FFF7FEFF 		bl	u8g2_SetFontPosBaseline
+ 999              	.LVL104:
+ 102:Core/u8g2/u8g2_setup.c **** #endif
+ 1000              		.loc 1 102 0
+ 1001 003a 84F86650 		strb	r5, [r4, #102]
+ 104:Core/u8g2/u8g2_setup.c **** 
+ 1002              		.loc 1 104 0
+ 1003 003e 70BD     		pop	{r4, r5, r6, pc}
+ 1004              		.cfi_endproc
+ 1005              	.LFE2:
+ 1007              		.section	.text.u8g2_SetDisplayRotation,"ax",%progbits
+ 1008              		.align	1
+ 1009              		.global	u8g2_SetDisplayRotation
+ 1010              		.syntax unified
+ 1011              		.thumb
+ 1012              		.thumb_func
+ 1013              		.fpu softvfp
+ 1015              	u8g2_SetDisplayRotation:
+ 1016              	.LFB3:
+ 111:Core/u8g2/u8g2_setup.c ****   u8g2->cb = u8g2_cb;
+ 1017              		.loc 1 111 0
+ 1018              		.cfi_startproc
+ 1019              		@ args = 0, pretend = 0, frame = 0
+ 1020              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1021              	.LVL105:
+ 1022 0000 10B5     		push	{r4, lr}
+ 1023              	.LCFI34:
+ 1024              		.cfi_def_cfa_offset 8
+ 1025              		.cfi_offset 4, -8
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 27
+
+
+ 1026              		.cfi_offset 14, -4
+ 1027 0002 0446     		mov	r4, r0
+ 112:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_dimension(u8g2);
+ 1028              		.loc 1 112 0
+ 1029 0004 4163     		str	r1, [r0, #52]
+ 113:Core/u8g2/u8g2_setup.c ****   u8g2->cb->update_page_win(u8g2);
+ 1030              		.loc 1 113 0
+ 1031 0006 0B68     		ldr	r3, [r1]
+ 1032 0008 9847     		blx	r3
+ 1033              	.LVL106:
+ 114:Core/u8g2/u8g2_setup.c **** }
+ 1034              		.loc 1 114 0
+ 1035 000a 636B     		ldr	r3, [r4, #52]
+ 1036 000c 5B68     		ldr	r3, [r3, #4]
+ 1037 000e 2046     		mov	r0, r4
+ 1038 0010 9847     		blx	r3
+ 1039              	.LVL107:
+ 115:Core/u8g2/u8g2_setup.c **** 
+ 1040              		.loc 1 115 0
+ 1041 0012 10BD     		pop	{r4, pc}
+ 1042              		.cfi_endproc
+ 1043              	.LFE3:
+ 1045              		.section	.text.u8g2_Setup_null,"ax",%progbits
+ 1046              		.align	1
+ 1047              		.global	u8g2_Setup_null
+ 1048              		.syntax unified
+ 1049              		.thumb
+ 1050              		.thumb_func
+ 1051              		.fpu softvfp
+ 1053              	u8g2_Setup_null:
+ 1054              	.LFB19:
+ 417:Core/u8g2/u8g2_setup.c **** 
+ 418:Core/u8g2/u8g2_setup.c **** 
+ 419:Core/u8g2/u8g2_setup.c **** 
+ 420:Core/u8g2/u8g2_setup.c **** /*============================================*/
+ 421:Core/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r0 = { u8g2_update_dimension_r0, u8g2_update_page_win_r0, u8g2_draw_l90_r0 
+ 422:Core/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r1 = { u8g2_update_dimension_r1, u8g2_update_page_win_r1, u8g2_draw_l90_r1 
+ 423:Core/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r2 = { u8g2_update_dimension_r2, u8g2_update_page_win_r2, u8g2_draw_l90_r2 
+ 424:Core/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_r3 = { u8g2_update_dimension_r3, u8g2_update_page_win_r3, u8g2_draw_l90_r3 
+ 425:Core/u8g2/u8g2_setup.c ****   
+ 426:Core/u8g2/u8g2_setup.c **** const u8g2_cb_t u8g2_cb_mirror = { u8g2_update_dimension_r0, u8g2_update_page_win_r0, u8g2_draw_l90
+ 427:Core/u8g2/u8g2_setup.c ****   
+ 428:Core/u8g2/u8g2_setup.c **** /*============================================*/
+ 429:Core/u8g2/u8g2_setup.c **** /* setup for the null device */
+ 430:Core/u8g2/u8g2_setup.c **** 
+ 431:Core/u8g2/u8g2_setup.c **** /* setup for the null (empty) device */
+ 432:Core/u8g2/u8g2_setup.c **** void u8g2_Setup_null(u8g2_t *u8g2, const u8g2_cb_t *rotation, u8x8_msg_cb byte_cb, u8x8_msg_cb gpio
+ 433:Core/u8g2/u8g2_setup.c **** {
+ 1055              		.loc 1 433 0
+ 1056              		.cfi_startproc
+ 1057              		@ args = 0, pretend = 0, frame = 0
+ 1058              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1059              	.LVL108:
+ 1060 0000 30B5     		push	{r4, r5, lr}
+ 1061              	.LCFI35:
+ 1062              		.cfi_def_cfa_offset 12
+ 1063              		.cfi_offset 4, -12
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 28
+
+
+ 1064              		.cfi_offset 5, -8
+ 1065              		.cfi_offset 14, -4
+ 1066 0002 83B0     		sub	sp, sp, #12
+ 1067              	.LCFI36:
+ 1068              		.cfi_def_cfa_offset 24
+ 1069 0004 0446     		mov	r4, r0
+ 1070 0006 0D46     		mov	r5, r1
+ 434:Core/u8g2/u8g2_setup.c ****   static uint8_t buf[8];
+ 435:Core/u8g2/u8g2_setup.c ****   u8g2_SetupDisplay(u8g2, u8x8_d_null_cb, u8x8_cad_empty, byte_cb, gpio_and_delay_cb);
+ 1071              		.loc 1 435 0
+ 1072 0008 0093     		str	r3, [sp]
+ 1073 000a 1346     		mov	r3, r2
+ 1074              	.LVL109:
+ 1075 000c 064A     		ldr	r2, .L64
+ 1076              	.LVL110:
+ 1077 000e 0749     		ldr	r1, .L64+4
+ 1078              	.LVL111:
+ 1079 0010 FFF7FEFF 		bl	u8x8_Setup
+ 1080              	.LVL112:
+ 436:Core/u8g2/u8g2_setup.c ****   u8g2_SetupBuffer(u8g2, buf, 1, u8g2_ll_hvline_vertical_top_lsb, rotation);
+ 1081              		.loc 1 436 0
+ 1082 0014 0095     		str	r5, [sp]
+ 1083 0016 064B     		ldr	r3, .L64+8
+ 1084 0018 0122     		movs	r2, #1
+ 1085 001a 0649     		ldr	r1, .L64+12
+ 1086 001c 2046     		mov	r0, r4
+ 1087 001e FFF7FEFF 		bl	u8g2_SetupBuffer
+ 1088              	.LVL113:
+ 437:Core/u8g2/u8g2_setup.c **** }
+ 1089              		.loc 1 437 0
+ 1090 0022 03B0     		add	sp, sp, #12
+ 1091              	.LCFI37:
+ 1092              		.cfi_def_cfa_offset 12
+ 1093              		@ sp needed
+ 1094 0024 30BD     		pop	{r4, r5, pc}
+ 1095              	.LVL114:
+ 1096              	.L65:
+ 1097 0026 00BF     		.align	2
+ 1098              	.L64:
+ 1099 0028 00000000 		.word	u8x8_cad_empty
+ 1100 002c 00000000 		.word	u8x8_d_null_cb
+ 1101 0030 00000000 		.word	u8g2_ll_hvline_vertical_top_lsb
+ 1102 0034 00000000 		.word	.LANCHOR0
+ 1103              		.cfi_endproc
+ 1104              	.LFE19:
+ 1106              		.global	u8g2_cb_mirror
+ 1107              		.global	u8g2_cb_r3
+ 1108              		.global	u8g2_cb_r2
+ 1109              		.global	u8g2_cb_r1
+ 1110              		.global	u8g2_cb_r0
+ 1111              		.section	.bss.buf.10022,"aw",%nobits
+ 1112              		.align	2
+ 1113              		.set	.LANCHOR0,. + 0
+ 1116              	buf.10022:
+ 1117 0000 00000000 		.space	8
+ 1117      00000000 
+ 1118              		.section	.rodata.u8g2_cb_mirror,"a",%progbits
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 29
+
+
+ 1119              		.align	2
+ 1122              	u8g2_cb_mirror:
+ 1123 0000 00000000 		.word	u8g2_update_dimension_r0
+ 1124 0004 00000000 		.word	u8g2_update_page_win_r0
+ 1125 0008 00000000 		.word	u8g2_draw_l90_mirrorr_r0
+ 1126              		.section	.rodata.u8g2_cb_r0,"a",%progbits
+ 1127              		.align	2
+ 1130              	u8g2_cb_r0:
+ 1131 0000 00000000 		.word	u8g2_update_dimension_r0
+ 1132 0004 00000000 		.word	u8g2_update_page_win_r0
+ 1133 0008 00000000 		.word	u8g2_draw_l90_r0
+ 1134              		.section	.rodata.u8g2_cb_r1,"a",%progbits
+ 1135              		.align	2
+ 1138              	u8g2_cb_r1:
+ 1139 0000 00000000 		.word	u8g2_update_dimension_r1
+ 1140 0004 00000000 		.word	u8g2_update_page_win_r1
+ 1141 0008 00000000 		.word	u8g2_draw_l90_r1
+ 1142              		.section	.rodata.u8g2_cb_r2,"a",%progbits
+ 1143              		.align	2
+ 1146              	u8g2_cb_r2:
+ 1147 0000 00000000 		.word	u8g2_update_dimension_r2
+ 1148 0004 00000000 		.word	u8g2_update_page_win_r2
+ 1149 0008 00000000 		.word	u8g2_draw_l90_r2
+ 1150              		.section	.rodata.u8g2_cb_r3,"a",%progbits
+ 1151              		.align	2
+ 1154              	u8g2_cb_r3:
+ 1155 0000 00000000 		.word	u8g2_update_dimension_r3
+ 1156 0004 00000000 		.word	u8g2_update_page_win_r3
+ 1157 0008 00000000 		.word	u8g2_draw_l90_r3
+ 1158              		.text
+ 1159              	.Letext0:
+ 1160              		.file 2 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1161              		.file 3 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1162              		.file 4 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1163              		.file 5 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\lib\\gcc\\arm-none-eabi
+ 1164              		.file 6 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1165              		.file 7 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1166              		.file 8 "Core/u8g2/../u8g2/../u8g2/u8x8.h"
+ 1167              		.file 9 "Core/u8g2/../u8g2/u8g2.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 30
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8g2_setup.c
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:16     .text.u8g2_update_dimension_common:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:22     .text.u8g2_update_dimension_common:00000000 u8g2_update_dimension_common
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:120    .text.u8g2_update_dimension_r0:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:127    .text.u8g2_update_dimension_r0:00000000 u8g2_update_dimension_r0
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:148    .text.u8g2_update_dimension_r1:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:155    .text.u8g2_update_dimension_r1:00000000 u8g2_update_dimension_r1
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:184    .text.u8g2_update_dimension_r2:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:191    .text.u8g2_update_dimension_r2:00000000 u8g2_update_dimension_r2
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:212    .text.u8g2_update_dimension_r3:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:219    .text.u8g2_update_dimension_r3:00000000 u8g2_update_dimension_r3
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:248    .text.u8g2_apply_clip_window:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:254    .text.u8g2_apply_clip_window:00000000 u8g2_apply_clip_window
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:331    .text.u8g2_update_page_win_r0:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:338    .text.u8g2_update_page_win_r0:00000000 u8g2_update_page_win_r0
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:371    .text.u8g2_update_page_win_r1:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:378    .text.u8g2_update_page_win_r1:00000000 u8g2_update_page_win_r1
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:411    .text.u8g2_update_page_win_r2:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:418    .text.u8g2_update_page_win_r2:00000000 u8g2_update_page_win_r2
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:460    .text.u8g2_update_page_win_r3:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:467    .text.u8g2_update_page_win_r3:00000000 u8g2_update_page_win_r3
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:510    .text.u8g2_draw_l90_r0:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:517    .text.u8g2_draw_l90_r0:00000000 u8g2_draw_l90_r0
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:547    .text.u8g2_draw_l90_mirrorr_r0:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:554    .text.u8g2_draw_l90_mirrorr_r0:00000000 u8g2_draw_l90_mirrorr_r0
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:613    .text.u8g2_draw_l90_r1:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:620    .text.u8g2_draw_l90_r1:00000000 u8g2_draw_l90_r1
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:695    .text.u8g2_draw_l90_r2:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:702    .text.u8g2_draw_l90_r2:00000000 u8g2_draw_l90_r2
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:777    .text.u8g2_draw_l90_r3:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:784    .text.u8g2_draw_l90_r3:00000000 u8g2_draw_l90_r3
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:862    .text.u8g2_SetMaxClipWindow:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:869    .text.u8g2_SetMaxClipWindow:00000000 u8g2_SetMaxClipWindow
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:902    .text.u8g2_SetClipWindow:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:909    .text.u8g2_SetClipWindow:00000000 u8g2_SetClipWindow
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:942    .text.u8g2_SetupBuffer:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:949    .text.u8g2_SetupBuffer:00000000 u8g2_SetupBuffer
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1008   .text.u8g2_SetDisplayRotation:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1015   .text.u8g2_SetDisplayRotation:00000000 u8g2_SetDisplayRotation
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1046   .text.u8g2_Setup_null:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1053   .text.u8g2_Setup_null:00000000 u8g2_Setup_null
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1099   .text.u8g2_Setup_null:00000028 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1122   .rodata.u8g2_cb_mirror:00000000 u8g2_cb_mirror
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1154   .rodata.u8g2_cb_r3:00000000 u8g2_cb_r3
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1146   .rodata.u8g2_cb_r2:00000000 u8g2_cb_r2
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1138   .rodata.u8g2_cb_r1:00000000 u8g2_cb_r1
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1130   .rodata.u8g2_cb_r0:00000000 u8g2_cb_r0
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1112   .bss.buf.10022:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1116   .bss.buf.10022:00000000 buf.10022
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1119   .rodata.u8g2_cb_mirror:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1127   .rodata.u8g2_cb_r0:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1135   .rodata.u8g2_cb_r1:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1143   .rodata.u8g2_cb_r2:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s:1151   .rodata.u8g2_cb_r3:00000000 $d
+
+UNDEFINED SYMBOLS
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc9LrdWo.s 			page 31
+
+
+u8g2_IsIntersection
+u8g2_draw_hv_line_2dir
+u8g2_SetFontPosBaseline
+u8x8_Setup
+u8x8_cad_empty
+u8x8_d_null_cb
+u8g2_ll_hvline_vertical_top_lsb

@@ -1,0 +1,1875 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"u8x8_8x8.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.u8x8_get_glyph_data,"ax",%progbits
+  16              		.align	1
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	u8x8_get_glyph_data:
+  23              	.LFB1:
+  24              		.file 1 "Core/u8g2/u8x8_8x8.c"
+   1:Core/u8g2/u8x8_8x8.c **** /*
+   2:Core/u8g2/u8x8_8x8.c **** 
+   3:Core/u8g2/u8x8_8x8.c ****   u8x8_8x8.c
+   4:Core/u8g2/u8x8_8x8.c ****   
+   5:Core/u8g2/u8x8_8x8.c ****   font procedures, directly interfaces display procedures
+   6:Core/u8g2/u8x8_8x8.c ****   
+   7:Core/u8g2/u8x8_8x8.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   8:Core/u8g2/u8x8_8x8.c **** 
+   9:Core/u8g2/u8x8_8x8.c ****   Copyright (c) 2016, olikraus@gmail.com
+  10:Core/u8g2/u8x8_8x8.c ****   All rights reserved.
+  11:Core/u8g2/u8x8_8x8.c **** 
+  12:Core/u8g2/u8x8_8x8.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  13:Core/u8g2/u8x8_8x8.c ****   are permitted provided that the following conditions are met:
+  14:Core/u8g2/u8x8_8x8.c **** 
+  15:Core/u8g2/u8x8_8x8.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  16:Core/u8g2/u8x8_8x8.c ****     of conditions and the following disclaimer.
+  17:Core/u8g2/u8x8_8x8.c ****     
+  18:Core/u8g2/u8x8_8x8.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  19:Core/u8g2/u8x8_8x8.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  20:Core/u8g2/u8x8_8x8.c ****     materials provided with the distribution.
+  21:Core/u8g2/u8x8_8x8.c **** 
+  22:Core/u8g2/u8x8_8x8.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  23:Core/u8g2/u8x8_8x8.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  24:Core/u8g2/u8x8_8x8.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  25:Core/u8g2/u8x8_8x8.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  26:Core/u8g2/u8x8_8x8.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  27:Core/u8g2/u8x8_8x8.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  28:Core/u8g2/u8x8_8x8.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  29:Core/u8g2/u8x8_8x8.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  30:Core/u8g2/u8x8_8x8.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  31:Core/u8g2/u8x8_8x8.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  32:Core/u8g2/u8x8_8x8.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  33:Core/u8g2/u8x8_8x8.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  34:Core/u8g2/u8x8_8x8.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.    
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 2
+
+
+  35:Core/u8g2/u8x8_8x8.c **** 
+  36:Core/u8g2/u8x8_8x8.c **** */
+  37:Core/u8g2/u8x8_8x8.c **** 
+  38:Core/u8g2/u8x8_8x8.c **** #include "../u8g2/u8x8.h"
+  39:Core/u8g2/u8x8_8x8.c **** 
+  40:Core/u8g2/u8x8_8x8.c **** #if defined(ESP8266)
+  41:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_pgm_read_esp(const uint8_t * addr) 
+  42:Core/u8g2/u8x8_8x8.c **** {
+  43:Core/u8g2/u8x8_8x8.c ****     uint32_t bytes;
+  44:Core/u8g2/u8x8_8x8.c ****     bytes = *(uint32_t*)((uint32_t)addr & ~3);
+  45:Core/u8g2/u8x8_8x8.c ****     return ((uint8_t*)&bytes)[(uint32_t)addr & 3];
+  46:Core/u8g2/u8x8_8x8.c **** }
+  47:Core/u8g2/u8x8_8x8.c **** #endif
+  48:Core/u8g2/u8x8_8x8.c **** 
+  49:Core/u8g2/u8x8_8x8.c **** 
+  50:Core/u8g2/u8x8_8x8.c **** void u8x8_SetFont(u8x8_t *u8x8, const uint8_t *font_8x8)
+  51:Core/u8g2/u8x8_8x8.c **** {
+  52:Core/u8g2/u8x8_8x8.c ****   u8x8->font = font_8x8;
+  53:Core/u8g2/u8x8_8x8.c **** }
+  54:Core/u8g2/u8x8_8x8.c **** 
+  55:Core/u8g2/u8x8_8x8.c **** /*
+  56:Core/u8g2/u8x8_8x8.c ****  Args:
+  57:Core/u8g2/u8x8_8x8.c ****    u8x8: ptr to u8x8 structure
+  58:Core/u8g2/u8x8_8x8.c ****    encoding: glyph for which the data is requested (must be between 0 and 255)
+  59:Core/u8g2/u8x8_8x8.c ****    buf: pointer to 8 bytes
+  60:Core/u8g2/u8x8_8x8.c **** */
+  61:Core/u8g2/u8x8_8x8.c **** static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf) U8X8_NOINLINE;
+  62:Core/u8g2/u8x8_8x8.c **** static void u8x8_get_glyph_data(u8x8_t *u8x8, uint8_t encoding, uint8_t *buf) 
+  63:Core/u8g2/u8x8_8x8.c **** {
+  25              		.loc 1 63 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              		@ link register save eliminated.
+  30              	.LVL0:
+  31 0000 10B4     		push	{r4}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 4, -4
+  64:Core/u8g2/u8x8_8x8.c ****   uint8_t first, last, i;
+  65:Core/u8g2/u8x8_8x8.c ****   uint16_t offset;
+  66:Core/u8g2/u8x8_8x8.c ****   first = u8x8_pgm_read(u8x8->font+0);
+  35              		.loc 1 66 0
+  36 0002 C469     		ldr	r4, [r0, #28]
+  37 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+  38              	.LVL1:
+  67:Core/u8g2/u8x8_8x8.c ****   last = u8x8_pgm_read(u8x8->font+1);
+  39              		.loc 1 67 0
+  40 0006 6478     		ldrb	r4, [r4, #1]	@ zero_extendqisi2
+  41              	.LVL2:
+  68:Core/u8g2/u8x8_8x8.c ****   
+  69:Core/u8g2/u8x8_8x8.c ****   /* get the glyph bitmap from the font */
+  70:Core/u8g2/u8x8_8x8.c ****   if ( first <= encoding && encoding <= last )
+  42              		.loc 1 70 0
+  43 0008 8B42     		cmp	r3, r1
+  44 000a 1ED8     		bhi	.L11
+  45              		.loc 1 70 0 is_stmt 0 discriminator 1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 3
+
+
+  46 000c 8C42     		cmp	r4, r1
+  47 000e 1ED3     		bcc	.L12
+  48              	.LVL3:
+  71:Core/u8g2/u8x8_8x8.c ****   {
+  72:Core/u8g2/u8x8_8x8.c ****     offset = encoding;
+  73:Core/u8g2/u8x8_8x8.c ****     offset -= first;
+  49              		.loc 1 73 0 is_stmt 1
+  50 0010 CB1A     		subs	r3, r1, r3
+  51              	.LVL4:
+  52 0012 9BB2     		uxth	r3, r3
+  53              	.LVL5:
+  74:Core/u8g2/u8x8_8x8.c ****     offset *= 8;
+  54              		.loc 1 74 0
+  55 0014 DB00     		lsls	r3, r3, #3
+  56              	.LVL6:
+  57 0016 9BB2     		uxth	r3, r3
+  58              	.LVL7:
+  75:Core/u8g2/u8x8_8x8.c ****     offset +=2;
+  59              		.loc 1 75 0
+  60 0018 0233     		adds	r3, r3, #2
+  61              	.LVL8:
+  62 001a 9BB2     		uxth	r3, r3
+  63              	.LVL9:
+  76:Core/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  64              		.loc 1 76 0
+  65 001c 0021     		movs	r1, #0
+  66              	.LVL10:
+  67 001e 06E0     		b	.L3
+  68              	.LVL11:
+  69              	.L4:
+  77:Core/u8g2/u8x8_8x8.c ****     {
+  78:Core/u8g2/u8x8_8x8.c ****       buf[i] = u8x8_pgm_read(u8x8->font+offset);
+  70              		.loc 1 78 0 discriminator 3
+  71 0020 C469     		ldr	r4, [r0, #28]
+  72 0022 E45C     		ldrb	r4, [r4, r3]	@ zero_extendqisi2
+  73 0024 5454     		strb	r4, [r2, r1]
+  79:Core/u8g2/u8x8_8x8.c ****       offset++;
+  74              		.loc 1 79 0 discriminator 3
+  75 0026 0133     		adds	r3, r3, #1
+  76              	.LVL12:
+  77 0028 9BB2     		uxth	r3, r3
+  78              	.LVL13:
+  76:Core/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  79              		.loc 1 76 0 discriminator 3
+  80 002a 0131     		adds	r1, r1, #1
+  81              	.LVL14:
+  82 002c C9B2     		uxtb	r1, r1
+  83              	.LVL15:
+  84              	.L3:
+  76:Core/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  85              		.loc 1 76 0 is_stmt 0 discriminator 1
+  86 002e 0729     		cmp	r1, #7
+  87 0030 F6D9     		bls	.L4
+  88 0032 05E0     		b	.L5
+  89              	.LVL16:
+  90              	.L7:
+  80:Core/u8g2/u8x8_8x8.c ****     }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 4
+
+
+  81:Core/u8g2/u8x8_8x8.c ****   }
+  82:Core/u8g2/u8x8_8x8.c ****   else
+  83:Core/u8g2/u8x8_8x8.c ****   {
+  84:Core/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+  85:Core/u8g2/u8x8_8x8.c ****     {
+  86:Core/u8g2/u8x8_8x8.c ****       buf[i] = 0;
+  91              		.loc 1 86 0 is_stmt 1 discriminator 3
+  92 0034 0021     		movs	r1, #0
+  93 0036 D154     		strb	r1, [r2, r3]
+  84:Core/u8g2/u8x8_8x8.c ****     {
+  94              		.loc 1 84 0 discriminator 3
+  95 0038 0133     		adds	r3, r3, #1
+  96              	.LVL17:
+  97 003a DBB2     		uxtb	r3, r3
+  98              	.LVL18:
+  99              	.L6:
+  84:Core/u8g2/u8x8_8x8.c ****     {
+ 100              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 101 003c 072B     		cmp	r3, #7
+ 102 003e F9D9     		bls	.L7
+ 103              	.LVL19:
+ 104              	.L5:
+  87:Core/u8g2/u8x8_8x8.c ****     }
+  88:Core/u8g2/u8x8_8x8.c ****   }
+  89:Core/u8g2/u8x8_8x8.c ****   
+  90:Core/u8g2/u8x8_8x8.c ****   /* invert the bitmap if required */
+  91:Core/u8g2/u8x8_8x8.c ****   if ( u8x8->is_font_inverse_mode )
+ 105              		.loc 1 91 0 is_stmt 1
+ 106 0040 90F82330 		ldrb	r3, [r0, #35]	@ zero_extendqisi2
+ 107 0044 63B1     		cbz	r3, .L1
+  92:Core/u8g2/u8x8_8x8.c ****   {
+  93:Core/u8g2/u8x8_8x8.c ****     for( i = 0; i < 8; i++ )
+ 108              		.loc 1 93 0
+ 109 0046 0023     		movs	r3, #0
+ 110 0048 08E0     		b	.L8
+ 111              	.LVL20:
+ 112              	.L11:
+ 113 004a 0023     		movs	r3, #0
+ 114              	.LVL21:
+ 115 004c F6E7     		b	.L6
+ 116              	.LVL22:
+ 117              	.L12:
+ 118 004e 0023     		movs	r3, #0
+ 119              	.LVL23:
+ 120 0050 F4E7     		b	.L6
+ 121              	.LVL24:
+ 122              	.L10:
+  94:Core/u8g2/u8x8_8x8.c ****     {
+  95:Core/u8g2/u8x8_8x8.c ****       buf[i] ^= 255;
+ 123              		.loc 1 95 0 discriminator 3
+ 124 0052 D15C     		ldrb	r1, [r2, r3]	@ zero_extendqisi2
+ 125 0054 C943     		mvns	r1, r1
+ 126 0056 D154     		strb	r1, [r2, r3]
+  93:Core/u8g2/u8x8_8x8.c ****     {
+ 127              		.loc 1 93 0 discriminator 3
+ 128 0058 0133     		adds	r3, r3, #1
+ 129              	.LVL25:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 5
+
+
+ 130 005a DBB2     		uxtb	r3, r3
+ 131              	.LVL26:
+ 132              	.L8:
+  93:Core/u8g2/u8x8_8x8.c ****     {
+ 133              		.loc 1 93 0 is_stmt 0 discriminator 1
+ 134 005c 072B     		cmp	r3, #7
+ 135 005e F8D9     		bls	.L10
+ 136              	.LVL27:
+ 137              	.L1:
+  96:Core/u8g2/u8x8_8x8.c ****     }
+  97:Core/u8g2/u8x8_8x8.c ****   }
+  98:Core/u8g2/u8x8_8x8.c ****   
+  99:Core/u8g2/u8x8_8x8.c **** }
+ 138              		.loc 1 99 0 is_stmt 1
+ 139 0060 10BC     		pop	{r4}
+ 140              	.LCFI1:
+ 141              		.cfi_restore 4
+ 142              		.cfi_def_cfa_offset 0
+ 143 0062 7047     		bx	lr
+ 144              		.cfi_endproc
+ 145              	.LFE1:
+ 147              		.section	.text.u8x8_upscale_buf,"ax",%progbits
+ 148              		.align	1
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 152              		.fpu softvfp
+ 154              	u8x8_upscale_buf:
+ 155              	.LFB4:
+ 100:Core/u8g2/u8x8_8x8.c **** 
+ 101:Core/u8g2/u8x8_8x8.c **** void u8x8_DrawGlyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 102:Core/u8g2/u8x8_8x8.c **** {
+ 103:Core/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 104:Core/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf);
+ 105:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 106:Core/u8g2/u8x8_8x8.c **** }
+ 107:Core/u8g2/u8x8_8x8.c **** 
+ 108:Core/u8g2/u8x8_8x8.c **** 
+ 109:Core/u8g2/u8x8_8x8.c **** /*
+ 110:Core/u8g2/u8x8_8x8.c ****   Source: http://graphics.stanford.edu/~seander/bithacks.html
+ 111:Core/u8g2/u8x8_8x8.c **** 	Section: Interleave bits by Binary Magic Numbers 
+ 112:Core/u8g2/u8x8_8x8.c ****    Original codes is here:
+ 113:Core/u8g2/u8x8_8x8.c **** 		static const unsigned int B[] = {0x55555555, 0x33333333, 0x0F0F0F0F, 0x00FF00FF};
+ 114:Core/u8g2/u8x8_8x8.c **** 		static const unsigned int S[] = {1, 2, 4, 8};
+ 115:Core/u8g2/u8x8_8x8.c **** 
+ 116:Core/u8g2/u8x8_8x8.c **** 		unsigned int x; // Interleave lower 16 bits of x and y, so the bits of x
+ 117:Core/u8g2/u8x8_8x8.c **** 		unsigned int y; // are in the even positions and bits from y in the odd;
+ 118:Core/u8g2/u8x8_8x8.c **** 		unsigned int z; // z gets the resulting 32-bit Morton Number.  
+ 119:Core/u8g2/u8x8_8x8.c **** 				// x and y must initially be less than 65536.
+ 120:Core/u8g2/u8x8_8x8.c **** 
+ 121:Core/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[3])) & B[3];
+ 122:Core/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[2])) & B[2];
+ 123:Core/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[1])) & B[1];
+ 124:Core/u8g2/u8x8_8x8.c **** 		x = (x | (x << S[0])) & B[0];
+ 125:Core/u8g2/u8x8_8x8.c **** 
+ 126:Core/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[3])) & B[3];
+ 127:Core/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[2])) & B[2];
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 6
+
+
+ 128:Core/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[1])) & B[1];
+ 129:Core/u8g2/u8x8_8x8.c **** 		y = (y | (y << S[0])) & B[0];
+ 130:Core/u8g2/u8x8_8x8.c **** 
+ 131:Core/u8g2/u8x8_8x8.c **** 		z = x | (y << 1);
+ 132:Core/u8g2/u8x8_8x8.c **** */
+ 133:Core/u8g2/u8x8_8x8.c **** uint16_t u8x8_upscale_byte(uint8_t x) 
+ 134:Core/u8g2/u8x8_8x8.c **** {
+ 135:Core/u8g2/u8x8_8x8.c **** 	uint16_t y = x;
+ 136:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 4);		// x = (x | (x << S[2])) & B[2];
+ 137:Core/u8g2/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 138:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 139:Core/u8g2/u8x8_8x8.c **** 	y &= 0x3333;
+ 140:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 141:Core/u8g2/u8x8_8x8.c **** 	y &= 0x5555;
+ 142:Core/u8g2/u8x8_8x8.c ****   
+ 143:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// z = x | (y << 1);
+ 144:Core/u8g2/u8x8_8x8.c **** 	return y;
+ 145:Core/u8g2/u8x8_8x8.c **** }
+ 146:Core/u8g2/u8x8_8x8.c **** 
+ 147:Core/u8g2/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest) U8X8_NOINLINE;
+ 148:Core/u8g2/u8x8_8x8.c **** static void u8x8_upscale_buf(uint8_t *src, uint8_t *dest)
+ 149:Core/u8g2/u8x8_8x8.c **** {
+ 156              		.loc 1 149 0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 0, uses_anonymous_args = 0
+ 160              		@ link register save eliminated.
+ 161              	.LVL28:
+ 162 0000 30B4     		push	{r4, r5}
+ 163              	.LCFI2:
+ 164              		.cfi_def_cfa_offset 8
+ 165              		.cfi_offset 4, -8
+ 166              		.cfi_offset 5, -4
+ 167              	.LVL29:
+ 150:Core/u8g2/u8x8_8x8.c ****   uint8_t i = 4;  
+ 168              		.loc 1 150 0
+ 169 0002 0423     		movs	r3, #4
+ 170              	.LVL30:
+ 171              	.L16:
+ 151:Core/u8g2/u8x8_8x8.c ****   do 
+ 152:Core/u8g2/u8x8_8x8.c ****   {
+ 153:Core/u8g2/u8x8_8x8.c ****     *dest++ = *src;
+ 172              		.loc 1 153 0 discriminator 1
+ 173 0004 0446     		mov	r4, r0
+ 174 0006 14F8015B 		ldrb	r5, [r4], #1	@ zero_extendqisi2
+ 175 000a 0A46     		mov	r2, r1
+ 176 000c 02F8025B 		strb	r5, [r2], #2
+ 177              	.LVL31:
+ 154:Core/u8g2/u8x8_8x8.c ****     *dest++ = *src++;
+ 178              		.loc 1 154 0 discriminator 1
+ 179 0010 0078     		ldrb	r0, [r0]	@ zero_extendqisi2
+ 180 0012 4870     		strb	r0, [r1, #1]
+ 155:Core/u8g2/u8x8_8x8.c ****     i--;
+ 181              		.loc 1 155 0 discriminator 1
+ 182 0014 013B     		subs	r3, r3, #1
+ 183              	.LVL32:
+ 154:Core/u8g2/u8x8_8x8.c ****     *dest++ = *src++;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 7
+
+
+ 184              		.loc 1 154 0 discriminator 1
+ 185 0016 2046     		mov	r0, r4
+ 186 0018 1146     		mov	r1, r2
+ 156:Core/u8g2/u8x8_8x8.c ****   } while( i > 0 );
+ 187              		.loc 1 156 0 discriminator 1
+ 188 001a 13F0FF03 		ands	r3, r3, #255
+ 189              	.LVL33:
+ 190 001e F1D1     		bne	.L16
+ 157:Core/u8g2/u8x8_8x8.c **** }
+ 191              		.loc 1 157 0
+ 192 0020 30BC     		pop	{r4, r5}
+ 193              	.LCFI3:
+ 194              		.cfi_restore 5
+ 195              		.cfi_restore 4
+ 196              		.cfi_def_cfa_offset 0
+ 197              	.LVL34:
+ 198 0022 7047     		bx	lr
+ 199              		.cfi_endproc
+ 200              	.LFE4:
+ 202              		.section	.text.u8x8_ascii_next,"ax",%progbits
+ 203              		.align	1
+ 204              		.global	u8x8_ascii_next
+ 205              		.syntax unified
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.fpu softvfp
+ 210              	u8x8_ascii_next:
+ 211              	.LFB8:
+ 158:Core/u8g2/u8x8_8x8.c **** 
+ 159:Core/u8g2/u8x8_8x8.c **** void u8x8_Draw2x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 160:Core/u8g2/u8x8_8x8.c **** {
+ 161:Core/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 162:Core/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 163:Core/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 164:Core/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 165:Core/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 166:Core/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf);
+ 167:Core/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 168:Core/u8g2/u8x8_8x8.c ****   {
+ 169:Core/u8g2/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 170:Core/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 171:Core/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 172:Core/u8g2/u8x8_8x8.c ****   }
+ 173:Core/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf2, buf);
+ 174:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 175:Core/u8g2/u8x8_8x8.c ****   
+ 176:Core/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf2+4, buf);
+ 177:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 178:Core/u8g2/u8x8_8x8.c ****   
+ 179:Core/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf1, buf);
+ 180:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 181:Core/u8g2/u8x8_8x8.c ****   
+ 182:Core/u8g2/u8x8_8x8.c ****   u8x8_upscale_buf(buf1+4, buf);
+ 183:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 184:Core/u8g2/u8x8_8x8.c **** }
+ 185:Core/u8g2/u8x8_8x8.c **** 
+ 186:Core/u8g2/u8x8_8x8.c **** /* https://github.com/olikraus/u8g2/issues/474 */
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 8
+
+
+ 187:Core/u8g2/u8x8_8x8.c **** void u8x8_Draw1x2Glyph(u8x8_t *u8x8, uint8_t x, uint8_t y, uint8_t encoding)
+ 188:Core/u8g2/u8x8_8x8.c **** {
+ 189:Core/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 190:Core/u8g2/u8x8_8x8.c ****   uint16_t t;
+ 191:Core/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 192:Core/u8g2/u8x8_8x8.c ****   uint8_t buf1[8];
+ 193:Core/u8g2/u8x8_8x8.c ****   uint8_t buf2[8];
+ 194:Core/u8g2/u8x8_8x8.c ****   u8x8_get_glyph_data(u8x8, encoding, buf);
+ 195:Core/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 196:Core/u8g2/u8x8_8x8.c ****   {
+ 197:Core/u8g2/u8x8_8x8.c ****       t = u8x8_upscale_byte(buf[i]);
+ 198:Core/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 199:Core/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 200:Core/u8g2/u8x8_8x8.c ****   }
+ 201:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x,   y, 1, buf2);
+ 202:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 203:Core/u8g2/u8x8_8x8.c **** }
+ 204:Core/u8g2/u8x8_8x8.c **** 
+ 205:Core/u8g2/u8x8_8x8.c **** /*
+ 206:Core/u8g2/u8x8_8x8.c **** source: https://en.wikipedia.org/wiki/UTF-8
+ 207:Core/u8g2/u8x8_8x8.c **** Bits	from 		to			bytes	Byte 1 		Byte 2 		Byte 3 		Byte 4 		Byte 5 		Byte 6
+ 208:Core/u8g2/u8x8_8x8.c ****   7 	U+0000 		U+007F 		1 		0xxxxxxx
+ 209:Core/u8g2/u8x8_8x8.c **** 11 	U+0080 		U+07FF 		2 		110xxxxx 	10xxxxxx
+ 210:Core/u8g2/u8x8_8x8.c **** 16 	U+0800 		U+FFFF 		3 		1110xxxx 	10xxxxxx 	10xxxxxx
+ 211:Core/u8g2/u8x8_8x8.c **** 21 	U+10000 	U+1FFFFF 	4 		11110xxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 212:Core/u8g2/u8x8_8x8.c **** 26 	U+200000 	U+3FFFFFF 	5 		111110xx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx
+ 213:Core/u8g2/u8x8_8x8.c **** 31 	U+4000000 	U+7FFFFFFF 	6 		1111110x 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx 	10xxxxxx  
+ 214:Core/u8g2/u8x8_8x8.c **** 
+ 215:Core/u8g2/u8x8_8x8.c **** 
+ 216:Core/u8g2/u8x8_8x8.c **** */
+ 217:Core/u8g2/u8x8_8x8.c **** 
+ 218:Core/u8g2/u8x8_8x8.c **** /* reset the internal state machine */
+ 219:Core/u8g2/u8x8_8x8.c **** void u8x8_utf8_init(u8x8_t *u8x8)
+ 220:Core/u8g2/u8x8_8x8.c **** {
+ 221:Core/u8g2/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 222:Core/u8g2/u8x8_8x8.c **** }
+ 223:Core/u8g2/u8x8_8x8.c **** 
+ 224:Core/u8g2/u8x8_8x8.c **** uint16_t u8x8_ascii_next(U8X8_UNUSED u8x8_t *u8x8, uint8_t b)
+ 225:Core/u8g2/u8x8_8x8.c **** {
+ 212              		.loc 1 225 0
+ 213              		.cfi_startproc
+ 214              		@ args = 0, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+ 217              	.LVL35:
+ 226:Core/u8g2/u8x8_8x8.c ****   if ( b == 0 || b == '\n' ) /* '\n' terminates the string to support the string list procedures */
+ 218              		.loc 1 226 0
+ 219 0000 19B1     		cbz	r1, .L20
+ 220              		.loc 1 226 0 is_stmt 0 discriminator 1
+ 221 0002 0A29     		cmp	r1, #10
+ 222 0004 04D0     		beq	.L21
+ 227:Core/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 228:Core/u8g2/u8x8_8x8.c ****   return b;
+ 223              		.loc 1 228 0 is_stmt 1
+ 224 0006 88B2     		uxth	r0, r1
+ 225              	.LVL36:
+ 226 0008 7047     		bx	lr
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 9
+
+
+ 227              	.LVL37:
+ 228              	.L20:
+ 227:Core/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected*/
+ 229              		.loc 1 227 0
+ 230 000a 4FF6FF70 		movw	r0, #65535
+ 231              	.LVL38:
+ 232 000e 7047     		bx	lr
+ 233              	.LVL39:
+ 234              	.L21:
+ 235 0010 4FF6FF70 		movw	r0, #65535
+ 236              	.LVL40:
+ 229:Core/u8g2/u8x8_8x8.c **** }
+ 237              		.loc 1 229 0
+ 238 0014 7047     		bx	lr
+ 239              		.cfi_endproc
+ 240              	.LFE8:
+ 242              		.section	.text.u8x8_utf8_next,"ax",%progbits
+ 243              		.align	1
+ 244              		.global	u8x8_utf8_next
+ 245              		.syntax unified
+ 246              		.thumb
+ 247              		.thumb_func
+ 248              		.fpu softvfp
+ 250              	u8x8_utf8_next:
+ 251              	.LFB9:
+ 230:Core/u8g2/u8x8_8x8.c **** 
+ 231:Core/u8g2/u8x8_8x8.c **** /*
+ 232:Core/u8g2/u8x8_8x8.c ****   pass a byte from an utf8 encoded string to the utf8 decoder state machine
+ 233:Core/u8g2/u8x8_8x8.c ****   returns 
+ 234:Core/u8g2/u8x8_8x8.c ****     0x0fffe: no glyph, just continue
+ 235:Core/u8g2/u8x8_8x8.c ****     0x0ffff: end of string
+ 236:Core/u8g2/u8x8_8x8.c ****     anything else: The decoded encoding
+ 237:Core/u8g2/u8x8_8x8.c **** */
+ 238:Core/u8g2/u8x8_8x8.c **** uint16_t u8x8_utf8_next(u8x8_t *u8x8, uint8_t b)
+ 239:Core/u8g2/u8x8_8x8.c **** {
+ 252              		.loc 1 239 0
+ 253              		.cfi_startproc
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 257              	.LVL41:
+ 240:Core/u8g2/u8x8_8x8.c ****   if ( b == 0 || b == '\n' )	/* '\n' terminates the string to support the string list procedures */
+ 258              		.loc 1 240 0
+ 259 0000 0A46     		mov	r2, r1
+ 260 0002 0029     		cmp	r1, #0
+ 261 0004 40D0     		beq	.L31
+ 262              		.loc 1 240 0 is_stmt 0 discriminator 1
+ 263 0006 0A29     		cmp	r1, #10
+ 264 0008 42D0     		beq	.L32
+ 241:Core/u8g2/u8x8_8x8.c ****     return 0x0ffff;	/* end of string detected, pending UTF8 is discarded */
+ 242:Core/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 265              		.loc 1 242 0 is_stmt 1
+ 266 000a 90F82730 		ldrb	r3, [r0, #39]	@ zero_extendqisi2
+ 267 000e 63BB     		cbnz	r3, .L24
+ 243:Core/u8g2/u8x8_8x8.c ****   {
+ 244:Core/u8g2/u8x8_8x8.c ****     if ( b >= 0xfc )	/* 6 byte sequence */
+ 268              		.loc 1 244 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 10
+
+
+ 269 0010 FB29     		cmp	r1, #251
+ 270 0012 09D8     		bhi	.L33
+ 245:Core/u8g2/u8x8_8x8.c ****     {
+ 246:Core/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 5;
+ 247:Core/u8g2/u8x8_8x8.c ****       b &= 1;
+ 248:Core/u8g2/u8x8_8x8.c ****     }
+ 249:Core/u8g2/u8x8_8x8.c ****     else if ( b >= 0xf8 )
+ 271              		.loc 1 249 0
+ 272 0014 F729     		cmp	r1, #247
+ 273 0016 10D8     		bhi	.L34
+ 250:Core/u8g2/u8x8_8x8.c ****     {
+ 251:Core/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 4;
+ 252:Core/u8g2/u8x8_8x8.c ****       b &= 3;
+ 253:Core/u8g2/u8x8_8x8.c ****     }
+ 254:Core/u8g2/u8x8_8x8.c ****     else if ( b >= 0xf0 )
+ 274              		.loc 1 254 0
+ 275 0018 EF29     		cmp	r1, #239
+ 276 001a 14D8     		bhi	.L35
+ 255:Core/u8g2/u8x8_8x8.c ****     {
+ 256:Core/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 3;
+ 257:Core/u8g2/u8x8_8x8.c ****       b &= 7;      
+ 258:Core/u8g2/u8x8_8x8.c ****     }
+ 259:Core/u8g2/u8x8_8x8.c ****     else if ( b >= 0xe0 )
+ 277              		.loc 1 259 0
+ 278 001c DF29     		cmp	r1, #223
+ 279 001e 18D8     		bhi	.L36
+ 260:Core/u8g2/u8x8_8x8.c ****     {
+ 261:Core/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 2;
+ 262:Core/u8g2/u8x8_8x8.c ****       b &= 15;
+ 263:Core/u8g2/u8x8_8x8.c ****     }
+ 264:Core/u8g2/u8x8_8x8.c ****     else if ( b >= 0xc0 )
+ 280              		.loc 1 264 0
+ 281 0020 BF29     		cmp	r1, #191
+ 282 0022 1CD8     		bhi	.L37
+ 265:Core/u8g2/u8x8_8x8.c ****     {
+ 266:Core/u8g2/u8x8_8x8.c ****       u8x8->utf8_state = 1;
+ 267:Core/u8g2/u8x8_8x8.c ****       b &= 0x01f;
+ 268:Core/u8g2/u8x8_8x8.c ****     }
+ 269:Core/u8g2/u8x8_8x8.c ****     else
+ 270:Core/u8g2/u8x8_8x8.c ****     {
+ 271:Core/u8g2/u8x8_8x8.c ****       /* do nothing, just use the value as encoding */
+ 272:Core/u8g2/u8x8_8x8.c ****       return b;
+ 283              		.loc 1 272 0
+ 284 0024 8AB2     		uxth	r2, r1
+ 285 0026 31E0     		b	.L23
+ 286              	.L33:
+ 246:Core/u8g2/u8x8_8x8.c ****       b &= 1;
+ 287              		.loc 1 246 0
+ 288 0028 0523     		movs	r3, #5
+ 289 002a 80F82730 		strb	r3, [r0, #39]
+ 247:Core/u8g2/u8x8_8x8.c ****     }
+ 290              		.loc 1 247 0
+ 291 002e 01F00103 		and	r3, r1, #1
+ 292              	.LVL42:
+ 293              	.L26:
+ 273:Core/u8g2/u8x8_8x8.c ****     }
+ 274:Core/u8g2/u8x8_8x8.c ****     u8x8->encoding = b;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 11
+
+
+ 294              		.loc 1 274 0
+ 295 0032 0384     		strh	r3, [r0, #32]	@ movhi
+ 275:Core/u8g2/u8x8_8x8.c ****     return 0x0fffe;
+ 296              		.loc 1 275 0
+ 297 0034 4FF6FE72 		movw	r2, #65534
+ 298 0038 28E0     		b	.L23
+ 299              	.LVL43:
+ 300              	.L34:
+ 251:Core/u8g2/u8x8_8x8.c ****       b &= 3;
+ 301              		.loc 1 251 0
+ 302 003a 0423     		movs	r3, #4
+ 303 003c 80F82730 		strb	r3, [r0, #39]
+ 252:Core/u8g2/u8x8_8x8.c ****     }
+ 304              		.loc 1 252 0
+ 305 0040 01F00303 		and	r3, r1, #3
+ 306              	.LVL44:
+ 307 0044 F5E7     		b	.L26
+ 308              	.LVL45:
+ 309              	.L35:
+ 256:Core/u8g2/u8x8_8x8.c ****       b &= 7;      
+ 310              		.loc 1 256 0
+ 311 0046 0323     		movs	r3, #3
+ 312 0048 80F82730 		strb	r3, [r0, #39]
+ 257:Core/u8g2/u8x8_8x8.c ****     }
+ 313              		.loc 1 257 0
+ 314 004c 01F00703 		and	r3, r1, #7
+ 315              	.LVL46:
+ 316 0050 EFE7     		b	.L26
+ 317              	.LVL47:
+ 318              	.L36:
+ 261:Core/u8g2/u8x8_8x8.c ****       b &= 15;
+ 319              		.loc 1 261 0
+ 320 0052 0223     		movs	r3, #2
+ 321 0054 80F82730 		strb	r3, [r0, #39]
+ 262:Core/u8g2/u8x8_8x8.c ****     }
+ 322              		.loc 1 262 0
+ 323 0058 01F00F03 		and	r3, r1, #15
+ 324              	.LVL48:
+ 325 005c E9E7     		b	.L26
+ 326              	.LVL49:
+ 327              	.L37:
+ 266:Core/u8g2/u8x8_8x8.c ****       b &= 0x01f;
+ 328              		.loc 1 266 0
+ 329 005e 0123     		movs	r3, #1
+ 330 0060 80F82730 		strb	r3, [r0, #39]
+ 267:Core/u8g2/u8x8_8x8.c ****     }
+ 331              		.loc 1 267 0
+ 332 0064 01F01F03 		and	r3, r1, #31
+ 333              	.LVL50:
+ 334 0068 E3E7     		b	.L26
+ 335              	.LVL51:
+ 336              	.L24:
+ 276:Core/u8g2/u8x8_8x8.c ****   }
+ 277:Core/u8g2/u8x8_8x8.c ****   else
+ 278:Core/u8g2/u8x8_8x8.c ****   {
+ 279:Core/u8g2/u8x8_8x8.c ****     u8x8->utf8_state--;
+ 337              		.loc 1 279 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 12
+
+
+ 338 006a 013B     		subs	r3, r3, #1
+ 339 006c D9B2     		uxtb	r1, r3
+ 340              	.LVL52:
+ 341 006e 80F82710 		strb	r1, [r0, #39]
+ 280:Core/u8g2/u8x8_8x8.c ****     /* The case b < 0x080 (an illegal UTF8 encoding) is not checked here. */
+ 281:Core/u8g2/u8x8_8x8.c ****     u8x8->encoding<<=6;
+ 342              		.loc 1 281 0
+ 343 0072 038C     		ldrh	r3, [r0, #32]
+ 344 0074 9B01     		lsls	r3, r3, #6
+ 345 0076 9BB2     		uxth	r3, r3
+ 282:Core/u8g2/u8x8_8x8.c ****     b &= 0x03f;
+ 346              		.loc 1 282 0
+ 347 0078 02F03F02 		and	r2, r2, #63
+ 348              	.LVL53:
+ 283:Core/u8g2/u8x8_8x8.c ****     u8x8->encoding |= b;
+ 349              		.loc 1 283 0
+ 350 007c 1A43     		orrs	r2, r2, r3
+ 351              	.LVL54:
+ 352 007e 0284     		strh	r2, [r0, #32]	@ movhi
+ 284:Core/u8g2/u8x8_8x8.c ****     if ( u8x8->utf8_state != 0 )
+ 353              		.loc 1 284 0
+ 354 0080 21B1     		cbz	r1, .L23
+ 285:Core/u8g2/u8x8_8x8.c ****       return 0x0fffe;	/* nothing to do yet */
+ 355              		.loc 1 285 0
+ 356 0082 4FF6FE72 		movw	r2, #65534
+ 357 0086 01E0     		b	.L23
+ 358              	.LVL55:
+ 359              	.L31:
+ 241:Core/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 360              		.loc 1 241 0
+ 361 0088 4FF6FF72 		movw	r2, #65535
+ 362              	.LVL56:
+ 363              	.L23:
+ 286:Core/u8g2/u8x8_8x8.c ****   }
+ 287:Core/u8g2/u8x8_8x8.c ****   return u8x8->encoding;
+ 288:Core/u8g2/u8x8_8x8.c **** }
+ 364              		.loc 1 288 0
+ 365 008c 1046     		mov	r0, r2
+ 366              	.LVL57:
+ 367 008e 7047     		bx	lr
+ 368              	.LVL58:
+ 369              	.L32:
+ 241:Core/u8g2/u8x8_8x8.c ****   if ( u8x8->utf8_state == 0 )
+ 370              		.loc 1 241 0
+ 371 0090 4FF6FF72 		movw	r2, #65535
+ 372 0094 FAE7     		b	.L23
+ 373              		.cfi_endproc
+ 374              	.LFE9:
+ 376              		.section	.text.u8x8_SetFont,"ax",%progbits
+ 377              		.align	1
+ 378              		.global	u8x8_SetFont
+ 379              		.syntax unified
+ 380              		.thumb
+ 381              		.thumb_func
+ 382              		.fpu softvfp
+ 384              	u8x8_SetFont:
+ 385              	.LFB0:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 13
+
+
+  51:Core/u8g2/u8x8_8x8.c ****   u8x8->font = font_8x8;
+ 386              		.loc 1 51 0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 391              	.LVL59:
+  52:Core/u8g2/u8x8_8x8.c **** }
+ 392              		.loc 1 52 0
+ 393 0000 C161     		str	r1, [r0, #28]
+  53:Core/u8g2/u8x8_8x8.c **** 
+ 394              		.loc 1 53 0
+ 395 0002 7047     		bx	lr
+ 396              		.cfi_endproc
+ 397              	.LFE0:
+ 399              		.section	.text.u8x8_DrawGlyph,"ax",%progbits
+ 400              		.align	1
+ 401              		.global	u8x8_DrawGlyph
+ 402              		.syntax unified
+ 403              		.thumb
+ 404              		.thumb_func
+ 405              		.fpu softvfp
+ 407              	u8x8_DrawGlyph:
+ 408              	.LFB2:
+ 102:Core/u8g2/u8x8_8x8.c ****   uint8_t buf[8];
+ 409              		.loc 1 102 0
+ 410              		.cfi_startproc
+ 411              		@ args = 0, pretend = 0, frame = 8
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              	.LVL60:
+ 414 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 415              	.LCFI4:
+ 416              		.cfi_def_cfa_offset 20
+ 417              		.cfi_offset 4, -20
+ 418              		.cfi_offset 5, -16
+ 419              		.cfi_offset 6, -12
+ 420              		.cfi_offset 7, -8
+ 421              		.cfi_offset 14, -4
+ 422 0002 85B0     		sub	sp, sp, #20
+ 423              	.LCFI5:
+ 424              		.cfi_def_cfa_offset 40
+ 425 0004 0546     		mov	r5, r0
+ 426 0006 0E46     		mov	r6, r1
+ 427 0008 1746     		mov	r7, r2
+ 104:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 428              		.loc 1 104 0
+ 429 000a 02AC     		add	r4, sp, #8
+ 430 000c 2246     		mov	r2, r4
+ 431              	.LVL61:
+ 432 000e 1946     		mov	r1, r3
+ 433              	.LVL62:
+ 434 0010 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 435              	.LVL63:
+ 105:Core/u8g2/u8x8_8x8.c **** }
+ 436              		.loc 1 105 0
+ 437 0014 0094     		str	r4, [sp]
+ 438 0016 0123     		movs	r3, #1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 14
+
+
+ 439 0018 3A46     		mov	r2, r7
+ 440 001a 3146     		mov	r1, r6
+ 441 001c 2846     		mov	r0, r5
+ 442 001e FFF7FEFF 		bl	u8x8_DrawTile
+ 443              	.LVL64:
+ 106:Core/u8g2/u8x8_8x8.c **** 
+ 444              		.loc 1 106 0
+ 445 0022 05B0     		add	sp, sp, #20
+ 446              	.LCFI6:
+ 447              		.cfi_def_cfa_offset 20
+ 448              		@ sp needed
+ 449 0024 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 450              		.cfi_endproc
+ 451              	.LFE2:
+ 453              		.section	.text.u8x8_upscale_byte,"ax",%progbits
+ 454              		.align	1
+ 455              		.global	u8x8_upscale_byte
+ 456              		.syntax unified
+ 457              		.thumb
+ 458              		.thumb_func
+ 459              		.fpu softvfp
+ 461              	u8x8_upscale_byte:
+ 462              	.LFB3:
+ 134:Core/u8g2/u8x8_8x8.c **** 	uint16_t y = x;
+ 463              		.loc 1 134 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 0
+ 466              		@ frame_needed = 0, uses_anonymous_args = 0
+ 467              		@ link register save eliminated.
+ 468              	.LVL65:
+ 136:Core/u8g2/u8x8_8x8.c **** 	y &= 0x0f0f;
+ 469              		.loc 1 136 0
+ 470 0000 40EA0010 		orr	r0, r0, r0, lsl #4
+ 471              	.LVL66:
+ 137:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 2);		// x = (x | (x << S[1])) & B[1];
+ 472              		.loc 1 137 0
+ 473 0004 20F0F000 		bic	r0, r0, #240
+ 474              	.LVL67:
+ 475 0008 0005     		lsls	r0, r0, #20
+ 476 000a 000D     		lsrs	r0, r0, #20
+ 477              	.LVL68:
+ 138:Core/u8g2/u8x8_8x8.c **** 	y &= 0x3333;
+ 478              		.loc 1 138 0
+ 479 000c 40EA8000 		orr	r0, r0, r0, lsl #2
+ 480              	.LVL69:
+ 139:Core/u8g2/u8x8_8x8.c **** 	y |= (y << 1);		// x = (x | (x << S[0])) & B[0];
+ 481              		.loc 1 139 0
+ 482 0010 20F44C60 		bic	r0, r0, #3264
+ 483              	.LVL70:
+ 484 0014 20F00C00 		bic	r0, r0, #12
+ 485 0018 8004     		lsls	r0, r0, #18
+ 486 001a 800C     		lsrs	r0, r0, #18
+ 487              	.LVL71:
+ 140:Core/u8g2/u8x8_8x8.c **** 	y &= 0x5555;
+ 488              		.loc 1 140 0
+ 489 001c 40EA4000 		orr	r0, r0, r0, lsl #1
+ 490              	.LVL72:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 15
+
+
+ 141:Core/u8g2/u8x8_8x8.c ****   
+ 491              		.loc 1 141 0
+ 492 0020 20F42A50 		bic	r0, r0, #10880
+ 493              	.LVL73:
+ 494 0024 20F02A00 		bic	r0, r0, #42
+ 495 0028 4004     		lsls	r0, r0, #17
+ 496 002a 400C     		lsrs	r0, r0, #17
+ 497              	.LVL74:
+ 145:Core/u8g2/u8x8_8x8.c **** 
+ 498              		.loc 1 145 0
+ 499 002c 40EA4000 		orr	r0, r0, r0, lsl #1
+ 500              	.LVL75:
+ 501 0030 7047     		bx	lr
+ 502              		.cfi_endproc
+ 503              	.LFE3:
+ 505              		.section	.text.u8x8_Draw2x2Glyph,"ax",%progbits
+ 506              		.align	1
+ 507              		.global	u8x8_Draw2x2Glyph
+ 508              		.syntax unified
+ 509              		.thumb
+ 510              		.thumb_func
+ 511              		.fpu softvfp
+ 513              	u8x8_Draw2x2Glyph:
+ 514              	.LFB5:
+ 160:Core/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 515              		.loc 1 160 0
+ 516              		.cfi_startproc
+ 517              		@ args = 0, pretend = 0, frame = 24
+ 518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 519              	.LVL76:
+ 520 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 521              	.LCFI7:
+ 522              		.cfi_def_cfa_offset 24
+ 523              		.cfi_offset 4, -24
+ 524              		.cfi_offset 5, -20
+ 525              		.cfi_offset 6, -16
+ 526              		.cfi_offset 7, -12
+ 527              		.cfi_offset 8, -8
+ 528              		.cfi_offset 14, -4
+ 529 0004 88B0     		sub	sp, sp, #32
+ 530              	.LCFI8:
+ 531              		.cfi_def_cfa_offset 56
+ 532 0006 0746     		mov	r7, r0
+ 533 0008 8846     		mov	r8, r1
+ 534 000a 1646     		mov	r6, r2
+ 166:Core/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 535              		.loc 1 166 0
+ 536 000c 06AA     		add	r2, sp, #24
+ 537              	.LVL77:
+ 538 000e 1946     		mov	r1, r3
+ 539              	.LVL78:
+ 540 0010 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 541              	.LVL79:
+ 167:Core/u8g2/u8x8_8x8.c ****   {
+ 542              		.loc 1 167 0
+ 543 0014 0024     		movs	r4, #0
+ 544 0016 0CE0     		b	.L43
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 16
+
+
+ 545              	.LVL80:
+ 546              	.L44:
+ 169:Core/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 547              		.loc 1 169 0 discriminator 3
+ 548 0018 08AB     		add	r3, sp, #32
+ 549 001a 1D19     		adds	r5, r3, r4
+ 550 001c 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 551 0020 FFF7FEFF 		bl	u8x8_upscale_byte
+ 552              	.LVL81:
+ 170:Core/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 553              		.loc 1 170 0 discriminator 3
+ 554 0024 030A     		lsrs	r3, r0, #8
+ 555 0026 05F8103C 		strb	r3, [r5, #-16]
+ 171:Core/u8g2/u8x8_8x8.c ****   }
+ 556              		.loc 1 171 0 discriminator 3
+ 557 002a 05F8180C 		strb	r0, [r5, #-24]
+ 167:Core/u8g2/u8x8_8x8.c ****   {
+ 558              		.loc 1 167 0 discriminator 3
+ 559 002e 0134     		adds	r4, r4, #1
+ 560              	.LVL82:
+ 561 0030 E4B2     		uxtb	r4, r4
+ 562              	.LVL83:
+ 563              	.L43:
+ 167:Core/u8g2/u8x8_8x8.c ****   {
+ 564              		.loc 1 167 0 is_stmt 0 discriminator 1
+ 565 0032 072C     		cmp	r4, #7
+ 566 0034 F0D9     		bls	.L44
+ 173:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y, 1, buf);
+ 567              		.loc 1 173 0 is_stmt 1
+ 568 0036 06AC     		add	r4, sp, #24
+ 569              	.LVL84:
+ 570 0038 2146     		mov	r1, r4
+ 571 003a 02A8     		add	r0, sp, #8
+ 572 003c FFF7FEFF 		bl	u8x8_upscale_buf
+ 573              	.LVL85:
+ 174:Core/u8g2/u8x8_8x8.c ****   
+ 574              		.loc 1 174 0
+ 575 0040 0094     		str	r4, [sp]
+ 576 0042 0123     		movs	r3, #1
+ 577 0044 3246     		mov	r2, r6
+ 578 0046 4146     		mov	r1, r8
+ 579 0048 3846     		mov	r0, r7
+ 580 004a FFF7FEFF 		bl	u8x8_DrawTile
+ 581              	.LVL86:
+ 176:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y, 1, buf);
+ 582              		.loc 1 176 0
+ 583 004e 2146     		mov	r1, r4
+ 584 0050 03A8     		add	r0, sp, #12
+ 585 0052 FFF7FEFF 		bl	u8x8_upscale_buf
+ 586              	.LVL87:
+ 177:Core/u8g2/u8x8_8x8.c ****   
+ 587              		.loc 1 177 0
+ 588 0056 08F10105 		add	r5, r8, #1
+ 589 005a EDB2     		uxtb	r5, r5
+ 590 005c 0094     		str	r4, [sp]
+ 591 005e 0123     		movs	r3, #1
+ 592 0060 3246     		mov	r2, r6
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 17
+
+
+ 593 0062 2946     		mov	r1, r5
+ 594 0064 3846     		mov	r0, r7
+ 595 0066 FFF7FEFF 		bl	u8x8_DrawTile
+ 596              	.LVL88:
+ 179:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf);
+ 597              		.loc 1 179 0
+ 598 006a 2146     		mov	r1, r4
+ 599 006c 04A8     		add	r0, sp, #16
+ 600 006e FFF7FEFF 		bl	u8x8_upscale_buf
+ 601              	.LVL89:
+ 180:Core/u8g2/u8x8_8x8.c ****   
+ 602              		.loc 1 180 0
+ 603 0072 0136     		adds	r6, r6, #1
+ 604 0074 F6B2     		uxtb	r6, r6
+ 605 0076 0094     		str	r4, [sp]
+ 606 0078 0123     		movs	r3, #1
+ 607 007a 3246     		mov	r2, r6
+ 608 007c 4146     		mov	r1, r8
+ 609 007e 3846     		mov	r0, r7
+ 610 0080 FFF7FEFF 		bl	u8x8_DrawTile
+ 611              	.LVL90:
+ 182:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x+1, y+1, 1, buf);  
+ 612              		.loc 1 182 0
+ 613 0084 2146     		mov	r1, r4
+ 614 0086 05A8     		add	r0, sp, #20
+ 615 0088 FFF7FEFF 		bl	u8x8_upscale_buf
+ 616              	.LVL91:
+ 183:Core/u8g2/u8x8_8x8.c **** }
+ 617              		.loc 1 183 0
+ 618 008c 0094     		str	r4, [sp]
+ 619 008e 0123     		movs	r3, #1
+ 620 0090 3246     		mov	r2, r6
+ 621 0092 2946     		mov	r1, r5
+ 622 0094 3846     		mov	r0, r7
+ 623 0096 FFF7FEFF 		bl	u8x8_DrawTile
+ 624              	.LVL92:
+ 184:Core/u8g2/u8x8_8x8.c **** 
+ 625              		.loc 1 184 0
+ 626 009a 08B0     		add	sp, sp, #32
+ 627              	.LCFI9:
+ 628              		.cfi_def_cfa_offset 24
+ 629              		@ sp needed
+ 630 009c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 631              		.cfi_endproc
+ 632              	.LFE5:
+ 634              		.section	.text.u8x8_Draw1x2Glyph,"ax",%progbits
+ 635              		.align	1
+ 636              		.global	u8x8_Draw1x2Glyph
+ 637              		.syntax unified
+ 638              		.thumb
+ 639              		.thumb_func
+ 640              		.fpu softvfp
+ 642              	u8x8_Draw1x2Glyph:
+ 643              	.LFB6:
+ 188:Core/u8g2/u8x8_8x8.c ****   uint8_t i;
+ 644              		.loc 1 188 0
+ 645              		.cfi_startproc
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 18
+
+
+ 646              		@ args = 0, pretend = 0, frame = 24
+ 647              		@ frame_needed = 0, uses_anonymous_args = 0
+ 648              	.LVL93:
+ 649 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 650              	.LCFI10:
+ 651              		.cfi_def_cfa_offset 24
+ 652              		.cfi_offset 4, -24
+ 653              		.cfi_offset 5, -20
+ 654              		.cfi_offset 6, -16
+ 655              		.cfi_offset 7, -12
+ 656              		.cfi_offset 8, -8
+ 657              		.cfi_offset 14, -4
+ 658 0004 88B0     		sub	sp, sp, #32
+ 659              	.LCFI11:
+ 660              		.cfi_def_cfa_offset 56
+ 661 0006 0746     		mov	r7, r0
+ 662 0008 8846     		mov	r8, r1
+ 663 000a 1646     		mov	r6, r2
+ 194:Core/u8g2/u8x8_8x8.c ****   for( i = 0; i < 8; i ++ )
+ 664              		.loc 1 194 0
+ 665 000c 06AA     		add	r2, sp, #24
+ 666              	.LVL94:
+ 667 000e 1946     		mov	r1, r3
+ 668              	.LVL95:
+ 669 0010 FFF7FEFF 		bl	u8x8_get_glyph_data
+ 670              	.LVL96:
+ 195:Core/u8g2/u8x8_8x8.c ****   {
+ 671              		.loc 1 195 0
+ 672 0014 0024     		movs	r4, #0
+ 673 0016 0CE0     		b	.L47
+ 674              	.LVL97:
+ 675              	.L48:
+ 197:Core/u8g2/u8x8_8x8.c ****       buf1[i] = t >> 8;
+ 676              		.loc 1 197 0 discriminator 3
+ 677 0018 08AB     		add	r3, sp, #32
+ 678 001a 1D19     		adds	r5, r3, r4
+ 679 001c 15F8080C 		ldrb	r0, [r5, #-8]	@ zero_extendqisi2
+ 680 0020 FFF7FEFF 		bl	u8x8_upscale_byte
+ 681              	.LVL98:
+ 198:Core/u8g2/u8x8_8x8.c ****       buf2[i] = t & 255;
+ 682              		.loc 1 198 0 discriminator 3
+ 683 0024 030A     		lsrs	r3, r0, #8
+ 684 0026 05F8103C 		strb	r3, [r5, #-16]
+ 199:Core/u8g2/u8x8_8x8.c ****   }
+ 685              		.loc 1 199 0 discriminator 3
+ 686 002a 05F8180C 		strb	r0, [r5, #-24]
+ 195:Core/u8g2/u8x8_8x8.c ****   {
+ 687              		.loc 1 195 0 discriminator 3
+ 688 002e 0134     		adds	r4, r4, #1
+ 689              	.LVL99:
+ 690 0030 E4B2     		uxtb	r4, r4
+ 691              	.LVL100:
+ 692              	.L47:
+ 195:Core/u8g2/u8x8_8x8.c ****   {
+ 693              		.loc 1 195 0 is_stmt 0 discriminator 1
+ 694 0032 072C     		cmp	r4, #7
+ 695 0034 F0D9     		bls	.L48
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 19
+
+
+ 201:Core/u8g2/u8x8_8x8.c ****   u8x8_DrawTile(u8x8, x, y+1, 1, buf1);
+ 696              		.loc 1 201 0 is_stmt 1
+ 697 0036 02AB     		add	r3, sp, #8
+ 698 0038 0093     		str	r3, [sp]
+ 699 003a 0123     		movs	r3, #1
+ 700 003c 3246     		mov	r2, r6
+ 701 003e 4146     		mov	r1, r8
+ 702 0040 3846     		mov	r0, r7
+ 703 0042 FFF7FEFF 		bl	u8x8_DrawTile
+ 704              	.LVL101:
+ 202:Core/u8g2/u8x8_8x8.c **** }
+ 705              		.loc 1 202 0
+ 706 0046 721C     		adds	r2, r6, #1
+ 707 0048 04AB     		add	r3, sp, #16
+ 708 004a 0093     		str	r3, [sp]
+ 709 004c 0123     		movs	r3, #1
+ 710 004e D2B2     		uxtb	r2, r2
+ 711 0050 4146     		mov	r1, r8
+ 712 0052 3846     		mov	r0, r7
+ 713 0054 FFF7FEFF 		bl	u8x8_DrawTile
+ 714              	.LVL102:
+ 203:Core/u8g2/u8x8_8x8.c **** 
+ 715              		.loc 1 203 0
+ 716 0058 08B0     		add	sp, sp, #32
+ 717              	.LCFI12:
+ 718              		.cfi_def_cfa_offset 24
+ 719              		@ sp needed
+ 720 005a BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 721              		.cfi_endproc
+ 722              	.LFE6:
+ 724              		.section	.text.u8x8_utf8_init,"ax",%progbits
+ 725              		.align	1
+ 726              		.global	u8x8_utf8_init
+ 727              		.syntax unified
+ 728              		.thumb
+ 729              		.thumb_func
+ 730              		.fpu softvfp
+ 732              	u8x8_utf8_init:
+ 733              	.LFB7:
+ 220:Core/u8g2/u8x8_8x8.c ****   u8x8->utf8_state = 0;	/* also reset during u8x8_SetupDefaults() */
+ 734              		.loc 1 220 0
+ 735              		.cfi_startproc
+ 736              		@ args = 0, pretend = 0, frame = 0
+ 737              		@ frame_needed = 0, uses_anonymous_args = 0
+ 738              		@ link register save eliminated.
+ 739              	.LVL103:
+ 221:Core/u8g2/u8x8_8x8.c **** }
+ 740              		.loc 1 221 0
+ 741 0000 0023     		movs	r3, #0
+ 742 0002 80F82730 		strb	r3, [r0, #39]
+ 222:Core/u8g2/u8x8_8x8.c **** 
+ 743              		.loc 1 222 0
+ 744 0006 7047     		bx	lr
+ 745              		.cfi_endproc
+ 746              	.LFE7:
+ 748              		.section	.text.u8x8_draw_string,"ax",%progbits
+ 749              		.align	1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 20
+
+
+ 750              		.syntax unified
+ 751              		.thumb
+ 752              		.thumb_func
+ 753              		.fpu softvfp
+ 755              	u8x8_draw_string:
+ 756              	.LFB10:
+ 289:Core/u8g2/u8x8_8x8.c **** 
+ 290:Core/u8g2/u8x8_8x8.c **** 
+ 291:Core/u8g2/u8x8_8x8.c **** 
+ 292:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLINE;
+ 293:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 294:Core/u8g2/u8x8_8x8.c **** {
+ 757              		.loc 1 294 0
+ 758              		.cfi_startproc
+ 759              		@ args = 0, pretend = 0, frame = 0
+ 760              		@ frame_needed = 0, uses_anonymous_args = 0
+ 761              	.LVL104:
+ 762 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 763              	.LCFI13:
+ 764              		.cfi_def_cfa_offset 24
+ 765              		.cfi_offset 4, -24
+ 766              		.cfi_offset 5, -20
+ 767              		.cfi_offset 6, -16
+ 768              		.cfi_offset 7, -12
+ 769              		.cfi_offset 8, -8
+ 770              		.cfi_offset 14, -4
+ 771 0004 0546     		mov	r5, r0
+ 772 0006 0E46     		mov	r6, r1
+ 773 0008 9046     		mov	r8, r2
+ 774 000a 1C46     		mov	r4, r3
+ 775              	.LVL105:
+ 295:Core/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 296:Core/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 297:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 776              		.loc 1 297 0
+ 777 000c FFF7FEFF 		bl	u8x8_utf8_init
+ 778              	.LVL106:
+ 296:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 779              		.loc 1 296 0
+ 780 0010 0027     		movs	r7, #0
+ 781              	.LVL107:
+ 782              	.L52:
+ 298:Core/u8g2/u8x8_8x8.c ****   for(;;)
+ 299:Core/u8g2/u8x8_8x8.c ****   {
+ 300:Core/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 783              		.loc 1 300 0
+ 784 0012 6B68     		ldr	r3, [r5, #4]
+ 785 0014 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 786 0016 2846     		mov	r0, r5
+ 787 0018 9847     		blx	r3
+ 788              	.LVL108:
+ 301:Core/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 789              		.loc 1 301 0
+ 790 001a 4FF6FF73 		movw	r3, #65535
+ 791 001e 9842     		cmp	r0, r3
+ 792 0020 0FD0     		beq	.L53
+ 302:Core/u8g2/u8x8_8x8.c ****       break;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 21
+
+
+ 303:Core/u8g2/u8x8_8x8.c ****     s++;
+ 793              		.loc 1 303 0
+ 794 0022 0134     		adds	r4, r4, #1
+ 795              	.LVL109:
+ 304:Core/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 796              		.loc 1 304 0
+ 797 0024 4FF6FE73 		movw	r3, #65534
+ 798 0028 9842     		cmp	r0, r3
+ 799 002a F2D0     		beq	.L52
+ 305:Core/u8g2/u8x8_8x8.c ****     {
+ 306:Core/u8g2/u8x8_8x8.c ****       u8x8_DrawGlyph(u8x8, x, y, e);
+ 800              		.loc 1 306 0
+ 801 002c C3B2     		uxtb	r3, r0
+ 802 002e 4246     		mov	r2, r8
+ 803 0030 3146     		mov	r1, r6
+ 804 0032 2846     		mov	r0, r5
+ 805              	.LVL110:
+ 806 0034 FFF7FEFF 		bl	u8x8_DrawGlyph
+ 807              	.LVL111:
+ 307:Core/u8g2/u8x8_8x8.c ****       x++;
+ 808              		.loc 1 307 0
+ 809 0038 0136     		adds	r6, r6, #1
+ 810              	.LVL112:
+ 811 003a F6B2     		uxtb	r6, r6
+ 812              	.LVL113:
+ 308:Core/u8g2/u8x8_8x8.c ****       cnt++;
+ 813              		.loc 1 308 0
+ 814 003c 0137     		adds	r7, r7, #1
+ 815              	.LVL114:
+ 816 003e FFB2     		uxtb	r7, r7
+ 817              	.LVL115:
+ 818 0040 E7E7     		b	.L52
+ 819              	.LVL116:
+ 820              	.L53:
+ 309:Core/u8g2/u8x8_8x8.c ****     }
+ 310:Core/u8g2/u8x8_8x8.c ****   }
+ 311:Core/u8g2/u8x8_8x8.c ****   return cnt;
+ 312:Core/u8g2/u8x8_8x8.c **** }
+ 821              		.loc 1 312 0
+ 822 0042 3846     		mov	r0, r7
+ 823              	.LVL117:
+ 824 0044 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 825              		.cfi_endproc
+ 826              	.LFE10:
+ 828              		.section	.text.u8x8_draw_2x2_string,"ax",%progbits
+ 829              		.align	1
+ 830              		.syntax unified
+ 831              		.thumb
+ 832              		.thumb_func
+ 833              		.fpu softvfp
+ 835              	u8x8_draw_2x2_string:
+ 836              	.LFB13:
+ 313:Core/u8g2/u8x8_8x8.c **** 
+ 314:Core/u8g2/u8x8_8x8.c **** 
+ 315:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_DrawString(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 316:Core/u8g2/u8x8_8x8.c **** {
+ 317:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 22
+
+
+ 318:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 319:Core/u8g2/u8x8_8x8.c **** }
+ 320:Core/u8g2/u8x8_8x8.c **** 
+ 321:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_DrawUTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 322:Core/u8g2/u8x8_8x8.c **** {
+ 323:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 324:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 325:Core/u8g2/u8x8_8x8.c **** }
+ 326:Core/u8g2/u8x8_8x8.c **** 
+ 327:Core/u8g2/u8x8_8x8.c **** 
+ 328:Core/u8g2/u8x8_8x8.c **** 
+ 329:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 330:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_2x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 331:Core/u8g2/u8x8_8x8.c **** {
+ 837              		.loc 1 331 0
+ 838              		.cfi_startproc
+ 839              		@ args = 0, pretend = 0, frame = 0
+ 840              		@ frame_needed = 0, uses_anonymous_args = 0
+ 841              	.LVL118:
+ 842 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 843              	.LCFI14:
+ 844              		.cfi_def_cfa_offset 24
+ 845              		.cfi_offset 4, -24
+ 846              		.cfi_offset 5, -20
+ 847              		.cfi_offset 6, -16
+ 848              		.cfi_offset 7, -12
+ 849              		.cfi_offset 8, -8
+ 850              		.cfi_offset 14, -4
+ 851 0004 0546     		mov	r5, r0
+ 852 0006 0E46     		mov	r6, r1
+ 853 0008 9046     		mov	r8, r2
+ 854 000a 1C46     		mov	r4, r3
+ 855              	.LVL119:
+ 332:Core/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 333:Core/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 334:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 856              		.loc 1 334 0
+ 857 000c FFF7FEFF 		bl	u8x8_utf8_init
+ 858              	.LVL120:
+ 333:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 859              		.loc 1 333 0
+ 860 0010 0027     		movs	r7, #0
+ 861              	.LVL121:
+ 862              	.L57:
+ 335:Core/u8g2/u8x8_8x8.c ****   for(;;)
+ 336:Core/u8g2/u8x8_8x8.c ****   {
+ 337:Core/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 863              		.loc 1 337 0
+ 864 0012 6B68     		ldr	r3, [r5, #4]
+ 865 0014 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 866 0016 2846     		mov	r0, r5
+ 867 0018 9847     		blx	r3
+ 868              	.LVL122:
+ 338:Core/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 869              		.loc 1 338 0
+ 870 001a 4FF6FF73 		movw	r3, #65535
+ 871 001e 9842     		cmp	r0, r3
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 23
+
+
+ 872 0020 0FD0     		beq	.L58
+ 339:Core/u8g2/u8x8_8x8.c ****       break;
+ 340:Core/u8g2/u8x8_8x8.c ****     s++;
+ 873              		.loc 1 340 0
+ 874 0022 0134     		adds	r4, r4, #1
+ 875              	.LVL123:
+ 341:Core/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 876              		.loc 1 341 0
+ 877 0024 4FF6FE73 		movw	r3, #65534
+ 878 0028 9842     		cmp	r0, r3
+ 879 002a F2D0     		beq	.L57
+ 342:Core/u8g2/u8x8_8x8.c ****     {
+ 343:Core/u8g2/u8x8_8x8.c ****       u8x8_Draw2x2Glyph(u8x8, x, y, e);
+ 880              		.loc 1 343 0
+ 881 002c C3B2     		uxtb	r3, r0
+ 882 002e 4246     		mov	r2, r8
+ 883 0030 3146     		mov	r1, r6
+ 884 0032 2846     		mov	r0, r5
+ 885              	.LVL124:
+ 886 0034 FFF7FEFF 		bl	u8x8_Draw2x2Glyph
+ 887              	.LVL125:
+ 344:Core/u8g2/u8x8_8x8.c ****       x+=2;
+ 888              		.loc 1 344 0
+ 889 0038 0236     		adds	r6, r6, #2
+ 890              	.LVL126:
+ 891 003a F6B2     		uxtb	r6, r6
+ 892              	.LVL127:
+ 345:Core/u8g2/u8x8_8x8.c ****       cnt++;
+ 893              		.loc 1 345 0
+ 894 003c 0137     		adds	r7, r7, #1
+ 895              	.LVL128:
+ 896 003e FFB2     		uxtb	r7, r7
+ 897              	.LVL129:
+ 898 0040 E7E7     		b	.L57
+ 899              	.LVL130:
+ 900              	.L58:
+ 346:Core/u8g2/u8x8_8x8.c ****     }
+ 347:Core/u8g2/u8x8_8x8.c ****   }
+ 348:Core/u8g2/u8x8_8x8.c ****   return cnt;
+ 349:Core/u8g2/u8x8_8x8.c **** }
+ 901              		.loc 1 349 0
+ 902 0042 3846     		mov	r0, r7
+ 903              	.LVL131:
+ 904 0044 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 905              		.cfi_endproc
+ 906              	.LFE13:
+ 908              		.section	.text.u8x8_draw_1x2_string,"ax",%progbits
+ 909              		.align	1
+ 910              		.syntax unified
+ 911              		.thumb
+ 912              		.thumb_func
+ 913              		.fpu softvfp
+ 915              	u8x8_draw_1x2_string:
+ 916              	.LFB16:
+ 350:Core/u8g2/u8x8_8x8.c **** 
+ 351:Core/u8g2/u8x8_8x8.c **** 
+ 352:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw2x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 24
+
+
+ 353:Core/u8g2/u8x8_8x8.c **** {
+ 354:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 355:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 356:Core/u8g2/u8x8_8x8.c **** }
+ 357:Core/u8g2/u8x8_8x8.c **** 
+ 358:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw2x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 359:Core/u8g2/u8x8_8x8.c **** {
+ 360:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 361:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 362:Core/u8g2/u8x8_8x8.c **** }
+ 363:Core/u8g2/u8x8_8x8.c **** 
+ 364:Core/u8g2/u8x8_8x8.c **** 
+ 365:Core/u8g2/u8x8_8x8.c **** 
+ 366:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s) U8X8_NOINLIN
+ 367:Core/u8g2/u8x8_8x8.c **** static uint8_t u8x8_draw_1x2_string(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 368:Core/u8g2/u8x8_8x8.c **** {
+ 917              		.loc 1 368 0
+ 918              		.cfi_startproc
+ 919              		@ args = 0, pretend = 0, frame = 0
+ 920              		@ frame_needed = 0, uses_anonymous_args = 0
+ 921              	.LVL132:
+ 922 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 923              	.LCFI15:
+ 924              		.cfi_def_cfa_offset 24
+ 925              		.cfi_offset 4, -24
+ 926              		.cfi_offset 5, -20
+ 927              		.cfi_offset 6, -16
+ 928              		.cfi_offset 7, -12
+ 929              		.cfi_offset 8, -8
+ 930              		.cfi_offset 14, -4
+ 931 0004 0546     		mov	r5, r0
+ 932 0006 0E46     		mov	r6, r1
+ 933 0008 9046     		mov	r8, r2
+ 934 000a 1C46     		mov	r4, r3
+ 935              	.LVL133:
+ 369:Core/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 370:Core/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 371:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 936              		.loc 1 371 0
+ 937 000c FFF7FEFF 		bl	u8x8_utf8_init
+ 938              	.LVL134:
+ 370:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 939              		.loc 1 370 0
+ 940 0010 0027     		movs	r7, #0
+ 941              	.LVL135:
+ 942              	.L62:
+ 372:Core/u8g2/u8x8_8x8.c ****   for(;;)
+ 373:Core/u8g2/u8x8_8x8.c ****   {
+ 374:Core/u8g2/u8x8_8x8.c ****     e = u8x8->next_cb(u8x8, (uint8_t)*s);
+ 943              		.loc 1 374 0
+ 944 0012 6B68     		ldr	r3, [r5, #4]
+ 945 0014 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 946 0016 2846     		mov	r0, r5
+ 947 0018 9847     		blx	r3
+ 948              	.LVL136:
+ 375:Core/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 949              		.loc 1 375 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 25
+
+
+ 950 001a 4FF6FF73 		movw	r3, #65535
+ 951 001e 9842     		cmp	r0, r3
+ 952 0020 0FD0     		beq	.L63
+ 376:Core/u8g2/u8x8_8x8.c ****       break;
+ 377:Core/u8g2/u8x8_8x8.c ****     s++;
+ 953              		.loc 1 377 0
+ 954 0022 0134     		adds	r4, r4, #1
+ 955              	.LVL137:
+ 378:Core/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 956              		.loc 1 378 0
+ 957 0024 4FF6FE73 		movw	r3, #65534
+ 958 0028 9842     		cmp	r0, r3
+ 959 002a F2D0     		beq	.L62
+ 379:Core/u8g2/u8x8_8x8.c ****     {
+ 380:Core/u8g2/u8x8_8x8.c ****       u8x8_Draw1x2Glyph(u8x8, x, y, e);
+ 960              		.loc 1 380 0
+ 961 002c C3B2     		uxtb	r3, r0
+ 962 002e 4246     		mov	r2, r8
+ 963 0030 3146     		mov	r1, r6
+ 964 0032 2846     		mov	r0, r5
+ 965              	.LVL138:
+ 966 0034 FFF7FEFF 		bl	u8x8_Draw1x2Glyph
+ 967              	.LVL139:
+ 381:Core/u8g2/u8x8_8x8.c ****       x++;
+ 968              		.loc 1 381 0
+ 969 0038 0136     		adds	r6, r6, #1
+ 970              	.LVL140:
+ 971 003a F6B2     		uxtb	r6, r6
+ 972              	.LVL141:
+ 382:Core/u8g2/u8x8_8x8.c ****       cnt++;
+ 973              		.loc 1 382 0
+ 974 003c 0137     		adds	r7, r7, #1
+ 975              	.LVL142:
+ 976 003e FFB2     		uxtb	r7, r7
+ 977              	.LVL143:
+ 978 0040 E7E7     		b	.L62
+ 979              	.LVL144:
+ 980              	.L63:
+ 383:Core/u8g2/u8x8_8x8.c ****     }
+ 384:Core/u8g2/u8x8_8x8.c ****   }
+ 385:Core/u8g2/u8x8_8x8.c ****   return cnt;
+ 386:Core/u8g2/u8x8_8x8.c **** }
+ 981              		.loc 1 386 0
+ 982 0042 3846     		mov	r0, r7
+ 983              	.LVL145:
+ 984 0044 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 985              		.cfi_endproc
+ 986              	.LFE16:
+ 988              		.section	.text.u8x8_DrawString,"ax",%progbits
+ 989              		.align	1
+ 990              		.global	u8x8_DrawString
+ 991              		.syntax unified
+ 992              		.thumb
+ 993              		.thumb_func
+ 994              		.fpu softvfp
+ 996              	u8x8_DrawString:
+ 997              	.LFB11:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 26
+
+
+ 316:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 998              		.loc 1 316 0
+ 999              		.cfi_startproc
+ 1000              		@ args = 0, pretend = 0, frame = 0
+ 1001              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1002              	.LVL146:
+ 1003 0000 10B5     		push	{r4, lr}
+ 1004              	.LCFI16:
+ 1005              		.cfi_def_cfa_offset 8
+ 1006              		.cfi_offset 4, -8
+ 1007              		.cfi_offset 14, -4
+ 317:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1008              		.loc 1 317 0
+ 1009 0002 024C     		ldr	r4, .L68
+ 1010 0004 4460     		str	r4, [r0, #4]
+ 318:Core/u8g2/u8x8_8x8.c **** }
+ 1011              		.loc 1 318 0
+ 1012 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1013              	.LVL147:
+ 319:Core/u8g2/u8x8_8x8.c **** 
+ 1014              		.loc 1 319 0
+ 1015 000a 10BD     		pop	{r4, pc}
+ 1016              	.L69:
+ 1017              		.align	2
+ 1018              	.L68:
+ 1019 000c 00000000 		.word	u8x8_ascii_next
+ 1020              		.cfi_endproc
+ 1021              	.LFE11:
+ 1023              		.section	.text.u8x8_DrawUTF8,"ax",%progbits
+ 1024              		.align	1
+ 1025              		.global	u8x8_DrawUTF8
+ 1026              		.syntax unified
+ 1027              		.thumb
+ 1028              		.thumb_func
+ 1029              		.fpu softvfp
+ 1031              	u8x8_DrawUTF8:
+ 1032              	.LFB12:
+ 322:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1033              		.loc 1 322 0
+ 1034              		.cfi_startproc
+ 1035              		@ args = 0, pretend = 0, frame = 0
+ 1036              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1037              	.LVL148:
+ 1038 0000 10B5     		push	{r4, lr}
+ 1039              	.LCFI17:
+ 1040              		.cfi_def_cfa_offset 8
+ 1041              		.cfi_offset 4, -8
+ 1042              		.cfi_offset 14, -4
+ 323:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_string(u8x8, x, y, s);
+ 1043              		.loc 1 323 0
+ 1044 0002 024C     		ldr	r4, .L72
+ 1045 0004 4460     		str	r4, [r0, #4]
+ 324:Core/u8g2/u8x8_8x8.c **** }
+ 1046              		.loc 1 324 0
+ 1047 0006 FFF7FEFF 		bl	u8x8_draw_string
+ 1048              	.LVL149:
+ 325:Core/u8g2/u8x8_8x8.c **** 
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 27
+
+
+ 1049              		.loc 1 325 0
+ 1050 000a 10BD     		pop	{r4, pc}
+ 1051              	.L73:
+ 1052              		.align	2
+ 1053              	.L72:
+ 1054 000c 00000000 		.word	u8x8_utf8_next
+ 1055              		.cfi_endproc
+ 1056              	.LFE12:
+ 1058              		.section	.text.u8x8_Draw2x2String,"ax",%progbits
+ 1059              		.align	1
+ 1060              		.global	u8x8_Draw2x2String
+ 1061              		.syntax unified
+ 1062              		.thumb
+ 1063              		.thumb_func
+ 1064              		.fpu softvfp
+ 1066              	u8x8_Draw2x2String:
+ 1067              	.LFB14:
+ 353:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1068              		.loc 1 353 0
+ 1069              		.cfi_startproc
+ 1070              		@ args = 0, pretend = 0, frame = 0
+ 1071              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1072              	.LVL150:
+ 1073 0000 10B5     		push	{r4, lr}
+ 1074              	.LCFI18:
+ 1075              		.cfi_def_cfa_offset 8
+ 1076              		.cfi_offset 4, -8
+ 1077              		.cfi_offset 14, -4
+ 354:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1078              		.loc 1 354 0
+ 1079 0002 024C     		ldr	r4, .L76
+ 1080 0004 4460     		str	r4, [r0, #4]
+ 355:Core/u8g2/u8x8_8x8.c **** }
+ 1081              		.loc 1 355 0
+ 1082 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ 1083              	.LVL151:
+ 356:Core/u8g2/u8x8_8x8.c **** 
+ 1084              		.loc 1 356 0
+ 1085 000a 10BD     		pop	{r4, pc}
+ 1086              	.L77:
+ 1087              		.align	2
+ 1088              	.L76:
+ 1089 000c 00000000 		.word	u8x8_ascii_next
+ 1090              		.cfi_endproc
+ 1091              	.LFE14:
+ 1093              		.section	.text.u8x8_Draw2x2UTF8,"ax",%progbits
+ 1094              		.align	1
+ 1095              		.global	u8x8_Draw2x2UTF8
+ 1096              		.syntax unified
+ 1097              		.thumb
+ 1098              		.thumb_func
+ 1099              		.fpu softvfp
+ 1101              	u8x8_Draw2x2UTF8:
+ 1102              	.LFB15:
+ 359:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1103              		.loc 1 359 0
+ 1104              		.cfi_startproc
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 28
+
+
+ 1105              		@ args = 0, pretend = 0, frame = 0
+ 1106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1107              	.LVL152:
+ 1108 0000 10B5     		push	{r4, lr}
+ 1109              	.LCFI19:
+ 1110              		.cfi_def_cfa_offset 8
+ 1111              		.cfi_offset 4, -8
+ 1112              		.cfi_offset 14, -4
+ 360:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_2x2_string(u8x8, x, y, s);
+ 1113              		.loc 1 360 0
+ 1114 0002 024C     		ldr	r4, .L80
+ 1115 0004 4460     		str	r4, [r0, #4]
+ 361:Core/u8g2/u8x8_8x8.c **** }
+ 1116              		.loc 1 361 0
+ 1117 0006 FFF7FEFF 		bl	u8x8_draw_2x2_string
+ 1118              	.LVL153:
+ 362:Core/u8g2/u8x8_8x8.c **** 
+ 1119              		.loc 1 362 0
+ 1120 000a 10BD     		pop	{r4, pc}
+ 1121              	.L81:
+ 1122              		.align	2
+ 1123              	.L80:
+ 1124 000c 00000000 		.word	u8x8_utf8_next
+ 1125              		.cfi_endproc
+ 1126              	.LFE15:
+ 1128              		.section	.text.u8x8_Draw1x2String,"ax",%progbits
+ 1129              		.align	1
+ 1130              		.global	u8x8_Draw1x2String
+ 1131              		.syntax unified
+ 1132              		.thumb
+ 1133              		.thumb_func
+ 1134              		.fpu softvfp
+ 1136              	u8x8_Draw1x2String:
+ 1137              	.LFB17:
+ 387:Core/u8g2/u8x8_8x8.c **** 
+ 388:Core/u8g2/u8x8_8x8.c **** 
+ 389:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw1x2String(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 390:Core/u8g2/u8x8_8x8.c **** {
+ 1138              		.loc 1 390 0
+ 1139              		.cfi_startproc
+ 1140              		@ args = 0, pretend = 0, frame = 0
+ 1141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1142              	.LVL154:
+ 1143 0000 10B5     		push	{r4, lr}
+ 1144              	.LCFI20:
+ 1145              		.cfi_def_cfa_offset 8
+ 1146              		.cfi_offset 4, -8
+ 1147              		.cfi_offset 14, -4
+ 391:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_ascii_next;
+ 1148              		.loc 1 391 0
+ 1149 0002 024C     		ldr	r4, .L84
+ 1150 0004 4460     		str	r4, [r0, #4]
+ 392:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1151              		.loc 1 392 0
+ 1152 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1153              	.LVL155:
+ 393:Core/u8g2/u8x8_8x8.c **** }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 29
+
+
+ 1154              		.loc 1 393 0
+ 1155 000a 10BD     		pop	{r4, pc}
+ 1156              	.L85:
+ 1157              		.align	2
+ 1158              	.L84:
+ 1159 000c 00000000 		.word	u8x8_ascii_next
+ 1160              		.cfi_endproc
+ 1161              	.LFE17:
+ 1163              		.section	.text.u8x8_Draw1x2UTF8,"ax",%progbits
+ 1164              		.align	1
+ 1165              		.global	u8x8_Draw1x2UTF8
+ 1166              		.syntax unified
+ 1167              		.thumb
+ 1168              		.thumb_func
+ 1169              		.fpu softvfp
+ 1171              	u8x8_Draw1x2UTF8:
+ 1172              	.LFB18:
+ 394:Core/u8g2/u8x8_8x8.c **** 
+ 395:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_Draw1x2UTF8(u8x8_t *u8x8, uint8_t x, uint8_t y, const char *s)
+ 396:Core/u8g2/u8x8_8x8.c **** {
+ 1173              		.loc 1 396 0
+ 1174              		.cfi_startproc
+ 1175              		@ args = 0, pretend = 0, frame = 0
+ 1176              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1177              	.LVL156:
+ 1178 0000 10B5     		push	{r4, lr}
+ 1179              	.LCFI21:
+ 1180              		.cfi_def_cfa_offset 8
+ 1181              		.cfi_offset 4, -8
+ 1182              		.cfi_offset 14, -4
+ 397:Core/u8g2/u8x8_8x8.c ****   u8x8->next_cb = u8x8_utf8_next;
+ 1183              		.loc 1 397 0
+ 1184 0002 024C     		ldr	r4, .L88
+ 1185 0004 4460     		str	r4, [r0, #4]
+ 398:Core/u8g2/u8x8_8x8.c ****   return u8x8_draw_1x2_string(u8x8, x, y, s);
+ 1186              		.loc 1 398 0
+ 1187 0006 FFF7FEFF 		bl	u8x8_draw_1x2_string
+ 1188              	.LVL157:
+ 399:Core/u8g2/u8x8_8x8.c **** }
+ 1189              		.loc 1 399 0
+ 1190 000a 10BD     		pop	{r4, pc}
+ 1191              	.L89:
+ 1192              		.align	2
+ 1193              	.L88:
+ 1194 000c 00000000 		.word	u8x8_utf8_next
+ 1195              		.cfi_endproc
+ 1196              	.LFE18:
+ 1198              		.section	.text.u8x8_GetUTF8Len,"ax",%progbits
+ 1199              		.align	1
+ 1200              		.global	u8x8_GetUTF8Len
+ 1201              		.syntax unified
+ 1202              		.thumb
+ 1203              		.thumb_func
+ 1204              		.fpu softvfp
+ 1206              	u8x8_GetUTF8Len:
+ 1207              	.LFB19:
+ 400:Core/u8g2/u8x8_8x8.c **** 
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 30
+
+
+ 401:Core/u8g2/u8x8_8x8.c **** 
+ 402:Core/u8g2/u8x8_8x8.c **** 
+ 403:Core/u8g2/u8x8_8x8.c **** uint8_t u8x8_GetUTF8Len(u8x8_t *u8x8, const char *s)
+ 404:Core/u8g2/u8x8_8x8.c **** {
+ 1208              		.loc 1 404 0
+ 1209              		.cfi_startproc
+ 1210              		@ args = 0, pretend = 0, frame = 0
+ 1211              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1212              	.LVL158:
+ 1213 0000 70B5     		push	{r4, r5, r6, lr}
+ 1214              	.LCFI22:
+ 1215              		.cfi_def_cfa_offset 16
+ 1216              		.cfi_offset 4, -16
+ 1217              		.cfi_offset 5, -12
+ 1218              		.cfi_offset 6, -8
+ 1219              		.cfi_offset 14, -4
+ 1220 0002 0646     		mov	r6, r0
+ 1221 0004 0C46     		mov	r4, r1
+ 1222              	.LVL159:
+ 405:Core/u8g2/u8x8_8x8.c ****   uint16_t e;
+ 406:Core/u8g2/u8x8_8x8.c ****   uint8_t cnt = 0;
+ 407:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1223              		.loc 1 407 0
+ 1224 0006 FFF7FEFF 		bl	u8x8_utf8_init
+ 1225              	.LVL160:
+ 406:Core/u8g2/u8x8_8x8.c ****   u8x8_utf8_init(u8x8);
+ 1226              		.loc 1 406 0
+ 1227 000a 0025     		movs	r5, #0
+ 1228              	.LVL161:
+ 1229              	.L91:
+ 408:Core/u8g2/u8x8_8x8.c ****   for(;;)
+ 409:Core/u8g2/u8x8_8x8.c ****   {
+ 410:Core/u8g2/u8x8_8x8.c ****     e = u8x8_utf8_next(u8x8, *s);
+ 1230              		.loc 1 410 0
+ 1231 000c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1232 000e 3046     		mov	r0, r6
+ 1233 0010 FFF7FEFF 		bl	u8x8_utf8_next
+ 1234              	.LVL162:
+ 411:Core/u8g2/u8x8_8x8.c ****     if ( e == 0x0ffff )
+ 1235              		.loc 1 411 0
+ 1236 0014 4FF6FF73 		movw	r3, #65535
+ 1237 0018 9842     		cmp	r0, r3
+ 1238 001a 07D0     		beq	.L92
+ 412:Core/u8g2/u8x8_8x8.c ****       break;
+ 413:Core/u8g2/u8x8_8x8.c ****     s++;
+ 1239              		.loc 1 413 0
+ 1240 001c 0134     		adds	r4, r4, #1
+ 1241              	.LVL163:
+ 414:Core/u8g2/u8x8_8x8.c ****     if ( e != 0x0fffe )
+ 1242              		.loc 1 414 0
+ 1243 001e 4FF6FE73 		movw	r3, #65534
+ 1244 0022 9842     		cmp	r0, r3
+ 1245 0024 F2D0     		beq	.L91
+ 415:Core/u8g2/u8x8_8x8.c ****       cnt++;
+ 1246              		.loc 1 415 0
+ 1247 0026 0135     		adds	r5, r5, #1
+ 1248              	.LVL164:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 31
+
+
+ 1249 0028 EDB2     		uxtb	r5, r5
+ 1250              	.LVL165:
+ 1251 002a EFE7     		b	.L91
+ 1252              	.L92:
+ 416:Core/u8g2/u8x8_8x8.c ****   }
+ 417:Core/u8g2/u8x8_8x8.c ****   return cnt;
+ 418:Core/u8g2/u8x8_8x8.c **** }
+ 1253              		.loc 1 418 0
+ 1254 002c 2846     		mov	r0, r5
+ 1255              	.LVL166:
+ 1256 002e 70BD     		pop	{r4, r5, r6, pc}
+ 1257              		.cfi_endproc
+ 1258              	.LFE19:
+ 1260              		.text
+ 1261              	.Letext0:
+ 1262              		.file 2 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1263              		.file 3 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 1264              		.file 4 "Core/u8g2/../u8g2/u8x8.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s 			page 32
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_8x8.c
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:16     .text.u8x8_get_glyph_data:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:22     .text.u8x8_get_glyph_data:00000000 u8x8_get_glyph_data
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:148    .text.u8x8_upscale_buf:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:154    .text.u8x8_upscale_buf:00000000 u8x8_upscale_buf
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:203    .text.u8x8_ascii_next:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:210    .text.u8x8_ascii_next:00000000 u8x8_ascii_next
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:243    .text.u8x8_utf8_next:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:250    .text.u8x8_utf8_next:00000000 u8x8_utf8_next
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:377    .text.u8x8_SetFont:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:384    .text.u8x8_SetFont:00000000 u8x8_SetFont
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:400    .text.u8x8_DrawGlyph:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:407    .text.u8x8_DrawGlyph:00000000 u8x8_DrawGlyph
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:454    .text.u8x8_upscale_byte:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:461    .text.u8x8_upscale_byte:00000000 u8x8_upscale_byte
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:506    .text.u8x8_Draw2x2Glyph:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:513    .text.u8x8_Draw2x2Glyph:00000000 u8x8_Draw2x2Glyph
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:635    .text.u8x8_Draw1x2Glyph:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:642    .text.u8x8_Draw1x2Glyph:00000000 u8x8_Draw1x2Glyph
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:725    .text.u8x8_utf8_init:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:732    .text.u8x8_utf8_init:00000000 u8x8_utf8_init
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:749    .text.u8x8_draw_string:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:755    .text.u8x8_draw_string:00000000 u8x8_draw_string
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:829    .text.u8x8_draw_2x2_string:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:835    .text.u8x8_draw_2x2_string:00000000 u8x8_draw_2x2_string
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:909    .text.u8x8_draw_1x2_string:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:915    .text.u8x8_draw_1x2_string:00000000 u8x8_draw_1x2_string
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:989    .text.u8x8_DrawString:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:996    .text.u8x8_DrawString:00000000 u8x8_DrawString
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1019   .text.u8x8_DrawString:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1024   .text.u8x8_DrawUTF8:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1031   .text.u8x8_DrawUTF8:00000000 u8x8_DrawUTF8
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1054   .text.u8x8_DrawUTF8:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1059   .text.u8x8_Draw2x2String:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1066   .text.u8x8_Draw2x2String:00000000 u8x8_Draw2x2String
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1089   .text.u8x8_Draw2x2String:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1094   .text.u8x8_Draw2x2UTF8:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1101   .text.u8x8_Draw2x2UTF8:00000000 u8x8_Draw2x2UTF8
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1124   .text.u8x8_Draw2x2UTF8:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1129   .text.u8x8_Draw1x2String:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1136   .text.u8x8_Draw1x2String:00000000 u8x8_Draw1x2String
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1159   .text.u8x8_Draw1x2String:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1164   .text.u8x8_Draw1x2UTF8:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1171   .text.u8x8_Draw1x2UTF8:00000000 u8x8_Draw1x2UTF8
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1194   .text.u8x8_Draw1x2UTF8:0000000c $d
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1199   .text.u8x8_GetUTF8Len:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\cc7w1Sc7.s:1206   .text.u8x8_GetUTF8Len:00000000 u8x8_GetUTF8Len
+
+UNDEFINED SYMBOLS
+u8x8_DrawTile

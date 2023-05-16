@@ -1,0 +1,3155 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"u8x8_byte.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.i2c_delay,"ax",%progbits
+  16              		.align	1
+  17              		.syntax unified
+  18              		.thumb
+  19              		.thumb_func
+  20              		.fpu softvfp
+  22              	i2c_delay:
+  23              	.LFB13:
+  24              		.file 1 "Core/u8g2/u8x8_byte.c"
+   1:Core/u8g2/u8x8_byte.c **** /*
+   2:Core/u8g2/u8x8_byte.c **** 
+   3:Core/u8g2/u8x8_byte.c ****   u8x8_byte.c 
+   4:Core/u8g2/u8x8_byte.c ****   
+   5:Core/u8g2/u8x8_byte.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/u8g2/u8x8_byte.c **** 
+   7:Core/u8g2/u8x8_byte.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/u8g2/u8x8_byte.c ****   All rights reserved.
+   9:Core/u8g2/u8x8_byte.c **** 
+  10:Core/u8g2/u8x8_byte.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/u8g2/u8x8_byte.c ****   are permitted provided that the following conditions are met:
+  12:Core/u8g2/u8x8_byte.c **** 
+  13:Core/u8g2/u8x8_byte.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/u8g2/u8x8_byte.c ****     of conditions and the following disclaimer.
+  15:Core/u8g2/u8x8_byte.c ****     
+  16:Core/u8g2/u8x8_byte.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/u8g2/u8x8_byte.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/u8g2/u8x8_byte.c ****     materials provided with the distribution.
+  19:Core/u8g2/u8x8_byte.c **** 
+  20:Core/u8g2/u8x8_byte.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/u8g2/u8x8_byte.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/u8g2/u8x8_byte.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/u8g2/u8x8_byte.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/u8g2/u8x8_byte.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/u8g2/u8x8_byte.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/u8g2/u8x8_byte.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/u8g2/u8x8_byte.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/u8g2/u8x8_byte.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/u8g2/u8x8_byte.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:Core/u8g2/u8x8_byte.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/u8g2/u8x8_byte.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/u8g2/u8x8_byte.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/u8g2/u8x8_byte.c ****   
+  34:Core/u8g2/u8x8_byte.c ****   
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 2
+
+
+  35:Core/u8g2/u8x8_byte.c **** */
+  36:Core/u8g2/u8x8_byte.c **** 
+  37:Core/u8g2/u8x8_byte.c **** #include "../u8g2/u8x8.h"
+  38:Core/u8g2/u8x8_byte.c **** 
+  39:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_SetDC(u8x8_t *u8x8, uint8_t dc)
+  40:Core/u8g2/u8x8_byte.c **** {
+  41:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_SET_DC, dc, NULL);
+  42:Core/u8g2/u8x8_byte.c **** }
+  43:Core/u8g2/u8x8_byte.c **** 
+  44:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_SendBytes(u8x8_t *u8x8, uint8_t cnt, uint8_t *data)
+  45:Core/u8g2/u8x8_byte.c **** {
+  46:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_SEND, cnt, (void *)data);
+  47:Core/u8g2/u8x8_byte.c **** }
+  48:Core/u8g2/u8x8_byte.c **** 
+  49:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_SendByte(u8x8_t *u8x8, uint8_t byte)
+  50:Core/u8g2/u8x8_byte.c **** {
+  51:Core/u8g2/u8x8_byte.c ****   return u8x8_byte_SendBytes(u8x8, 1, &byte);
+  52:Core/u8g2/u8x8_byte.c **** }
+  53:Core/u8g2/u8x8_byte.c **** 
+  54:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_StartTransfer(u8x8_t *u8x8)
+  55:Core/u8g2/u8x8_byte.c **** {
+  56:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_START_TRANSFER, 0, NULL);
+  57:Core/u8g2/u8x8_byte.c **** }
+  58:Core/u8g2/u8x8_byte.c **** 
+  59:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_EndTransfer(u8x8_t *u8x8)
+  60:Core/u8g2/u8x8_byte.c **** {
+  61:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_END_TRANSFER, 0, NULL);
+  62:Core/u8g2/u8x8_byte.c **** }
+  63:Core/u8g2/u8x8_byte.c **** 
+  64:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+  65:Core/u8g2/u8x8_byte.c **** 
+  66:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_empty(U8X8_UNUSED u8x8_t *u8x8, uint8_t msg, U8X8_UNUSED uint8_t arg_int, U8X8_UN
+  67:Core/u8g2/u8x8_byte.c **** {
+  68:Core/u8g2/u8x8_byte.c ****   switch(msg)
+  69:Core/u8g2/u8x8_byte.c ****   {
+  70:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+  71:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+  72:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+  73:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+  74:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+  75:Core/u8g2/u8x8_byte.c ****       break;	/* do nothing */
+  76:Core/u8g2/u8x8_byte.c ****   }
+  77:Core/u8g2/u8x8_byte.c ****   return 1;	/* always succeed */
+  78:Core/u8g2/u8x8_byte.c **** }
+  79:Core/u8g2/u8x8_byte.c **** 
+  80:Core/u8g2/u8x8_byte.c **** 
+  81:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+  82:Core/u8g2/u8x8_byte.c **** 
+  83:Core/u8g2/u8x8_byte.c **** 
+  84:Core/u8g2/u8x8_byte.c **** /*
+  85:Core/u8g2/u8x8_byte.c ****   Uses:
+  86:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->sda_setup_time_ns
+  87:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->sck_pulse_width_ns
+  88:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->spi_mode
+  89:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->chip_disable_level
+  90:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->chip_enable_level
+  91:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->post_chip_enable_wait_ns
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 3
+
+
+  92:Core/u8g2/u8x8_byte.c ****     u8x8->display_info->pre_chip_disable_wait_ns
+  93:Core/u8g2/u8x8_byte.c ****   Calls to GPIO and DELAY:
+  94:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_DELAY_NANO
+  95:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_GPIO_DC
+  96:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_GPIO_CS
+  97:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_GPIO_CLOCK
+  98:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_GPIO_DATA
+  99:Core/u8g2/u8x8_byte.c ****   Handles:
+ 100:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_BYTE_INIT
+ 101:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_BYTE_SEND
+ 102:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_BYTE_SET_DC
+ 103:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_BYTE_START_TRANSFER
+ 104:Core/u8g2/u8x8_byte.c ****     U8X8_MSG_BYTE_END_TRANSFER
+ 105:Core/u8g2/u8x8_byte.c **** */
+ 106:Core/u8g2/u8x8_byte.c **** 
+ 107:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_4wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 108:Core/u8g2/u8x8_byte.c **** {
+ 109:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 110:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 111:Core/u8g2/u8x8_byte.c ****   uint8_t takeover_edge = u8x8_GetSPIClockPhase(u8x8);
+ 112:Core/u8g2/u8x8_byte.c ****   uint8_t not_takeover_edge = 1 - takeover_edge;
+ 113:Core/u8g2/u8x8_byte.c ****  
+ 114:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 115:Core/u8g2/u8x8_byte.c ****   {
+ 116:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 117:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 118:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 119:Core/u8g2/u8x8_byte.c ****       {
+ 120:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 121:Core/u8g2/u8x8_byte.c **** 	data++;
+ 122:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 123:Core/u8g2/u8x8_byte.c **** 	for( i = 0; i < 8; i++ )
+ 124:Core/u8g2/u8x8_byte.c **** 	{
+ 125:Core/u8g2/u8x8_byte.c **** 	  if ( b & 128 )
+ 126:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 1);
+ 127:Core/u8g2/u8x8_byte.c **** 	  else
+ 128:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 0);
+ 129:Core/u8g2/u8x8_byte.c **** 	  b <<= 1;
+ 130:Core/u8g2/u8x8_byte.c **** 	  
+ 131:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, not_takeover_edge);
+ 132:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+ 133:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
+ 134:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+ 135:Core/u8g2/u8x8_byte.c **** 	}    
+ 136:Core/u8g2/u8x8_byte.c ****       }
+ 137:Core/u8g2/u8x8_byte.c ****       break;
+ 138:Core/u8g2/u8x8_byte.c ****       
+ 139:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 140:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 141:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 142:Core/u8g2/u8x8_byte.c ****       /* no wait required here */
+ 143:Core/u8g2/u8x8_byte.c ****       
+ 144:Core/u8g2/u8x8_byte.c ****       /* for SPI: setup correct level of the clock signal */
+ 145:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSPIClockPhase(u8x8));
+ 146:Core/u8g2/u8x8_byte.c ****       break;
+ 147:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 148:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetDC(u8x8, arg_int);
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 4
+
+
+ 149:Core/u8g2/u8x8_byte.c ****       break;
+ 150:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 151:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+ 152:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 153:Core/u8g2/u8x8_byte.c ****       break;
+ 154:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 155:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_
+ 156:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 157:Core/u8g2/u8x8_byte.c ****       break;
+ 158:Core/u8g2/u8x8_byte.c ****     default:
+ 159:Core/u8g2/u8x8_byte.c ****       return 0;
+ 160:Core/u8g2/u8x8_byte.c ****   }
+ 161:Core/u8g2/u8x8_byte.c ****   return 1;
+ 162:Core/u8g2/u8x8_byte.c **** }
+ 163:Core/u8g2/u8x8_byte.c **** 
+ 164:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+ 165:Core/u8g2/u8x8_byte.c **** 
+ 166:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_8bit_6800mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 167:Core/u8g2/u8x8_byte.c **** {
+ 168:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 169:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 170:Core/u8g2/u8x8_byte.c ****  
+ 171:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 172:Core/u8g2/u8x8_byte.c ****   {
+ 173:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 174:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 175:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 176:Core/u8g2/u8x8_byte.c ****       {
+ 177:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 178:Core/u8g2/u8x8_byte.c **** 	data++;
+ 179:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 180:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 181:Core/u8g2/u8x8_byte.c **** 	{
+ 182:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_call(u8x8, i, b&1);
+ 183:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 184:Core/u8g2/u8x8_byte.c **** 	}    
+ 185:Core/u8g2/u8x8_byte.c **** 	
+ 186:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+ 187:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 188:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 189:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 190:Core/u8g2/u8x8_byte.c ****       }
+ 191:Core/u8g2/u8x8_byte.c ****       break;
+ 192:Core/u8g2/u8x8_byte.c ****       
+ 193:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 194:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 195:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
+ 196:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is high */
+ 197:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 198:Core/u8g2/u8x8_byte.c ****       break;
+ 199:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 200:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetDC(u8x8, arg_int);
+ 201:Core/u8g2/u8x8_byte.c ****       break;
+ 202:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 203:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+ 204:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 205:Core/u8g2/u8x8_byte.c ****       break;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 5
+
+
+ 206:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 207:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_
+ 208:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 209:Core/u8g2/u8x8_byte.c ****       break;
+ 210:Core/u8g2/u8x8_byte.c ****     default:
+ 211:Core/u8g2/u8x8_byte.c ****       return 0;
+ 212:Core/u8g2/u8x8_byte.c ****   }
+ 213:Core/u8g2/u8x8_byte.c ****   return 1;
+ 214:Core/u8g2/u8x8_byte.c **** }
+ 215:Core/u8g2/u8x8_byte.c **** 
+ 216:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_8bit_8080mode(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 217:Core/u8g2/u8x8_byte.c **** {
+ 218:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 219:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 220:Core/u8g2/u8x8_byte.c ****  
+ 221:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 222:Core/u8g2/u8x8_byte.c ****   {
+ 223:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 224:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 225:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 226:Core/u8g2/u8x8_byte.c ****       {
+ 227:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 228:Core/u8g2/u8x8_byte.c **** 	data++;
+ 229:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 230:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 231:Core/u8g2/u8x8_byte.c **** 	{
+ 232:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_call(u8x8, i, b&1);
+ 233:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 234:Core/u8g2/u8x8_byte.c **** 	}    
+ 235:Core/u8g2/u8x8_byte.c **** 	
+ 236:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+ 237:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 238:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 239:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 240:Core/u8g2/u8x8_byte.c ****       }
+ 241:Core/u8g2/u8x8_byte.c ****       break;
+ 242:Core/u8g2/u8x8_byte.c ****       
+ 243:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 244:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 245:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
+ 246:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is high */
+ 247:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 248:Core/u8g2/u8x8_byte.c ****       break;
+ 249:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 250:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetDC(u8x8, arg_int);
+ 251:Core/u8g2/u8x8_byte.c ****       break;
+ 252:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 253:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+ 254:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 255:Core/u8g2/u8x8_byte.c ****       break;
+ 256:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 257:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_
+ 258:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 259:Core/u8g2/u8x8_byte.c ****       break;
+ 260:Core/u8g2/u8x8_byte.c ****     default:
+ 261:Core/u8g2/u8x8_byte.c ****       return 0;
+ 262:Core/u8g2/u8x8_byte.c ****   }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 6
+
+
+ 263:Core/u8g2/u8x8_byte.c ****   return 1;
+ 264:Core/u8g2/u8x8_byte.c **** }
+ 265:Core/u8g2/u8x8_byte.c **** 
+ 266:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+ 267:Core/u8g2/u8x8_byte.c **** 
+ 268:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_3wire_sw_spi(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 269:Core/u8g2/u8x8_byte.c **** {
+ 270:Core/u8g2/u8x8_byte.c ****   uint8_t i;
+ 271:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 272:Core/u8g2/u8x8_byte.c ****   uint8_t takeover_edge = u8x8_GetSPIClockPhase(u8x8);
+ 273:Core/u8g2/u8x8_byte.c ****   uint8_t not_takeover_edge = 1 - takeover_edge;
+ 274:Core/u8g2/u8x8_byte.c ****   uint16_t b;
+ 275:Core/u8g2/u8x8_byte.c ****   static uint8_t last_dc;
+ 276:Core/u8g2/u8x8_byte.c ****  
+ 277:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 278:Core/u8g2/u8x8_byte.c ****   {
+ 279:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 280:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 281:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 282:Core/u8g2/u8x8_byte.c ****       {
+ 283:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 284:Core/u8g2/u8x8_byte.c **** 	if ( last_dc != 0 )
+ 285:Core/u8g2/u8x8_byte.c **** 	  b |= 256;
+ 286:Core/u8g2/u8x8_byte.c **** 	data++;
+ 287:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 288:Core/u8g2/u8x8_byte.c **** 	for( i = 0; i < 9; i++ )
+ 289:Core/u8g2/u8x8_byte.c **** 	{
+ 290:Core/u8g2/u8x8_byte.c **** 	  if ( b & 256 )
+ 291:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 1);
+ 292:Core/u8g2/u8x8_byte.c **** 	  else
+ 293:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 0);
+ 294:Core/u8g2/u8x8_byte.c **** 	  b <<= 1;
+ 295:Core/u8g2/u8x8_byte.c **** 	  
+ 296:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, not_takeover_edge);
+ 297:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+ 298:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
+ 299:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+ 300:Core/u8g2/u8x8_byte.c **** 	}    
+ 301:Core/u8g2/u8x8_byte.c ****       }
+ 302:Core/u8g2/u8x8_byte.c ****       break;
+ 303:Core/u8g2/u8x8_byte.c ****       
+ 304:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 305:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 306:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 307:Core/u8g2/u8x8_byte.c ****       /* no wait required here */
+ 308:Core/u8g2/u8x8_byte.c ****       
+ 309:Core/u8g2/u8x8_byte.c ****       /* for SPI: setup correct level of the clock signal */
+ 310:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetSPIClock(u8x8, u8x8_GetSPIClockPhase(u8x8));
+ 311:Core/u8g2/u8x8_byte.c ****       break;
+ 312:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 313:Core/u8g2/u8x8_byte.c ****       last_dc = arg_int;
+ 314:Core/u8g2/u8x8_byte.c ****       break;
+ 315:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 316:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_enable_level);  
+ 317:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 318:Core/u8g2/u8x8_byte.c ****       break;
+ 319:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 7
+
+
+ 320:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_
+ 321:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 322:Core/u8g2/u8x8_byte.c ****       break;
+ 323:Core/u8g2/u8x8_byte.c ****     default:
+ 324:Core/u8g2/u8x8_byte.c ****       return 0;
+ 325:Core/u8g2/u8x8_byte.c ****   }
+ 326:Core/u8g2/u8x8_byte.c ****   return 1;
+ 327:Core/u8g2/u8x8_byte.c **** }
+ 328:Core/u8g2/u8x8_byte.c **** 
+ 329:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+ 330:Core/u8g2/u8x8_byte.c **** 
+ 331:Core/u8g2/u8x8_byte.c **** void u8x8_byte_set_ks0108_cs(u8x8_t *u8x8, uint8_t arg)
+ 332:Core/u8g2/u8x8_byte.c **** {
+ 333:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetCS(u8x8, arg&1);
+ 334:Core/u8g2/u8x8_byte.c ****   arg = arg >> 1;
+ 335:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS1, arg&1);
+ 336:Core/u8g2/u8x8_byte.c ****   arg = arg >> 1;
+ 337:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS2, arg&1);
+ 338:Core/u8g2/u8x8_byte.c **** }
+ 339:Core/u8g2/u8x8_byte.c **** 
+ 340:Core/u8g2/u8x8_byte.c **** /* 6800 mode */
+ 341:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_ks0108(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 342:Core/u8g2/u8x8_byte.c **** {
+ 343:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 344:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 345:Core/u8g2/u8x8_byte.c ****  
+ 346:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 347:Core/u8g2/u8x8_byte.c ****   {
+ 348:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 349:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 350:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 351:Core/u8g2/u8x8_byte.c ****       {
+ 352:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 353:Core/u8g2/u8x8_byte.c **** 	data++;
+ 354:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 355:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 356:Core/u8g2/u8x8_byte.c **** 	{
+ 357:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_call(u8x8, i, b&1);
+ 358:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 359:Core/u8g2/u8x8_byte.c **** 	}    
+ 360:Core/u8g2/u8x8_byte.c **** 	
+ 361:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+ 362:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 363:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 364:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 365:Core/u8g2/u8x8_byte.c ****       }
+ 366:Core/u8g2/u8x8_byte.c ****       break;
+ 367:Core/u8g2/u8x8_byte.c ****       
+ 368:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 369:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 370:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
+ 371:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is low */
+ 372:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 373:Core/u8g2/u8x8_byte.c ****       break;
+ 374:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 375:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetDC(u8x8, arg_int);
+ 376:Core/u8g2/u8x8_byte.c ****       break;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 8
+
+
+ 377:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 378:Core/u8g2/u8x8_byte.c ****       /* expects 3 bits in arg_int for the chip select lines */ 
+ 379:Core/u8g2/u8x8_byte.c ****       u8x8_byte_set_ks0108_cs(u8x8, arg_int);
+ 380:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 381:Core/u8g2/u8x8_byte.c ****       break;
+ 382:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 383:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->pre_chip_disable_wait_
+ 384:Core/u8g2/u8x8_byte.c ****       u8x8_byte_set_ks0108_cs(u8x8, arg_int);
+ 385:Core/u8g2/u8x8_byte.c ****       break;
+ 386:Core/u8g2/u8x8_byte.c ****     default:
+ 387:Core/u8g2/u8x8_byte.c ****       return 0;
+ 388:Core/u8g2/u8x8_byte.c ****   }
+ 389:Core/u8g2/u8x8_byte.c ****   return 1;
+ 390:Core/u8g2/u8x8_byte.c **** }
+ 391:Core/u8g2/u8x8_byte.c **** 
+ 392:Core/u8g2/u8x8_byte.c **** 
+ 393:Core/u8g2/u8x8_byte.c **** /* sed1520 or sbn1661 
+ 394:Core/u8g2/u8x8_byte.c ****   U8X8_MSG_GPIO_E --> E1
+ 395:Core/u8g2/u8x8_byte.c ****   U8X8_MSG_GPIO_CS --> E2
+ 396:Core/u8g2/u8x8_byte.c **** */
+ 397:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_sed1520(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 398:Core/u8g2/u8x8_byte.c **** {
+ 399:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 400:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 401:Core/u8g2/u8x8_byte.c ****   static uint8_t enable_pin;
+ 402:Core/u8g2/u8x8_byte.c ****  
+ 403:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 404:Core/u8g2/u8x8_byte.c ****   {
+ 405:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ 406:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 407:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 408:Core/u8g2/u8x8_byte.c ****       {
+ 409:Core/u8g2/u8x8_byte.c **** 	b = *data;
+ 410:Core/u8g2/u8x8_byte.c **** 	data++;
+ 411:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 412:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 413:Core/u8g2/u8x8_byte.c **** 	{
+ 414:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_call(u8x8, i, b&1);
+ 415:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 416:Core/u8g2/u8x8_byte.c **** 	}    
+ 417:Core/u8g2/u8x8_byte.c **** 	
+ 418:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->data_setup_time_ns);
+ 419:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, enable_pin, 1);
+ 420:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 200);		/* KS0108 requires 450 ns, use 200 here */
+ 421:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);  /* expect 2
+ 422:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, enable_pin, 0);
+ 423:Core/u8g2/u8x8_byte.c ****       }
+ 424:Core/u8g2/u8x8_byte.c ****       break;
+ 425:Core/u8g2/u8x8_byte.c ****       
+ 426:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 427:Core/u8g2/u8x8_byte.c ****       /* disable chipselect */
+ 428:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);    
+ 429:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signals are low */
+ 430:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 431:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, 0);
+ 432:Core/u8g2/u8x8_byte.c ****       enable_pin = U8X8_MSG_GPIO_E;
+ 433:Core/u8g2/u8x8_byte.c ****       break;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 9
+
+
+ 434:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 435:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetDC(u8x8, arg_int);
+ 436:Core/u8g2/u8x8_byte.c ****       break;
+ 437:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 438:Core/u8g2/u8x8_byte.c ****       /* cs lines are not supported for the SED1520/SBN1661 */
+ 439:Core/u8g2/u8x8_byte.c ****       /* instead, this will select the E1 or E2 line */ 
+ 440:Core/u8g2/u8x8_byte.c ****       enable_pin = U8X8_MSG_GPIO_E;
+ 441:Core/u8g2/u8x8_byte.c ****       if ( arg_int != 0 )
+ 442:Core/u8g2/u8x8_byte.c **** 	enable_pin = U8X8_MSG_GPIO_CS;
+ 443:Core/u8g2/u8x8_byte.c ****       break;
+ 444:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 445:Core/u8g2/u8x8_byte.c ****       break;
+ 446:Core/u8g2/u8x8_byte.c ****     default:
+ 447:Core/u8g2/u8x8_byte.c ****       return 0;
+ 448:Core/u8g2/u8x8_byte.c ****   }
+ 449:Core/u8g2/u8x8_byte.c ****   return 1;
+ 450:Core/u8g2/u8x8_byte.c **** }
+ 451:Core/u8g2/u8x8_byte.c **** 
+ 452:Core/u8g2/u8x8_byte.c **** /*=========================================*/
+ 453:Core/u8g2/u8x8_byte.c **** 
+ 454:Core/u8g2/u8x8_byte.c **** 
+ 455:Core/u8g2/u8x8_byte.c **** /*
+ 456:Core/u8g2/u8x8_byte.c ****   software i2c,
+ 457:Core/u8g2/u8x8_byte.c ****   ignores ACK response (which is anyway not provided by some displays)
+ 458:Core/u8g2/u8x8_byte.c ****   also does not allow reading from the device
+ 459:Core/u8g2/u8x8_byte.c **** */
+ 460:Core/u8g2/u8x8_byte.c **** static void i2c_delay(u8x8_t *u8x8) U8X8_NOINLINE;
+ 461:Core/u8g2/u8x8_byte.c **** static void i2c_delay(u8x8_t *u8x8)
+ 462:Core/u8g2/u8x8_byte.c **** {
+  25              		.loc 1 462 0
+  26              		.cfi_startproc
+  27              		@ args = 0, pretend = 0, frame = 0
+  28              		@ frame_needed = 0, uses_anonymous_args = 0
+  29              	.LVL0:
+  30 0000 08B5     		push	{r3, lr}
+  31              	.LCFI0:
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
+ 463:Core/u8g2/u8x8_byte.c ****   //u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_10MICRO, u8x8->display_info->i2c_bus_clock_100kHz);
+ 464:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_I2C, u8x8->display_info->i2c_bus_clock_100kHz);
+  35              		.loc 1 464 0
+  36 0002 0368     		ldr	r3, [r0]
+  37 0004 5A7B     		ldrb	r2, [r3, #13]	@ zero_extendqisi2
+  38 0006 2D21     		movs	r1, #45
+  39 0008 FFF7FEFF 		bl	u8x8_gpio_call
+  40              	.LVL1:
+ 465:Core/u8g2/u8x8_byte.c **** }
+  41              		.loc 1 465 0
+  42 000c 08BD     		pop	{r3, pc}
+  43              		.cfi_endproc
+  44              	.LFE13:
+  46              		.section	.text.i2c_init,"ax",%progbits
+  47              		.align	1
+  48              		.syntax unified
+  49              		.thumb
+  50              		.thumb_func
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 10
+
+
+  51              		.fpu softvfp
+  53              	i2c_init:
+  54              	.LFB14:
+ 466:Core/u8g2/u8x8_byte.c **** 
+ 467:Core/u8g2/u8x8_byte.c **** static void i2c_init(u8x8_t *u8x8)
+ 468:Core/u8g2/u8x8_byte.c **** {
+  55              		.loc 1 468 0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              	.LVL2:
+  60 0000 10B5     		push	{r4, lr}
+  61              	.LCFI1:
+  62              		.cfi_def_cfa_offset 8
+  63              		.cfi_offset 4, -8
+  64              		.cfi_offset 14, -4
+  65 0002 0446     		mov	r4, r0
+ 469:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CClock(u8x8, 1);
+  66              		.loc 1 469 0
+  67 0004 0122     		movs	r2, #1
+  68 0006 4C21     		movs	r1, #76
+  69 0008 FFF7FEFF 		bl	u8x8_gpio_call
+  70              	.LVL3:
+ 470:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CData(u8x8, 1);
+  71              		.loc 1 470 0
+  72 000c 0122     		movs	r2, #1
+  73 000e 4D21     		movs	r1, #77
+  74 0010 2046     		mov	r0, r4
+  75 0012 FFF7FEFF 		bl	u8x8_gpio_call
+  76              	.LVL4:
+ 471:Core/u8g2/u8x8_byte.c ****   
+ 472:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+  77              		.loc 1 472 0
+  78 0016 2046     		mov	r0, r4
+  79 0018 FFF7FEFF 		bl	i2c_delay
+  80              	.LVL5:
+ 473:Core/u8g2/u8x8_byte.c **** }
+  81              		.loc 1 473 0
+  82 001c 10BD     		pop	{r4, pc}
+  83              		.cfi_endproc
+  84              	.LFE14:
+  86              		.section	.text.i2c_read_scl_and_delay,"ax",%progbits
+  87              		.align	1
+  88              		.syntax unified
+  89              		.thumb
+  90              		.thumb_func
+  91              		.fpu softvfp
+  93              	i2c_read_scl_and_delay:
+  94              	.LFB15:
+ 474:Core/u8g2/u8x8_byte.c **** 
+ 475:Core/u8g2/u8x8_byte.c **** /* actually, the scl line is not observed, so this procedure does not return a value */
+ 476:Core/u8g2/u8x8_byte.c **** 
+ 477:Core/u8g2/u8x8_byte.c **** static void i2c_read_scl_and_delay(u8x8_t *u8x8)
+ 478:Core/u8g2/u8x8_byte.c **** {
+  95              		.loc 1 478 0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 11
+
+
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              	.LVL6:
+ 100 0000 10B5     		push	{r4, lr}
+ 101              	.LCFI2:
+ 102              		.cfi_def_cfa_offset 8
+ 103              		.cfi_offset 4, -8
+ 104              		.cfi_offset 14, -4
+ 105 0002 0446     		mov	r4, r0
+ 479:Core/u8g2/u8x8_byte.c ****   /* set as input (line will be high) */
+ 480:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CClock(u8x8, 1);
+ 106              		.loc 1 480 0
+ 107 0004 0122     		movs	r2, #1
+ 108 0006 4C21     		movs	r1, #76
+ 109 0008 FFF7FEFF 		bl	u8x8_gpio_call
+ 110              	.LVL7:
+ 481:Core/u8g2/u8x8_byte.c **** 
+ 482:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 111              		.loc 1 482 0
+ 112 000c 2046     		mov	r0, r4
+ 113 000e FFF7FEFF 		bl	i2c_delay
+ 114              	.LVL8:
+ 483:Core/u8g2/u8x8_byte.c **** }
+ 115              		.loc 1 483 0
+ 116 0012 10BD     		pop	{r4, pc}
+ 117              		.cfi_endproc
+ 118              	.LFE15:
+ 120              		.section	.text.i2c_read_sda,"ax",%progbits
+ 121              		.align	1
+ 122              		.syntax unified
+ 123              		.thumb
+ 124              		.thumb_func
+ 125              		.fpu softvfp
+ 127              	i2c_read_sda:
+ 128              	.LFB17:
+ 484:Core/u8g2/u8x8_byte.c **** 
+ 485:Core/u8g2/u8x8_byte.c **** static void i2c_clear_scl(u8x8_t *u8x8)
+ 486:Core/u8g2/u8x8_byte.c **** {
+ 487:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CClock(u8x8, 0);
+ 488:Core/u8g2/u8x8_byte.c **** }
+ 489:Core/u8g2/u8x8_byte.c **** 
+ 490:Core/u8g2/u8x8_byte.c **** static void i2c_read_sda(u8x8_t *u8x8)
+ 491:Core/u8g2/u8x8_byte.c **** {
+ 129              		.loc 1 491 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              	.LVL9:
+ 134 0000 08B5     		push	{r3, lr}
+ 135              	.LCFI3:
+ 136              		.cfi_def_cfa_offset 8
+ 137              		.cfi_offset 3, -8
+ 138              		.cfi_offset 14, -4
+ 492:Core/u8g2/u8x8_byte.c ****   /* set as input (line will be high) */
+ 493:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CData(u8x8, 1);
+ 139              		.loc 1 493 0
+ 140 0002 0122     		movs	r2, #1
+ 141 0004 4D21     		movs	r1, #77
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 12
+
+
+ 142 0006 FFF7FEFF 		bl	u8x8_gpio_call
+ 143              	.LVL10:
+ 494:Core/u8g2/u8x8_byte.c **** }
+ 144              		.loc 1 494 0
+ 145 000a 08BD     		pop	{r3, pc}
+ 146              		.cfi_endproc
+ 147              	.LFE17:
+ 149              		.section	.text.i2c_clear_sda,"ax",%progbits
+ 150              		.align	1
+ 151              		.syntax unified
+ 152              		.thumb
+ 153              		.thumb_func
+ 154              		.fpu softvfp
+ 156              	i2c_clear_sda:
+ 157              	.LFB18:
+ 495:Core/u8g2/u8x8_byte.c **** 
+ 496:Core/u8g2/u8x8_byte.c **** static void i2c_clear_sda(u8x8_t *u8x8)
+ 497:Core/u8g2/u8x8_byte.c **** {
+ 158              		.loc 1 497 0
+ 159              		.cfi_startproc
+ 160              		@ args = 0, pretend = 0, frame = 0
+ 161              		@ frame_needed = 0, uses_anonymous_args = 0
+ 162              	.LVL11:
+ 163 0000 08B5     		push	{r3, lr}
+ 164              	.LCFI4:
+ 165              		.cfi_def_cfa_offset 8
+ 166              		.cfi_offset 3, -8
+ 167              		.cfi_offset 14, -4
+ 498:Core/u8g2/u8x8_byte.c ****   /* set open collector and drive low */
+ 499:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CData(u8x8, 0);
+ 168              		.loc 1 499 0
+ 169 0002 0022     		movs	r2, #0
+ 170 0004 4D21     		movs	r1, #77
+ 171 0006 FFF7FEFF 		bl	u8x8_gpio_call
+ 172              	.LVL12:
+ 500:Core/u8g2/u8x8_byte.c **** }
+ 173              		.loc 1 500 0
+ 174 000a 08BD     		pop	{r3, pc}
+ 175              		.cfi_endproc
+ 176              	.LFE18:
+ 178              		.section	.text.i2c_stop,"ax",%progbits
+ 179              		.align	1
+ 180              		.syntax unified
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.fpu softvfp
+ 185              	i2c_stop:
+ 186              	.LFB20:
+ 501:Core/u8g2/u8x8_byte.c **** 
+ 502:Core/u8g2/u8x8_byte.c **** static void i2c_start(u8x8_t *u8x8)
+ 503:Core/u8g2/u8x8_byte.c **** {
+ 504:Core/u8g2/u8x8_byte.c ****   if ( u8x8->i2c_started != 0 )
+ 505:Core/u8g2/u8x8_byte.c ****   {
+ 506:Core/u8g2/u8x8_byte.c ****     /* if already started: do restart */
+ 507:Core/u8g2/u8x8_byte.c ****     i2c_read_sda(u8x8);     /* SDA = 1 */
+ 508:Core/u8g2/u8x8_byte.c ****     i2c_delay(u8x8);
+ 509:Core/u8g2/u8x8_byte.c ****     i2c_read_scl_and_delay(u8x8);
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 13
+
+
+ 510:Core/u8g2/u8x8_byte.c ****   }
+ 511:Core/u8g2/u8x8_byte.c ****   i2c_read_sda(u8x8);
+ 512:Core/u8g2/u8x8_byte.c ****   /* send the start condition, both lines go from 1 to 0 */
+ 513:Core/u8g2/u8x8_byte.c ****   i2c_clear_sda(u8x8);
+ 514:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 515:Core/u8g2/u8x8_byte.c ****   i2c_clear_scl(u8x8);
+ 516:Core/u8g2/u8x8_byte.c ****   u8x8->i2c_started = 1;
+ 517:Core/u8g2/u8x8_byte.c **** }
+ 518:Core/u8g2/u8x8_byte.c **** 
+ 519:Core/u8g2/u8x8_byte.c **** 
+ 520:Core/u8g2/u8x8_byte.c **** static void i2c_stop(u8x8_t *u8x8)
+ 521:Core/u8g2/u8x8_byte.c **** {
+ 187              		.loc 1 521 0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              	.LVL13:
+ 192 0000 10B5     		push	{r4, lr}
+ 193              	.LCFI5:
+ 194              		.cfi_def_cfa_offset 8
+ 195              		.cfi_offset 4, -8
+ 196              		.cfi_offset 14, -4
+ 197 0002 0446     		mov	r4, r0
+ 522:Core/u8g2/u8x8_byte.c ****   /* set SDA to 0 */
+ 523:Core/u8g2/u8x8_byte.c ****   i2c_clear_sda(u8x8);  
+ 198              		.loc 1 523 0
+ 199 0004 FFF7FEFF 		bl	i2c_clear_sda
+ 200              	.LVL14:
+ 524:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 201              		.loc 1 524 0
+ 202 0008 2046     		mov	r0, r4
+ 203 000a FFF7FEFF 		bl	i2c_delay
+ 204              	.LVL15:
+ 525:Core/u8g2/u8x8_byte.c ****  
+ 526:Core/u8g2/u8x8_byte.c ****   /* now release all lines */
+ 527:Core/u8g2/u8x8_byte.c ****   i2c_read_scl_and_delay(u8x8);
+ 205              		.loc 1 527 0
+ 206 000e 2046     		mov	r0, r4
+ 207 0010 FFF7FEFF 		bl	i2c_read_scl_and_delay
+ 208              	.LVL16:
+ 528:Core/u8g2/u8x8_byte.c ****  
+ 529:Core/u8g2/u8x8_byte.c ****   /* set SDA to 1 */
+ 530:Core/u8g2/u8x8_byte.c ****   i2c_read_sda(u8x8);
+ 209              		.loc 1 530 0
+ 210 0014 2046     		mov	r0, r4
+ 211 0016 FFF7FEFF 		bl	i2c_read_sda
+ 212              	.LVL17:
+ 531:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 213              		.loc 1 531 0
+ 214 001a 2046     		mov	r0, r4
+ 215 001c FFF7FEFF 		bl	i2c_delay
+ 216              	.LVL18:
+ 532:Core/u8g2/u8x8_byte.c ****   u8x8->i2c_started = 0;
+ 217              		.loc 1 532 0
+ 218 0020 0023     		movs	r3, #0
+ 219 0022 84F82530 		strb	r3, [r4, #37]
+ 533:Core/u8g2/u8x8_byte.c **** }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 14
+
+
+ 220              		.loc 1 533 0
+ 221 0026 10BD     		pop	{r4, pc}
+ 222              		.cfi_endproc
+ 223              	.LFE20:
+ 225              		.section	.text.i2c_clear_scl,"ax",%progbits
+ 226              		.align	1
+ 227              		.syntax unified
+ 228              		.thumb
+ 229              		.thumb_func
+ 230              		.fpu softvfp
+ 232              	i2c_clear_scl:
+ 233              	.LFB16:
+ 486:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetI2CClock(u8x8, 0);
+ 234              		.loc 1 486 0
+ 235              		.cfi_startproc
+ 236              		@ args = 0, pretend = 0, frame = 0
+ 237              		@ frame_needed = 0, uses_anonymous_args = 0
+ 238              	.LVL19:
+ 239 0000 08B5     		push	{r3, lr}
+ 240              	.LCFI6:
+ 241              		.cfi_def_cfa_offset 8
+ 242              		.cfi_offset 3, -8
+ 243              		.cfi_offset 14, -4
+ 487:Core/u8g2/u8x8_byte.c **** }
+ 244              		.loc 1 487 0
+ 245 0002 0022     		movs	r2, #0
+ 246 0004 4C21     		movs	r1, #76
+ 247 0006 FFF7FEFF 		bl	u8x8_gpio_call
+ 248              	.LVL20:
+ 488:Core/u8g2/u8x8_byte.c **** 
+ 249              		.loc 1 488 0
+ 250 000a 08BD     		pop	{r3, pc}
+ 251              		.cfi_endproc
+ 252              	.LFE16:
+ 254              		.section	.text.i2c_start,"ax",%progbits
+ 255              		.align	1
+ 256              		.syntax unified
+ 257              		.thumb
+ 258              		.thumb_func
+ 259              		.fpu softvfp
+ 261              	i2c_start:
+ 262              	.LFB19:
+ 503:Core/u8g2/u8x8_byte.c ****   if ( u8x8->i2c_started != 0 )
+ 263              		.loc 1 503 0
+ 264              		.cfi_startproc
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              	.LVL21:
+ 268 0000 10B5     		push	{r4, lr}
+ 269              	.LCFI7:
+ 270              		.cfi_def_cfa_offset 8
+ 271              		.cfi_offset 4, -8
+ 272              		.cfi_offset 14, -4
+ 273 0002 0446     		mov	r4, r0
+ 504:Core/u8g2/u8x8_byte.c ****   {
+ 274              		.loc 1 504 0
+ 275 0004 90F82530 		ldrb	r3, [r0, #37]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 15
+
+
+ 276 0008 7BB9     		cbnz	r3, .L18
+ 277              	.LVL22:
+ 278              	.L16:
+ 511:Core/u8g2/u8x8_byte.c ****   /* send the start condition, both lines go from 1 to 0 */
+ 279              		.loc 1 511 0
+ 280 000a 2046     		mov	r0, r4
+ 281 000c FFF7FEFF 		bl	i2c_read_sda
+ 282              	.LVL23:
+ 513:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 283              		.loc 1 513 0
+ 284 0010 2046     		mov	r0, r4
+ 285 0012 FFF7FEFF 		bl	i2c_clear_sda
+ 286              	.LVL24:
+ 514:Core/u8g2/u8x8_byte.c ****   i2c_clear_scl(u8x8);
+ 287              		.loc 1 514 0
+ 288 0016 2046     		mov	r0, r4
+ 289 0018 FFF7FEFF 		bl	i2c_delay
+ 290              	.LVL25:
+ 515:Core/u8g2/u8x8_byte.c ****   u8x8->i2c_started = 1;
+ 291              		.loc 1 515 0
+ 292 001c 2046     		mov	r0, r4
+ 293 001e FFF7FEFF 		bl	i2c_clear_scl
+ 294              	.LVL26:
+ 516:Core/u8g2/u8x8_byte.c **** }
+ 295              		.loc 1 516 0
+ 296 0022 0123     		movs	r3, #1
+ 297 0024 84F82530 		strb	r3, [r4, #37]
+ 517:Core/u8g2/u8x8_byte.c **** 
+ 298              		.loc 1 517 0
+ 299 0028 10BD     		pop	{r4, pc}
+ 300              	.LVL27:
+ 301              	.L18:
+ 507:Core/u8g2/u8x8_byte.c ****     i2c_delay(u8x8);
+ 302              		.loc 1 507 0
+ 303 002a FFF7FEFF 		bl	i2c_read_sda
+ 304              	.LVL28:
+ 508:Core/u8g2/u8x8_byte.c ****     i2c_read_scl_and_delay(u8x8);
+ 305              		.loc 1 508 0
+ 306 002e 2046     		mov	r0, r4
+ 307 0030 FFF7FEFF 		bl	i2c_delay
+ 308              	.LVL29:
+ 509:Core/u8g2/u8x8_byte.c ****   }
+ 309              		.loc 1 509 0
+ 310 0034 2046     		mov	r0, r4
+ 311 0036 FFF7FEFF 		bl	i2c_read_scl_and_delay
+ 312              	.LVL30:
+ 313 003a E6E7     		b	.L16
+ 314              		.cfi_endproc
+ 315              	.LFE19:
+ 317              		.section	.text.i2c_write_bit,"ax",%progbits
+ 318              		.align	1
+ 319              		.syntax unified
+ 320              		.thumb
+ 321              		.thumb_func
+ 322              		.fpu softvfp
+ 324              	i2c_write_bit:
+ 325              	.LFB21:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 16
+
+
+ 534:Core/u8g2/u8x8_byte.c **** 
+ 535:Core/u8g2/u8x8_byte.c **** static void i2c_write_bit(u8x8_t *u8x8, uint8_t val)
+ 536:Core/u8g2/u8x8_byte.c **** {
+ 326              		.loc 1 536 0
+ 327              		.cfi_startproc
+ 328              		@ args = 0, pretend = 0, frame = 0
+ 329              		@ frame_needed = 0, uses_anonymous_args = 0
+ 330              	.LVL31:
+ 331 0000 10B5     		push	{r4, lr}
+ 332              	.LCFI8:
+ 333              		.cfi_def_cfa_offset 8
+ 334              		.cfi_offset 4, -8
+ 335              		.cfi_offset 14, -4
+ 336 0002 0446     		mov	r4, r0
+ 537:Core/u8g2/u8x8_byte.c ****   if (val)
+ 337              		.loc 1 537 0
+ 338 0004 59B9     		cbnz	r1, .L23
+ 538:Core/u8g2/u8x8_byte.c ****     i2c_read_sda(u8x8);
+ 539:Core/u8g2/u8x8_byte.c ****   else
+ 540:Core/u8g2/u8x8_byte.c ****     i2c_clear_sda(u8x8);
+ 339              		.loc 1 540 0
+ 340 0006 FFF7FEFF 		bl	i2c_clear_sda
+ 341              	.LVL32:
+ 342              	.L21:
+ 541:Core/u8g2/u8x8_byte.c ****  
+ 542:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 343              		.loc 1 542 0
+ 344 000a 2046     		mov	r0, r4
+ 345 000c FFF7FEFF 		bl	i2c_delay
+ 346              	.LVL33:
+ 543:Core/u8g2/u8x8_byte.c ****   i2c_read_scl_and_delay(u8x8);
+ 347              		.loc 1 543 0
+ 348 0010 2046     		mov	r0, r4
+ 349 0012 FFF7FEFF 		bl	i2c_read_scl_and_delay
+ 350              	.LVL34:
+ 544:Core/u8g2/u8x8_byte.c ****   i2c_clear_scl(u8x8);
+ 351              		.loc 1 544 0
+ 352 0016 2046     		mov	r0, r4
+ 353 0018 FFF7FEFF 		bl	i2c_clear_scl
+ 354              	.LVL35:
+ 545:Core/u8g2/u8x8_byte.c **** }
+ 355              		.loc 1 545 0
+ 356 001c 10BD     		pop	{r4, pc}
+ 357              	.LVL36:
+ 358              	.L23:
+ 538:Core/u8g2/u8x8_byte.c ****   else
+ 359              		.loc 1 538 0
+ 360 001e FFF7FEFF 		bl	i2c_read_sda
+ 361              	.LVL37:
+ 362 0022 F2E7     		b	.L21
+ 363              		.cfi_endproc
+ 364              	.LFE21:
+ 366              		.section	.text.i2c_read_bit,"ax",%progbits
+ 367              		.align	1
+ 368              		.syntax unified
+ 369              		.thumb
+ 370              		.thumb_func
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 17
+
+
+ 371              		.fpu softvfp
+ 373              	i2c_read_bit:
+ 374              	.LFB22:
+ 546:Core/u8g2/u8x8_byte.c **** 
+ 547:Core/u8g2/u8x8_byte.c **** static void i2c_read_bit(u8x8_t *u8x8)
+ 548:Core/u8g2/u8x8_byte.c **** {
+ 375              		.loc 1 548 0
+ 376              		.cfi_startproc
+ 377              		@ args = 0, pretend = 0, frame = 0
+ 378              		@ frame_needed = 0, uses_anonymous_args = 0
+ 379              	.LVL38:
+ 380 0000 10B5     		push	{r4, lr}
+ 381              	.LCFI9:
+ 382              		.cfi_def_cfa_offset 8
+ 383              		.cfi_offset 4, -8
+ 384              		.cfi_offset 14, -4
+ 385 0002 0446     		mov	r4, r0
+ 549:Core/u8g2/u8x8_byte.c ****   //uint8_t val;
+ 550:Core/u8g2/u8x8_byte.c ****   /* do not drive SDA */
+ 551:Core/u8g2/u8x8_byte.c ****   i2c_read_sda(u8x8);
+ 386              		.loc 1 551 0
+ 387 0004 FFF7FEFF 		bl	i2c_read_sda
+ 388              	.LVL39:
+ 552:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 389              		.loc 1 552 0
+ 390 0008 2046     		mov	r0, r4
+ 391 000a FFF7FEFF 		bl	i2c_delay
+ 392              	.LVL40:
+ 553:Core/u8g2/u8x8_byte.c ****   i2c_read_scl_and_delay(u8x8);
+ 393              		.loc 1 553 0
+ 394 000e 2046     		mov	r0, r4
+ 395 0010 FFF7FEFF 		bl	i2c_read_scl_and_delay
+ 396              	.LVL41:
+ 554:Core/u8g2/u8x8_byte.c ****   i2c_read_sda(u8x8);
+ 397              		.loc 1 554 0
+ 398 0014 2046     		mov	r0, r4
+ 399 0016 FFF7FEFF 		bl	i2c_read_sda
+ 400              	.LVL42:
+ 555:Core/u8g2/u8x8_byte.c ****   i2c_delay(u8x8);
+ 401              		.loc 1 555 0
+ 402 001a 2046     		mov	r0, r4
+ 403 001c FFF7FEFF 		bl	i2c_delay
+ 404              	.LVL43:
+ 556:Core/u8g2/u8x8_byte.c ****   i2c_clear_scl(u8x8);
+ 405              		.loc 1 556 0
+ 406 0020 2046     		mov	r0, r4
+ 407 0022 FFF7FEFF 		bl	i2c_clear_scl
+ 408              	.LVL44:
+ 557:Core/u8g2/u8x8_byte.c ****   //return val;
+ 558:Core/u8g2/u8x8_byte.c **** }
+ 409              		.loc 1 558 0
+ 410 0026 10BD     		pop	{r4, pc}
+ 411              		.cfi_endproc
+ 412              	.LFE22:
+ 414              		.section	.text.i2c_write_byte,"ax",%progbits
+ 415              		.align	1
+ 416              		.syntax unified
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 18
+
+
+ 417              		.thumb
+ 418              		.thumb_func
+ 419              		.fpu softvfp
+ 421              	i2c_write_byte:
+ 422              	.LFB23:
+ 559:Core/u8g2/u8x8_byte.c **** 
+ 560:Core/u8g2/u8x8_byte.c **** static void i2c_write_byte(u8x8_t *u8x8, uint8_t b)
+ 561:Core/u8g2/u8x8_byte.c **** {
+ 423              		.loc 1 561 0
+ 424              		.cfi_startproc
+ 425              		@ args = 0, pretend = 0, frame = 0
+ 426              		@ frame_needed = 0, uses_anonymous_args = 0
+ 427              	.LVL45:
+ 428 0000 38B5     		push	{r3, r4, r5, lr}
+ 429              	.LCFI10:
+ 430              		.cfi_def_cfa_offset 16
+ 431              		.cfi_offset 3, -16
+ 432              		.cfi_offset 4, -12
+ 433              		.cfi_offset 5, -8
+ 434              		.cfi_offset 14, -4
+ 435 0002 0446     		mov	r4, r0
+ 436 0004 0D46     		mov	r5, r1
+ 562:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 128);
+ 437              		.loc 1 562 0
+ 438 0006 01F08001 		and	r1, r1, #128
+ 439              	.LVL46:
+ 440 000a FFF7FEFF 		bl	i2c_write_bit
+ 441              	.LVL47:
+ 563:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 64);
+ 442              		.loc 1 563 0
+ 443 000e 05F04001 		and	r1, r5, #64
+ 444 0012 2046     		mov	r0, r4
+ 445 0014 FFF7FEFF 		bl	i2c_write_bit
+ 446              	.LVL48:
+ 564:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 32);
+ 447              		.loc 1 564 0
+ 448 0018 05F02001 		and	r1, r5, #32
+ 449 001c 2046     		mov	r0, r4
+ 450 001e FFF7FEFF 		bl	i2c_write_bit
+ 451              	.LVL49:
+ 565:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 16);
+ 452              		.loc 1 565 0
+ 453 0022 05F01001 		and	r1, r5, #16
+ 454 0026 2046     		mov	r0, r4
+ 455 0028 FFF7FEFF 		bl	i2c_write_bit
+ 456              	.LVL50:
+ 566:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 8);
+ 457              		.loc 1 566 0
+ 458 002c 05F00801 		and	r1, r5, #8
+ 459 0030 2046     		mov	r0, r4
+ 460 0032 FFF7FEFF 		bl	i2c_write_bit
+ 461              	.LVL51:
+ 567:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 4);
+ 462              		.loc 1 567 0
+ 463 0036 05F00401 		and	r1, r5, #4
+ 464 003a 2046     		mov	r0, r4
+ 465 003c FFF7FEFF 		bl	i2c_write_bit
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 19
+
+
+ 466              	.LVL52:
+ 568:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 2);
+ 467              		.loc 1 568 0
+ 468 0040 05F00201 		and	r1, r5, #2
+ 469 0044 2046     		mov	r0, r4
+ 470 0046 FFF7FEFF 		bl	i2c_write_bit
+ 471              	.LVL53:
+ 569:Core/u8g2/u8x8_byte.c ****   i2c_write_bit(u8x8, b & 1);
+ 472              		.loc 1 569 0
+ 473 004a 05F00101 		and	r1, r5, #1
+ 474 004e 2046     		mov	r0, r4
+ 475 0050 FFF7FEFF 		bl	i2c_write_bit
+ 476              	.LVL54:
+ 570:Core/u8g2/u8x8_byte.c ****     
+ 571:Core/u8g2/u8x8_byte.c ****   /* read ack from client */
+ 572:Core/u8g2/u8x8_byte.c ****   /* 0: ack was given by client */
+ 573:Core/u8g2/u8x8_byte.c ****   /* 1: nothing happend during ack cycle */  
+ 574:Core/u8g2/u8x8_byte.c ****   i2c_read_bit(u8x8);
+ 477              		.loc 1 574 0
+ 478 0054 2046     		mov	r0, r4
+ 479 0056 FFF7FEFF 		bl	i2c_read_bit
+ 480              	.LVL55:
+ 575:Core/u8g2/u8x8_byte.c **** }
+ 481              		.loc 1 575 0
+ 482 005a 38BD     		pop	{r3, r4, r5, pc}
+ 483              		.cfi_endproc
+ 484              	.LFE23:
+ 486              		.section	.text.u8x8_byte_SetDC,"ax",%progbits
+ 487              		.align	1
+ 488              		.global	u8x8_byte_SetDC
+ 489              		.syntax unified
+ 490              		.thumb
+ 491              		.thumb_func
+ 492              		.fpu softvfp
+ 494              	u8x8_byte_SetDC:
+ 495              	.LFB0:
+  40:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_SET_DC, dc, NULL);
+ 496              		.loc 1 40 0
+ 497              		.cfi_startproc
+ 498              		@ args = 0, pretend = 0, frame = 0
+ 499              		@ frame_needed = 0, uses_anonymous_args = 0
+ 500              	.LVL56:
+ 501 0000 10B5     		push	{r4, lr}
+ 502              	.LCFI11:
+ 503              		.cfi_def_cfa_offset 8
+ 504              		.cfi_offset 4, -8
+ 505              		.cfi_offset 14, -4
+  41:Core/u8g2/u8x8_byte.c **** }
+ 506              		.loc 1 41 0
+ 507 0002 0469     		ldr	r4, [r0, #16]
+ 508 0004 0023     		movs	r3, #0
+ 509 0006 0A46     		mov	r2, r1
+ 510 0008 2021     		movs	r1, #32
+ 511              	.LVL57:
+ 512 000a A047     		blx	r4
+ 513              	.LVL58:
+  42:Core/u8g2/u8x8_byte.c **** 
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 20
+
+
+ 514              		.loc 1 42 0
+ 515 000c 10BD     		pop	{r4, pc}
+ 516              		.cfi_endproc
+ 517              	.LFE0:
+ 519              		.section	.text.u8x8_byte_SendBytes,"ax",%progbits
+ 520              		.align	1
+ 521              		.global	u8x8_byte_SendBytes
+ 522              		.syntax unified
+ 523              		.thumb
+ 524              		.thumb_func
+ 525              		.fpu softvfp
+ 527              	u8x8_byte_SendBytes:
+ 528              	.LFB1:
+  45:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_SEND, cnt, (void *)data);
+ 529              		.loc 1 45 0
+ 530              		.cfi_startproc
+ 531              		@ args = 0, pretend = 0, frame = 0
+ 532              		@ frame_needed = 0, uses_anonymous_args = 0
+ 533              	.LVL59:
+ 534 0000 10B5     		push	{r4, lr}
+ 535              	.LCFI12:
+ 536              		.cfi_def_cfa_offset 8
+ 537              		.cfi_offset 4, -8
+ 538              		.cfi_offset 14, -4
+  46:Core/u8g2/u8x8_byte.c **** }
+ 539              		.loc 1 46 0
+ 540 0002 0469     		ldr	r4, [r0, #16]
+ 541 0004 1346     		mov	r3, r2
+ 542 0006 0A46     		mov	r2, r1
+ 543              	.LVL60:
+ 544 0008 1721     		movs	r1, #23
+ 545              	.LVL61:
+ 546 000a A047     		blx	r4
+ 547              	.LVL62:
+  47:Core/u8g2/u8x8_byte.c **** 
+ 548              		.loc 1 47 0
+ 549 000c 10BD     		pop	{r4, pc}
+ 550              		.cfi_endproc
+ 551              	.LFE1:
+ 553              		.section	.text.u8x8_byte_SendByte,"ax",%progbits
+ 554              		.align	1
+ 555              		.global	u8x8_byte_SendByte
+ 556              		.syntax unified
+ 557              		.thumb
+ 558              		.thumb_func
+ 559              		.fpu softvfp
+ 561              	u8x8_byte_SendByte:
+ 562              	.LFB2:
+  50:Core/u8g2/u8x8_byte.c ****   return u8x8_byte_SendBytes(u8x8, 1, &byte);
+ 563              		.loc 1 50 0
+ 564              		.cfi_startproc
+ 565              		@ args = 0, pretend = 0, frame = 8
+ 566              		@ frame_needed = 0, uses_anonymous_args = 0
+ 567              	.LVL63:
+ 568 0000 00B5     		push	{lr}
+ 569              	.LCFI13:
+ 570              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 21
+
+
+ 571              		.cfi_offset 14, -4
+ 572 0002 83B0     		sub	sp, sp, #12
+ 573              	.LCFI14:
+ 574              		.cfi_def_cfa_offset 16
+ 575 0004 02AA     		add	r2, sp, #8
+ 576 0006 02F8011D 		strb	r1, [r2, #-1]!
+  51:Core/u8g2/u8x8_byte.c **** }
+ 577              		.loc 1 51 0
+ 578 000a 0121     		movs	r1, #1
+ 579              	.LVL64:
+ 580 000c FFF7FEFF 		bl	u8x8_byte_SendBytes
+ 581              	.LVL65:
+  52:Core/u8g2/u8x8_byte.c **** 
+ 582              		.loc 1 52 0
+ 583 0010 03B0     		add	sp, sp, #12
+ 584              	.LCFI15:
+ 585              		.cfi_def_cfa_offset 4
+ 586              		@ sp needed
+ 587 0012 5DF804FB 		ldr	pc, [sp], #4
+ 588              		.cfi_endproc
+ 589              	.LFE2:
+ 591              		.section	.text.u8x8_byte_StartTransfer,"ax",%progbits
+ 592              		.align	1
+ 593              		.global	u8x8_byte_StartTransfer
+ 594              		.syntax unified
+ 595              		.thumb
+ 596              		.thumb_func
+ 597              		.fpu softvfp
+ 599              	u8x8_byte_StartTransfer:
+ 600              	.LFB3:
+  55:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_START_TRANSFER, 0, NULL);
+ 601              		.loc 1 55 0
+ 602              		.cfi_startproc
+ 603              		@ args = 0, pretend = 0, frame = 0
+ 604              		@ frame_needed = 0, uses_anonymous_args = 0
+ 605              	.LVL66:
+ 606 0000 10B5     		push	{r4, lr}
+ 607              	.LCFI16:
+ 608              		.cfi_def_cfa_offset 8
+ 609              		.cfi_offset 4, -8
+ 610              		.cfi_offset 14, -4
+  56:Core/u8g2/u8x8_byte.c **** }
+ 611              		.loc 1 56 0
+ 612 0002 0469     		ldr	r4, [r0, #16]
+ 613 0004 0023     		movs	r3, #0
+ 614 0006 1A46     		mov	r2, r3
+ 615 0008 1821     		movs	r1, #24
+ 616 000a A047     		blx	r4
+ 617              	.LVL67:
+  57:Core/u8g2/u8x8_byte.c **** 
+ 618              		.loc 1 57 0
+ 619 000c 10BD     		pop	{r4, pc}
+ 620              		.cfi_endproc
+ 621              	.LFE3:
+ 623              		.section	.text.u8x8_byte_EndTransfer,"ax",%progbits
+ 624              		.align	1
+ 625              		.global	u8x8_byte_EndTransfer
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 22
+
+
+ 626              		.syntax unified
+ 627              		.thumb
+ 628              		.thumb_func
+ 629              		.fpu softvfp
+ 631              	u8x8_byte_EndTransfer:
+ 632              	.LFB4:
+  60:Core/u8g2/u8x8_byte.c ****   return u8x8->byte_cb(u8x8, U8X8_MSG_BYTE_END_TRANSFER, 0, NULL);
+ 633              		.loc 1 60 0
+ 634              		.cfi_startproc
+ 635              		@ args = 0, pretend = 0, frame = 0
+ 636              		@ frame_needed = 0, uses_anonymous_args = 0
+ 637              	.LVL68:
+ 638 0000 10B5     		push	{r4, lr}
+ 639              	.LCFI17:
+ 640              		.cfi_def_cfa_offset 8
+ 641              		.cfi_offset 4, -8
+ 642              		.cfi_offset 14, -4
+  61:Core/u8g2/u8x8_byte.c **** }
+ 643              		.loc 1 61 0
+ 644 0002 0469     		ldr	r4, [r0, #16]
+ 645 0004 0023     		movs	r3, #0
+ 646 0006 1A46     		mov	r2, r3
+ 647 0008 1921     		movs	r1, #25
+ 648 000a A047     		blx	r4
+ 649              	.LVL69:
+  62:Core/u8g2/u8x8_byte.c **** 
+ 650              		.loc 1 62 0
+ 651 000c 10BD     		pop	{r4, pc}
+ 652              		.cfi_endproc
+ 653              	.LFE4:
+ 655              		.section	.text.u8x8_byte_empty,"ax",%progbits
+ 656              		.align	1
+ 657              		.global	u8x8_byte_empty
+ 658              		.syntax unified
+ 659              		.thumb
+ 660              		.thumb_func
+ 661              		.fpu softvfp
+ 663              	u8x8_byte_empty:
+ 664              	.LFB5:
+  67:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 665              		.loc 1 67 0
+ 666              		.cfi_startproc
+ 667              		@ args = 0, pretend = 0, frame = 0
+ 668              		@ frame_needed = 0, uses_anonymous_args = 0
+ 669              		@ link register save eliminated.
+ 670              	.LVL70:
+  78:Core/u8g2/u8x8_byte.c **** 
+ 671              		.loc 1 78 0
+ 672 0000 0120     		movs	r0, #1
+ 673              	.LVL71:
+ 674 0002 7047     		bx	lr
+ 675              		.cfi_endproc
+ 676              	.LFE5:
+ 678              		.section	.text.u8x8_byte_4wire_sw_spi,"ax",%progbits
+ 679              		.align	1
+ 680              		.global	u8x8_byte_4wire_sw_spi
+ 681              		.syntax unified
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 23
+
+
+ 682              		.thumb
+ 683              		.thumb_func
+ 684              		.fpu softvfp
+ 686              	u8x8_byte_4wire_sw_spi:
+ 687              	.LFB6:
+ 108:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 688              		.loc 1 108 0
+ 689              		.cfi_startproc
+ 690              		@ args = 0, pretend = 0, frame = 0
+ 691              		@ frame_needed = 0, uses_anonymous_args = 0
+ 692              	.LVL72:
+ 693 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 694              	.LCFI18:
+ 695              		.cfi_def_cfa_offset 32
+ 696              		.cfi_offset 4, -32
+ 697              		.cfi_offset 5, -28
+ 698              		.cfi_offset 6, -24
+ 699              		.cfi_offset 7, -20
+ 700              		.cfi_offset 8, -16
+ 701              		.cfi_offset 9, -12
+ 702              		.cfi_offset 10, -8
+ 703              		.cfi_offset 14, -4
+ 704 0004 0446     		mov	r4, r0
+ 705 0006 9146     		mov	r9, r2
+ 706 0008 9A46     		mov	r10, r3
+ 111:Core/u8g2/u8x8_byte.c ****   uint8_t not_takeover_edge = 1 - takeover_edge;
+ 707              		.loc 1 111 0
+ 708 000a 0268     		ldr	r2, [r0]
+ 709              	.LVL73:
+ 710 000c 177B     		ldrb	r7, [r2, #12]	@ zero_extendqisi2
+ 711 000e 07F00107 		and	r7, r7, #1
+ 712              	.LVL74:
+ 112:Core/u8g2/u8x8_byte.c ****  
+ 713              		.loc 1 112 0
+ 714 0012 87F00108 		eor	r8, r7, #1
+ 715              	.LVL75:
+ 114:Core/u8g2/u8x8_byte.c ****   {
+ 716              		.loc 1 114 0
+ 717 0016 1439     		subs	r1, r1, #20
+ 718              	.LVL76:
+ 719 0018 0C29     		cmp	r1, #12
+ 720 001a 6ED8     		bhi	.L52
+ 721 001c DFE801F0 		tbb	[pc, r1]
+ 722              	.LVL77:
+ 723              	.L42:
+ 724 0020 3F       		.byte	(.L41-.L42)/2
+ 725 0021 6D       		.byte	(.L52-.L42)/2
+ 726 0022 6D       		.byte	(.L52-.L42)/2
+ 727 0023 31       		.byte	(.L43-.L42)/2
+ 728 0024 53       		.byte	(.L44-.L42)/2
+ 729 0025 60       		.byte	(.L45-.L42)/2
+ 730 0026 6D       		.byte	(.L52-.L42)/2
+ 731 0027 6D       		.byte	(.L52-.L42)/2
+ 732 0028 6D       		.byte	(.L52-.L42)/2
+ 733 0029 6D       		.byte	(.L52-.L42)/2
+ 734 002a 6D       		.byte	(.L52-.L42)/2
+ 735 002b 6D       		.byte	(.L52-.L42)/2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 24
+
+
+ 736 002c 4D       		.byte	(.L46-.L42)/2
+ 737 002d 00       		.p2align 1
+ 738              	.L54:
+ 126:Core/u8g2/u8x8_byte.c **** 	  else
+ 739              		.loc 1 126 0
+ 740 002e 0122     		movs	r2, #1
+ 741 0030 4121     		movs	r1, #65
+ 742 0032 2046     		mov	r0, r4
+ 743 0034 FFF7FEFF 		bl	u8x8_gpio_call
+ 744              	.LVL78:
+ 745              	.L49:
+ 129:Core/u8g2/u8x8_byte.c **** 	  
+ 746              		.loc 1 129 0 discriminator 2
+ 747 0038 7600     		lsls	r6, r6, #1
+ 748              	.LVL79:
+ 749 003a F6B2     		uxtb	r6, r6
+ 750              	.LVL80:
+ 131:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+ 751              		.loc 1 131 0 discriminator 2
+ 752 003c 4246     		mov	r2, r8
+ 753 003e 4021     		movs	r1, #64
+ 754 0040 2046     		mov	r0, r4
+ 755 0042 FFF7FEFF 		bl	u8x8_gpio_call
+ 756              	.LVL81:
+ 132:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
+ 757              		.loc 1 132 0 discriminator 2
+ 758 0046 2368     		ldr	r3, [r4]
+ 759 0048 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 760 004a 2C21     		movs	r1, #44
+ 761 004c 2046     		mov	r0, r4
+ 762 004e FFF7FEFF 		bl	u8x8_gpio_call
+ 763              	.LVL82:
+ 133:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+ 764              		.loc 1 133 0 discriminator 2
+ 765 0052 3A46     		mov	r2, r7
+ 766 0054 4021     		movs	r1, #64
+ 767 0056 2046     		mov	r0, r4
+ 768 0058 FFF7FEFF 		bl	u8x8_gpio_call
+ 769              	.LVL83:
+ 134:Core/u8g2/u8x8_byte.c **** 	}    
+ 770              		.loc 1 134 0 discriminator 2
+ 771 005c 2368     		ldr	r3, [r4]
+ 772 005e DA79     		ldrb	r2, [r3, #7]	@ zero_extendqisi2
+ 773 0060 2C21     		movs	r1, #44
+ 774 0062 2046     		mov	r0, r4
+ 775 0064 FFF7FEFF 		bl	u8x8_gpio_call
+ 776              	.LVL84:
+ 123:Core/u8g2/u8x8_byte.c **** 	{
+ 777              		.loc 1 123 0 discriminator 2
+ 778 0068 0135     		adds	r5, r5, #1
+ 779              	.LVL85:
+ 780 006a EDB2     		uxtb	r5, r5
+ 781              	.LVL86:
+ 782              	.L47:
+ 123:Core/u8g2/u8x8_byte.c **** 	{
+ 783              		.loc 1 123 0 is_stmt 0 discriminator 1
+ 784 006c 072D     		cmp	r5, #7
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 25
+
+
+ 785 006e 08D8     		bhi	.L43
+ 125:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 1);
+ 786              		.loc 1 125 0 is_stmt 1
+ 787 0070 16F0800F 		tst	r6, #128
+ 788 0074 DBD1     		bne	.L54
+ 128:Core/u8g2/u8x8_byte.c **** 	  b <<= 1;
+ 789              		.loc 1 128 0
+ 790 0076 0022     		movs	r2, #0
+ 791 0078 4121     		movs	r1, #65
+ 792 007a 2046     		mov	r0, r4
+ 793 007c FFF7FEFF 		bl	u8x8_gpio_call
+ 794              	.LVL87:
+ 795 0080 DAE7     		b	.L49
+ 796              	.LVL88:
+ 797              	.L43:
+ 118:Core/u8g2/u8x8_byte.c ****       {
+ 798              		.loc 1 118 0
+ 799 0082 B9F1000F 		cmp	r9, #0
+ 800 0086 07D0     		beq	.L55
+ 120:Core/u8g2/u8x8_byte.c **** 	data++;
+ 801              		.loc 1 120 0
+ 802 0088 1AF8016B 		ldrb	r6, [r10], #1	@ zero_extendqisi2
+ 803              	.LVL89:
+ 122:Core/u8g2/u8x8_byte.c **** 	for( i = 0; i < 8; i++ )
+ 804              		.loc 1 122 0
+ 805 008c 09F1FF39 		add	r9, r9, #-1
+ 806              	.LVL90:
+ 807 0090 5FFA89F9 		uxtb	r9, r9
+ 808              	.LVL91:
+ 123:Core/u8g2/u8x8_byte.c **** 	{
+ 809              		.loc 1 123 0
+ 810 0094 0025     		movs	r5, #0
+ 811 0096 E9E7     		b	.L47
+ 812              	.LVL92:
+ 813              	.L55:
+ 161:Core/u8g2/u8x8_byte.c **** }
+ 814              		.loc 1 161 0
+ 815 0098 0120     		movs	r0, #1
+ 816              	.LVL93:
+ 817              	.L40:
+ 162:Core/u8g2/u8x8_byte.c **** 
+ 818              		.loc 1 162 0
+ 819 009a BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 820              	.LVL94:
+ 821              	.L41:
+ 141:Core/u8g2/u8x8_byte.c ****       /* no wait required here */
+ 822              		.loc 1 141 0
+ 823 009e 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 824 00a0 4921     		movs	r1, #73
+ 825 00a2 FFF7FEFF 		bl	u8x8_gpio_call
+ 826              	.LVL95:
+ 145:Core/u8g2/u8x8_byte.c ****       break;
+ 827              		.loc 1 145 0
+ 828 00a6 2368     		ldr	r3, [r4]
+ 829 00a8 1A7B     		ldrb	r2, [r3, #12]	@ zero_extendqisi2
+ 830 00aa 02F00102 		and	r2, r2, #1
+ 831 00ae 4021     		movs	r1, #64
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 26
+
+
+ 832 00b0 2046     		mov	r0, r4
+ 833 00b2 FFF7FEFF 		bl	u8x8_gpio_call
+ 834              	.LVL96:
+ 161:Core/u8g2/u8x8_byte.c **** }
+ 835              		.loc 1 161 0
+ 836 00b6 0120     		movs	r0, #1
+ 146:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 837              		.loc 1 146 0
+ 838 00b8 EFE7     		b	.L40
+ 839              	.LVL97:
+ 840              	.L46:
+ 148:Core/u8g2/u8x8_byte.c ****       break;
+ 841              		.loc 1 148 0
+ 842 00ba 4A46     		mov	r2, r9
+ 843 00bc 4A21     		movs	r1, #74
+ 844 00be FFF7FEFF 		bl	u8x8_gpio_call
+ 845              	.LVL98:
+ 161:Core/u8g2/u8x8_byte.c **** }
+ 846              		.loc 1 161 0
+ 847 00c2 0120     		movs	r0, #1
+ 149:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 848              		.loc 1 149 0
+ 849 00c4 E9E7     		b	.L40
+ 850              	.LVL99:
+ 851              	.L44:
+ 151:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 852              		.loc 1 151 0
+ 853 00c6 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 854 00c8 4921     		movs	r1, #73
+ 855 00ca FFF7FEFF 		bl	u8x8_gpio_call
+ 856              	.LVL100:
+ 152:Core/u8g2/u8x8_byte.c ****       break;
+ 857              		.loc 1 152 0
+ 858 00ce 6569     		ldr	r5, [r4, #20]
+ 859 00d0 2268     		ldr	r2, [r4]
+ 860 00d2 0023     		movs	r3, #0
+ 861 00d4 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 862 00d6 2C21     		movs	r1, #44
+ 863 00d8 2046     		mov	r0, r4
+ 864 00da A847     		blx	r5
+ 865              	.LVL101:
+ 161:Core/u8g2/u8x8_byte.c **** }
+ 866              		.loc 1 161 0
+ 867 00dc 0120     		movs	r0, #1
+ 153:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 868              		.loc 1 153 0
+ 869 00de DCE7     		b	.L40
+ 870              	.LVL102:
+ 871              	.L45:
+ 155:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 872              		.loc 1 155 0
+ 873 00e0 4569     		ldr	r5, [r0, #20]
+ 874 00e2 0023     		movs	r3, #0
+ 875 00e4 D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 876 00e6 2C21     		movs	r1, #44
+ 877 00e8 A847     		blx	r5
+ 878              	.LVL103:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 27
+
+
+ 156:Core/u8g2/u8x8_byte.c ****       break;
+ 879              		.loc 1 156 0
+ 880 00ea 2368     		ldr	r3, [r4]
+ 881 00ec 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 882 00ee 4921     		movs	r1, #73
+ 883 00f0 2046     		mov	r0, r4
+ 884 00f2 FFF7FEFF 		bl	u8x8_gpio_call
+ 885              	.LVL104:
+ 161:Core/u8g2/u8x8_byte.c **** }
+ 886              		.loc 1 161 0
+ 887 00f6 0120     		movs	r0, #1
+ 157:Core/u8g2/u8x8_byte.c ****     default:
+ 888              		.loc 1 157 0
+ 889 00f8 CFE7     		b	.L40
+ 890              	.LVL105:
+ 891              	.L52:
+ 159:Core/u8g2/u8x8_byte.c ****   }
+ 892              		.loc 1 159 0
+ 893 00fa 0020     		movs	r0, #0
+ 894              	.LVL106:
+ 895 00fc CDE7     		b	.L40
+ 896              		.cfi_endproc
+ 897              	.LFE6:
+ 899              		.section	.text.u8x8_byte_8bit_6800mode,"ax",%progbits
+ 900              		.align	1
+ 901              		.global	u8x8_byte_8bit_6800mode
+ 902              		.syntax unified
+ 903              		.thumb
+ 904              		.thumb_func
+ 905              		.fpu softvfp
+ 907              	u8x8_byte_8bit_6800mode:
+ 908              	.LFB7:
+ 167:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 909              		.loc 1 167 0
+ 910              		.cfi_startproc
+ 911              		@ args = 0, pretend = 0, frame = 0
+ 912              		@ frame_needed = 0, uses_anonymous_args = 0
+ 913              	.LVL107:
+ 914 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 915              	.LCFI19:
+ 916              		.cfi_def_cfa_offset 24
+ 917              		.cfi_offset 4, -24
+ 918              		.cfi_offset 5, -20
+ 919              		.cfi_offset 6, -16
+ 920              		.cfi_offset 7, -12
+ 921              		.cfi_offset 8, -8
+ 922              		.cfi_offset 14, -4
+ 923 0004 0646     		mov	r6, r0
+ 924 0006 1746     		mov	r7, r2
+ 925 0008 9846     		mov	r8, r3
+ 171:Core/u8g2/u8x8_byte.c ****   {
+ 926              		.loc 1 171 0
+ 927 000a 1439     		subs	r1, r1, #20
+ 928              	.LVL108:
+ 929 000c 0C29     		cmp	r1, #12
+ 930 000e 60D8     		bhi	.L67
+ 931 0010 DFE801F0 		tbb	[pc, r1]
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 28
+
+
+ 932              	.LVL109:
+ 933              	.L59:
+ 934 0014 32       		.byte	(.L58-.L59)/2
+ 935 0015 5F       		.byte	(.L67-.L59)/2
+ 936 0016 5F       		.byte	(.L67-.L59)/2
+ 937 0017 28       		.byte	(.L60-.L59)/2
+ 938 0018 43       		.byte	(.L61-.L59)/2
+ 939 0019 51       		.byte	(.L62-.L59)/2
+ 940 001a 5F       		.byte	(.L67-.L59)/2
+ 941 001b 5F       		.byte	(.L67-.L59)/2
+ 942 001c 5F       		.byte	(.L67-.L59)/2
+ 943 001d 5F       		.byte	(.L67-.L59)/2
+ 944 001e 5F       		.byte	(.L67-.L59)/2
+ 945 001f 5F       		.byte	(.L67-.L59)/2
+ 946 0020 3E       		.byte	(.L63-.L59)/2
+ 947 0021 00       		.p2align 1
+ 948              	.L65:
+ 182:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 949              		.loc 1 182 0 discriminator 3
+ 950 0022 05F00102 		and	r2, r5, #1
+ 951 0026 2146     		mov	r1, r4
+ 952 0028 3046     		mov	r0, r6
+ 953 002a FFF7FEFF 		bl	u8x8_gpio_call
+ 954              	.LVL110:
+ 183:Core/u8g2/u8x8_byte.c **** 	}    
+ 955              		.loc 1 183 0 discriminator 3
+ 956 002e 6D08     		lsrs	r5, r5, #1
+ 957              	.LVL111:
+ 180:Core/u8g2/u8x8_byte.c **** 	{
+ 958              		.loc 1 180 0 discriminator 3
+ 959 0030 0134     		adds	r4, r4, #1
+ 960              	.LVL112:
+ 961 0032 E4B2     		uxtb	r4, r4
+ 962              	.LVL113:
+ 963              	.L64:
+ 180:Core/u8g2/u8x8_byte.c **** 	{
+ 964              		.loc 1 180 0 is_stmt 0 discriminator 1
+ 965 0034 472C     		cmp	r4, #71
+ 966 0036 F4D9     		bls	.L65
+ 186:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 967              		.loc 1 186 0 is_stmt 1
+ 968 0038 3368     		ldr	r3, [r6]
+ 969 003a 9A7B     		ldrb	r2, [r3, #14]	@ zero_extendqisi2
+ 970 003c 2C21     		movs	r1, #44
+ 971 003e 3046     		mov	r0, r6
+ 972 0040 FFF7FEFF 		bl	u8x8_gpio_call
+ 973              	.LVL114:
+ 187:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 974              		.loc 1 187 0
+ 975 0044 0122     		movs	r2, #1
+ 976 0046 4821     		movs	r1, #72
+ 977 0048 3046     		mov	r0, r6
+ 978 004a FFF7FEFF 		bl	u8x8_gpio_call
+ 979              	.LVL115:
+ 188:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 980              		.loc 1 188 0
+ 981 004e 3368     		ldr	r3, [r6]
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 29
+
+
+ 982 0050 DA7B     		ldrb	r2, [r3, #15]	@ zero_extendqisi2
+ 983 0052 2C21     		movs	r1, #44
+ 984 0054 3046     		mov	r0, r6
+ 985 0056 FFF7FEFF 		bl	u8x8_gpio_call
+ 986              	.LVL116:
+ 189:Core/u8g2/u8x8_byte.c ****       }
+ 987              		.loc 1 189 0
+ 988 005a 0022     		movs	r2, #0
+ 989 005c 4821     		movs	r1, #72
+ 990 005e 3046     		mov	r0, r6
+ 991 0060 FFF7FEFF 		bl	u8x8_gpio_call
+ 992              	.LVL117:
+ 993              	.L60:
+ 175:Core/u8g2/u8x8_byte.c ****       {
+ 994              		.loc 1 175 0
+ 995 0064 2FB1     		cbz	r7, .L69
+ 177:Core/u8g2/u8x8_byte.c **** 	data++;
+ 996              		.loc 1 177 0
+ 997 0066 18F8015B 		ldrb	r5, [r8], #1	@ zero_extendqisi2
+ 998              	.LVL118:
+ 179:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 999              		.loc 1 179 0
+ 1000 006a 013F     		subs	r7, r7, #1
+ 1001              	.LVL119:
+ 1002 006c FFB2     		uxtb	r7, r7
+ 1003              	.LVL120:
+ 180:Core/u8g2/u8x8_byte.c **** 	{
+ 1004              		.loc 1 180 0
+ 1005 006e 4024     		movs	r4, #64
+ 1006 0070 E0E7     		b	.L64
+ 1007              	.LVL121:
+ 1008              	.L69:
+ 213:Core/u8g2/u8x8_byte.c **** }
+ 1009              		.loc 1 213 0
+ 1010 0072 0120     		movs	r0, #1
+ 1011              	.LVL122:
+ 1012              	.L57:
+ 214:Core/u8g2/u8x8_byte.c **** 
+ 1013              		.loc 1 214 0
+ 1014 0074 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1015              	.LVL123:
+ 1016              	.L58:
+ 195:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is high */
+ 1017              		.loc 1 195 0
+ 1018 0078 0368     		ldr	r3, [r0]
+ 1019 007a 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1020              	.LVL124:
+ 1021 007c 4921     		movs	r1, #73
+ 1022 007e FFF7FEFF 		bl	u8x8_gpio_call
+ 1023              	.LVL125:
+ 197:Core/u8g2/u8x8_byte.c ****       break;
+ 1024              		.loc 1 197 0
+ 1025 0082 0022     		movs	r2, #0
+ 1026 0084 4821     		movs	r1, #72
+ 1027 0086 3046     		mov	r0, r6
+ 1028 0088 FFF7FEFF 		bl	u8x8_gpio_call
+ 1029              	.LVL126:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 30
+
+
+ 213:Core/u8g2/u8x8_byte.c **** }
+ 1030              		.loc 1 213 0
+ 1031 008c 0120     		movs	r0, #1
+ 198:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 1032              		.loc 1 198 0
+ 1033 008e F1E7     		b	.L57
+ 1034              	.LVL127:
+ 1035              	.L63:
+ 200:Core/u8g2/u8x8_byte.c ****       break;
+ 1036              		.loc 1 200 0
+ 1037 0090 4A21     		movs	r1, #74
+ 1038 0092 FFF7FEFF 		bl	u8x8_gpio_call
+ 1039              	.LVL128:
+ 213:Core/u8g2/u8x8_byte.c **** }
+ 1040              		.loc 1 213 0
+ 1041 0096 0120     		movs	r0, #1
+ 201:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 1042              		.loc 1 201 0
+ 1043 0098 ECE7     		b	.L57
+ 1044              	.LVL129:
+ 1045              	.L61:
+ 203:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 1046              		.loc 1 203 0
+ 1047 009a 0368     		ldr	r3, [r0]
+ 1048 009c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1049              	.LVL130:
+ 1050 009e 4921     		movs	r1, #73
+ 1051 00a0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1052              	.LVL131:
+ 204:Core/u8g2/u8x8_byte.c ****       break;
+ 1053              		.loc 1 204 0
+ 1054 00a4 7469     		ldr	r4, [r6, #20]
+ 1055 00a6 3268     		ldr	r2, [r6]
+ 1056 00a8 0023     		movs	r3, #0
+ 1057 00aa 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 1058 00ac 2C21     		movs	r1, #44
+ 1059 00ae 3046     		mov	r0, r6
+ 1060 00b0 A047     		blx	r4
+ 1061              	.LVL132:
+ 213:Core/u8g2/u8x8_byte.c **** }
+ 1062              		.loc 1 213 0
+ 1063 00b2 0120     		movs	r0, #1
+ 205:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 1064              		.loc 1 205 0
+ 1065 00b4 DEE7     		b	.L57
+ 1066              	.LVL133:
+ 1067              	.L62:
+ 207:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 1068              		.loc 1 207 0
+ 1069 00b6 4469     		ldr	r4, [r0, #20]
+ 1070 00b8 0268     		ldr	r2, [r0]
+ 1071              	.LVL134:
+ 1072 00ba 0023     		movs	r3, #0
+ 1073 00bc D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 1074 00be 2C21     		movs	r1, #44
+ 1075 00c0 A047     		blx	r4
+ 1076              	.LVL135:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 31
+
+
+ 208:Core/u8g2/u8x8_byte.c ****       break;
+ 1077              		.loc 1 208 0
+ 1078 00c2 3368     		ldr	r3, [r6]
+ 1079 00c4 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1080 00c6 4921     		movs	r1, #73
+ 1081 00c8 3046     		mov	r0, r6
+ 1082 00ca FFF7FEFF 		bl	u8x8_gpio_call
+ 1083              	.LVL136:
+ 213:Core/u8g2/u8x8_byte.c **** }
+ 1084              		.loc 1 213 0
+ 1085 00ce 0120     		movs	r0, #1
+ 209:Core/u8g2/u8x8_byte.c ****     default:
+ 1086              		.loc 1 209 0
+ 1087 00d0 D0E7     		b	.L57
+ 1088              	.LVL137:
+ 1089              	.L67:
+ 211:Core/u8g2/u8x8_byte.c ****   }
+ 1090              		.loc 1 211 0
+ 1091 00d2 0020     		movs	r0, #0
+ 1092              	.LVL138:
+ 1093 00d4 CEE7     		b	.L57
+ 1094              		.cfi_endproc
+ 1095              	.LFE7:
+ 1097              		.section	.text.u8x8_byte_8bit_8080mode,"ax",%progbits
+ 1098              		.align	1
+ 1099              		.global	u8x8_byte_8bit_8080mode
+ 1100              		.syntax unified
+ 1101              		.thumb
+ 1102              		.thumb_func
+ 1103              		.fpu softvfp
+ 1105              	u8x8_byte_8bit_8080mode:
+ 1106              	.LFB8:
+ 217:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 1107              		.loc 1 217 0
+ 1108              		.cfi_startproc
+ 1109              		@ args = 0, pretend = 0, frame = 0
+ 1110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1111              	.LVL139:
+ 1112 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1113              	.LCFI20:
+ 1114              		.cfi_def_cfa_offset 24
+ 1115              		.cfi_offset 4, -24
+ 1116              		.cfi_offset 5, -20
+ 1117              		.cfi_offset 6, -16
+ 1118              		.cfi_offset 7, -12
+ 1119              		.cfi_offset 8, -8
+ 1120              		.cfi_offset 14, -4
+ 1121 0004 0646     		mov	r6, r0
+ 1122 0006 1746     		mov	r7, r2
+ 1123 0008 9846     		mov	r8, r3
+ 221:Core/u8g2/u8x8_byte.c ****   {
+ 1124              		.loc 1 221 0
+ 1125 000a 1439     		subs	r1, r1, #20
+ 1126              	.LVL140:
+ 1127 000c 0C29     		cmp	r1, #12
+ 1128 000e 60D8     		bhi	.L81
+ 1129 0010 DFE801F0 		tbb	[pc, r1]
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 32
+
+
+ 1130              	.LVL141:
+ 1131              	.L73:
+ 1132 0014 32       		.byte	(.L72-.L73)/2
+ 1133 0015 5F       		.byte	(.L81-.L73)/2
+ 1134 0016 5F       		.byte	(.L81-.L73)/2
+ 1135 0017 28       		.byte	(.L74-.L73)/2
+ 1136 0018 43       		.byte	(.L75-.L73)/2
+ 1137 0019 51       		.byte	(.L76-.L73)/2
+ 1138 001a 5F       		.byte	(.L81-.L73)/2
+ 1139 001b 5F       		.byte	(.L81-.L73)/2
+ 1140 001c 5F       		.byte	(.L81-.L73)/2
+ 1141 001d 5F       		.byte	(.L81-.L73)/2
+ 1142 001e 5F       		.byte	(.L81-.L73)/2
+ 1143 001f 5F       		.byte	(.L81-.L73)/2
+ 1144 0020 3E       		.byte	(.L77-.L73)/2
+ 1145 0021 00       		.p2align 1
+ 1146              	.L79:
+ 232:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 1147              		.loc 1 232 0 discriminator 3
+ 1148 0022 05F00102 		and	r2, r5, #1
+ 1149 0026 2146     		mov	r1, r4
+ 1150 0028 3046     		mov	r0, r6
+ 1151 002a FFF7FEFF 		bl	u8x8_gpio_call
+ 1152              	.LVL142:
+ 233:Core/u8g2/u8x8_byte.c **** 	}    
+ 1153              		.loc 1 233 0 discriminator 3
+ 1154 002e 6D08     		lsrs	r5, r5, #1
+ 1155              	.LVL143:
+ 230:Core/u8g2/u8x8_byte.c **** 	{
+ 1156              		.loc 1 230 0 discriminator 3
+ 1157 0030 0134     		adds	r4, r4, #1
+ 1158              	.LVL144:
+ 1159 0032 E4B2     		uxtb	r4, r4
+ 1160              	.LVL145:
+ 1161              	.L78:
+ 230:Core/u8g2/u8x8_byte.c **** 	{
+ 1162              		.loc 1 230 0 is_stmt 0 discriminator 1
+ 1163 0034 472C     		cmp	r4, #71
+ 1164 0036 F4D9     		bls	.L79
+ 236:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 1165              		.loc 1 236 0 is_stmt 1
+ 1166 0038 3368     		ldr	r3, [r6]
+ 1167 003a 9A7B     		ldrb	r2, [r3, #14]	@ zero_extendqisi2
+ 1168 003c 2C21     		movs	r1, #44
+ 1169 003e 3046     		mov	r0, r6
+ 1170 0040 FFF7FEFF 		bl	u8x8_gpio_call
+ 1171              	.LVL146:
+ 237:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 1172              		.loc 1 237 0
+ 1173 0044 0022     		movs	r2, #0
+ 1174 0046 4821     		movs	r1, #72
+ 1175 0048 3046     		mov	r0, r6
+ 1176 004a FFF7FEFF 		bl	u8x8_gpio_call
+ 1177              	.LVL147:
+ 238:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 1178              		.loc 1 238 0
+ 1179 004e 3368     		ldr	r3, [r6]
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 33
+
+
+ 1180 0050 DA7B     		ldrb	r2, [r3, #15]	@ zero_extendqisi2
+ 1181 0052 2C21     		movs	r1, #44
+ 1182 0054 3046     		mov	r0, r6
+ 1183 0056 FFF7FEFF 		bl	u8x8_gpio_call
+ 1184              	.LVL148:
+ 239:Core/u8g2/u8x8_byte.c ****       }
+ 1185              		.loc 1 239 0
+ 1186 005a 0122     		movs	r2, #1
+ 1187 005c 4821     		movs	r1, #72
+ 1188 005e 3046     		mov	r0, r6
+ 1189 0060 FFF7FEFF 		bl	u8x8_gpio_call
+ 1190              	.LVL149:
+ 1191              	.L74:
+ 225:Core/u8g2/u8x8_byte.c ****       {
+ 1192              		.loc 1 225 0
+ 1193 0064 2FB1     		cbz	r7, .L83
+ 227:Core/u8g2/u8x8_byte.c **** 	data++;
+ 1194              		.loc 1 227 0
+ 1195 0066 18F8015B 		ldrb	r5, [r8], #1	@ zero_extendqisi2
+ 1196              	.LVL150:
+ 229:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 1197              		.loc 1 229 0
+ 1198 006a 013F     		subs	r7, r7, #1
+ 1199              	.LVL151:
+ 1200 006c FFB2     		uxtb	r7, r7
+ 1201              	.LVL152:
+ 230:Core/u8g2/u8x8_byte.c **** 	{
+ 1202              		.loc 1 230 0
+ 1203 006e 4024     		movs	r4, #64
+ 1204 0070 E0E7     		b	.L78
+ 1205              	.LVL153:
+ 1206              	.L83:
+ 263:Core/u8g2/u8x8_byte.c **** }
+ 1207              		.loc 1 263 0
+ 1208 0072 0120     		movs	r0, #1
+ 1209              	.LVL154:
+ 1210              	.L71:
+ 264:Core/u8g2/u8x8_byte.c **** 
+ 1211              		.loc 1 264 0
+ 1212 0074 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1213              	.LVL155:
+ 1214              	.L72:
+ 245:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is high */
+ 1215              		.loc 1 245 0
+ 1216 0078 0368     		ldr	r3, [r0]
+ 1217 007a 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1218              	.LVL156:
+ 1219 007c 4921     		movs	r1, #73
+ 1220 007e FFF7FEFF 		bl	u8x8_gpio_call
+ 1221              	.LVL157:
+ 247:Core/u8g2/u8x8_byte.c ****       break;
+ 1222              		.loc 1 247 0
+ 1223 0082 0122     		movs	r2, #1
+ 1224 0084 4821     		movs	r1, #72
+ 1225 0086 3046     		mov	r0, r6
+ 1226 0088 FFF7FEFF 		bl	u8x8_gpio_call
+ 1227              	.LVL158:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 34
+
+
+ 263:Core/u8g2/u8x8_byte.c **** }
+ 1228              		.loc 1 263 0
+ 1229 008c 0120     		movs	r0, #1
+ 248:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 1230              		.loc 1 248 0
+ 1231 008e F1E7     		b	.L71
+ 1232              	.LVL159:
+ 1233              	.L77:
+ 250:Core/u8g2/u8x8_byte.c ****       break;
+ 1234              		.loc 1 250 0
+ 1235 0090 4A21     		movs	r1, #74
+ 1236 0092 FFF7FEFF 		bl	u8x8_gpio_call
+ 1237              	.LVL160:
+ 263:Core/u8g2/u8x8_byte.c **** }
+ 1238              		.loc 1 263 0
+ 1239 0096 0120     		movs	r0, #1
+ 251:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 1240              		.loc 1 251 0
+ 1241 0098 ECE7     		b	.L71
+ 1242              	.LVL161:
+ 1243              	.L75:
+ 253:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 1244              		.loc 1 253 0
+ 1245 009a 0368     		ldr	r3, [r0]
+ 1246 009c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 1247              	.LVL162:
+ 1248 009e 4921     		movs	r1, #73
+ 1249 00a0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1250              	.LVL163:
+ 254:Core/u8g2/u8x8_byte.c ****       break;
+ 1251              		.loc 1 254 0
+ 1252 00a4 7469     		ldr	r4, [r6, #20]
+ 1253 00a6 3268     		ldr	r2, [r6]
+ 1254 00a8 0023     		movs	r3, #0
+ 1255 00aa 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 1256 00ac 2C21     		movs	r1, #44
+ 1257 00ae 3046     		mov	r0, r6
+ 1258 00b0 A047     		blx	r4
+ 1259              	.LVL164:
+ 263:Core/u8g2/u8x8_byte.c **** }
+ 1260              		.loc 1 263 0
+ 1261 00b2 0120     		movs	r0, #1
+ 255:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 1262              		.loc 1 255 0
+ 1263 00b4 DEE7     		b	.L71
+ 1264              	.LVL165:
+ 1265              	.L76:
+ 257:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 1266              		.loc 1 257 0
+ 1267 00b6 4469     		ldr	r4, [r0, #20]
+ 1268 00b8 0268     		ldr	r2, [r0]
+ 1269              	.LVL166:
+ 1270 00ba 0023     		movs	r3, #0
+ 1271 00bc D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 1272 00be 2C21     		movs	r1, #44
+ 1273 00c0 A047     		blx	r4
+ 1274              	.LVL167:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 35
+
+
+ 258:Core/u8g2/u8x8_byte.c ****       break;
+ 1275              		.loc 1 258 0
+ 1276 00c2 3368     		ldr	r3, [r6]
+ 1277 00c4 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1278 00c6 4921     		movs	r1, #73
+ 1279 00c8 3046     		mov	r0, r6
+ 1280 00ca FFF7FEFF 		bl	u8x8_gpio_call
+ 1281              	.LVL168:
+ 263:Core/u8g2/u8x8_byte.c **** }
+ 1282              		.loc 1 263 0
+ 1283 00ce 0120     		movs	r0, #1
+ 259:Core/u8g2/u8x8_byte.c ****     default:
+ 1284              		.loc 1 259 0
+ 1285 00d0 D0E7     		b	.L71
+ 1286              	.LVL169:
+ 1287              	.L81:
+ 261:Core/u8g2/u8x8_byte.c ****   }
+ 1288              		.loc 1 261 0
+ 1289 00d2 0020     		movs	r0, #0
+ 1290              	.LVL170:
+ 1291 00d4 CEE7     		b	.L71
+ 1292              		.cfi_endproc
+ 1293              	.LFE8:
+ 1295              		.section	.text.u8x8_byte_3wire_sw_spi,"ax",%progbits
+ 1296              		.align	1
+ 1297              		.global	u8x8_byte_3wire_sw_spi
+ 1298              		.syntax unified
+ 1299              		.thumb
+ 1300              		.thumb_func
+ 1301              		.fpu softvfp
+ 1303              	u8x8_byte_3wire_sw_spi:
+ 1304              	.LFB9:
+ 269:Core/u8g2/u8x8_byte.c ****   uint8_t i;
+ 1305              		.loc 1 269 0
+ 1306              		.cfi_startproc
+ 1307              		@ args = 0, pretend = 0, frame = 0
+ 1308              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1309              	.LVL171:
+ 1310 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 1311              	.LCFI21:
+ 1312              		.cfi_def_cfa_offset 32
+ 1313              		.cfi_offset 4, -32
+ 1314              		.cfi_offset 5, -28
+ 1315              		.cfi_offset 6, -24
+ 1316              		.cfi_offset 7, -20
+ 1317              		.cfi_offset 8, -16
+ 1318              		.cfi_offset 9, -12
+ 1319              		.cfi_offset 10, -8
+ 1320              		.cfi_offset 14, -4
+ 1321 0004 0446     		mov	r4, r0
+ 1322 0006 9146     		mov	r9, r2
+ 1323 0008 9A46     		mov	r10, r3
+ 272:Core/u8g2/u8x8_byte.c ****   uint8_t not_takeover_edge = 1 - takeover_edge;
+ 1324              		.loc 1 272 0
+ 1325 000a 0268     		ldr	r2, [r0]
+ 1326              	.LVL172:
+ 1327 000c 177B     		ldrb	r7, [r2, #12]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 36
+
+
+ 1328 000e 07F00107 		and	r7, r7, #1
+ 1329              	.LVL173:
+ 273:Core/u8g2/u8x8_byte.c ****   uint16_t b;
+ 1330              		.loc 1 273 0
+ 1331 0012 87F00108 		eor	r8, r7, #1
+ 1332              	.LVL174:
+ 277:Core/u8g2/u8x8_byte.c ****   {
+ 1333              		.loc 1 277 0
+ 1334 0016 1439     		subs	r1, r1, #20
+ 1335              	.LVL175:
+ 1336 0018 0C29     		cmp	r1, #12
+ 1337 001a 74D8     		bhi	.L98
+ 1338 001c DFE801F0 		tbb	[pc, r1]
+ 1339              	.LVL176:
+ 1340              	.L87:
+ 1341 0020 46       		.byte	(.L86-.L87)/2
+ 1342 0021 73       		.byte	(.L98-.L87)/2
+ 1343 0022 73       		.byte	(.L98-.L87)/2
+ 1344 0023 31       		.byte	(.L88-.L87)/2
+ 1345 0024 59       		.byte	(.L89-.L87)/2
+ 1346 0025 66       		.byte	(.L90-.L87)/2
+ 1347 0026 73       		.byte	(.L98-.L87)/2
+ 1348 0027 73       		.byte	(.L98-.L87)/2
+ 1349 0028 73       		.byte	(.L98-.L87)/2
+ 1350 0029 73       		.byte	(.L98-.L87)/2
+ 1351 002a 73       		.byte	(.L98-.L87)/2
+ 1352 002b 73       		.byte	(.L98-.L87)/2
+ 1353 002c 54       		.byte	(.L91-.L87)/2
+ 1354 002d 00       		.p2align 1
+ 1355              	.L94:
+ 293:Core/u8g2/u8x8_byte.c **** 	  b <<= 1;
+ 1356              		.loc 1 293 0
+ 1357 002e 0022     		movs	r2, #0
+ 1358 0030 4121     		movs	r1, #65
+ 1359 0032 2046     		mov	r0, r4
+ 1360 0034 FFF7FEFF 		bl	u8x8_gpio_call
+ 1361              	.LVL177:
+ 1362              	.L95:
+ 294:Core/u8g2/u8x8_byte.c **** 	  
+ 1363              		.loc 1 294 0 discriminator 2
+ 1364 0038 7600     		lsls	r6, r6, #1
+ 1365              	.LVL178:
+ 1366 003a B6B2     		uxth	r6, r6
+ 1367              	.LVL179:
+ 296:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sda_setup_time_ns);
+ 1368              		.loc 1 296 0 discriminator 2
+ 1369 003c 4246     		mov	r2, r8
+ 1370 003e 4021     		movs	r1, #64
+ 1371 0040 2046     		mov	r0, r4
+ 1372 0042 FFF7FEFF 		bl	u8x8_gpio_call
+ 1373              	.LVL180:
+ 297:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_SetSPIClock(u8x8, takeover_edge);
+ 1374              		.loc 1 297 0 discriminator 2
+ 1375 0046 2368     		ldr	r3, [r4]
+ 1376 0048 9A79     		ldrb	r2, [r3, #6]	@ zero_extendqisi2
+ 1377 004a 2C21     		movs	r1, #44
+ 1378 004c 2046     		mov	r0, r4
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 37
+
+
+ 1379 004e FFF7FEFF 		bl	u8x8_gpio_call
+ 1380              	.LVL181:
+ 298:Core/u8g2/u8x8_byte.c **** 	  u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->sck_pulse_width_ns);
+ 1381              		.loc 1 298 0 discriminator 2
+ 1382 0052 3A46     		mov	r2, r7
+ 1383 0054 4021     		movs	r1, #64
+ 1384 0056 2046     		mov	r0, r4
+ 1385 0058 FFF7FEFF 		bl	u8x8_gpio_call
+ 1386              	.LVL182:
+ 299:Core/u8g2/u8x8_byte.c **** 	}    
+ 1387              		.loc 1 299 0 discriminator 2
+ 1388 005c 2368     		ldr	r3, [r4]
+ 1389 005e DA79     		ldrb	r2, [r3, #7]	@ zero_extendqisi2
+ 1390 0060 2C21     		movs	r1, #44
+ 1391 0062 2046     		mov	r0, r4
+ 1392 0064 FFF7FEFF 		bl	u8x8_gpio_call
+ 1393              	.LVL183:
+ 288:Core/u8g2/u8x8_byte.c **** 	{
+ 1394              		.loc 1 288 0 discriminator 2
+ 1395 0068 0135     		adds	r5, r5, #1
+ 1396              	.LVL184:
+ 1397 006a EDB2     		uxtb	r5, r5
+ 1398              	.LVL185:
+ 1399              	.L93:
+ 288:Core/u8g2/u8x8_byte.c **** 	{
+ 1400              		.loc 1 288 0 is_stmt 0 discriminator 1
+ 1401 006c 082D     		cmp	r5, #8
+ 1402 006e 08D8     		bhi	.L88
+ 290:Core/u8g2/u8x8_byte.c **** 	    u8x8_gpio_SetSPIData(u8x8, 1);
+ 1403              		.loc 1 290 0 is_stmt 1
+ 1404 0070 16F4807F 		tst	r6, #256
+ 1405 0074 DBD0     		beq	.L94
+ 291:Core/u8g2/u8x8_byte.c **** 	  else
+ 1406              		.loc 1 291 0
+ 1407 0076 0122     		movs	r2, #1
+ 1408 0078 4121     		movs	r1, #65
+ 1409 007a 2046     		mov	r0, r4
+ 1410 007c FFF7FEFF 		bl	u8x8_gpio_call
+ 1411              	.LVL186:
+ 1412 0080 DAE7     		b	.L95
+ 1413              	.LVL187:
+ 1414              	.L88:
+ 281:Core/u8g2/u8x8_byte.c ****       {
+ 1415              		.loc 1 281 0
+ 1416 0082 B9F1000F 		cmp	r9, #0
+ 1417 0086 0ED0     		beq	.L100
+ 283:Core/u8g2/u8x8_byte.c **** 	if ( last_dc != 0 )
+ 1418              		.loc 1 283 0
+ 1419 0088 9AF80060 		ldrb	r6, [r10]	@ zero_extendqisi2
+ 1420              	.LVL188:
+ 284:Core/u8g2/u8x8_byte.c **** 	  b |= 256;
+ 1421              		.loc 1 284 0
+ 1422 008c 1F4B     		ldr	r3, .L101
+ 1423 008e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 1424 0090 0BB1     		cbz	r3, .L92
+ 285:Core/u8g2/u8x8_byte.c **** 	data++;
+ 1425              		.loc 1 285 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 38
+
+
+ 1426 0092 46F48076 		orr	r6, r6, #256
+ 1427              	.LVL189:
+ 1428              	.L92:
+ 286:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 1429              		.loc 1 286 0
+ 1430 0096 0AF1010A 		add	r10, r10, #1
+ 1431              	.LVL190:
+ 287:Core/u8g2/u8x8_byte.c **** 	for( i = 0; i < 9; i++ )
+ 1432              		.loc 1 287 0
+ 1433 009a 09F1FF39 		add	r9, r9, #-1
+ 1434              	.LVL191:
+ 1435 009e 5FFA89F9 		uxtb	r9, r9
+ 1436              	.LVL192:
+ 288:Core/u8g2/u8x8_byte.c **** 	{
+ 1437              		.loc 1 288 0
+ 1438 00a2 0025     		movs	r5, #0
+ 1439 00a4 E2E7     		b	.L93
+ 1440              	.LVL193:
+ 1441              	.L100:
+ 326:Core/u8g2/u8x8_byte.c **** }
+ 1442              		.loc 1 326 0
+ 1443 00a6 0120     		movs	r0, #1
+ 1444              	.LVL194:
+ 1445              	.L85:
+ 327:Core/u8g2/u8x8_byte.c **** 
+ 1446              		.loc 1 327 0
+ 1447 00a8 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 1448              	.LVL195:
+ 1449              	.L86:
+ 306:Core/u8g2/u8x8_byte.c ****       /* no wait required here */
+ 1450              		.loc 1 306 0
+ 1451 00ac 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 1452 00ae 4921     		movs	r1, #73
+ 1453 00b0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1454              	.LVL196:
+ 310:Core/u8g2/u8x8_byte.c ****       break;
+ 1455              		.loc 1 310 0
+ 1456 00b4 2368     		ldr	r3, [r4]
+ 1457 00b6 1A7B     		ldrb	r2, [r3, #12]	@ zero_extendqisi2
+ 1458 00b8 02F00102 		and	r2, r2, #1
+ 1459 00bc 4021     		movs	r1, #64
+ 1460 00be 2046     		mov	r0, r4
+ 1461 00c0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1462              	.LVL197:
+ 326:Core/u8g2/u8x8_byte.c **** }
+ 1463              		.loc 1 326 0
+ 1464 00c4 0120     		movs	r0, #1
+ 311:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 1465              		.loc 1 311 0
+ 1466 00c6 EFE7     		b	.L85
+ 1467              	.LVL198:
+ 1468              	.L91:
+ 313:Core/u8g2/u8x8_byte.c ****       break;
+ 1469              		.loc 1 313 0
+ 1470 00c8 104B     		ldr	r3, .L101
+ 1471 00ca 83F80090 		strb	r9, [r3]
+ 326:Core/u8g2/u8x8_byte.c **** }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 39
+
+
+ 1472              		.loc 1 326 0
+ 1473 00ce 0120     		movs	r0, #1
+ 1474              	.LVL199:
+ 314:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 1475              		.loc 1 314 0
+ 1476 00d0 EAE7     		b	.L85
+ 1477              	.LVL200:
+ 1478              	.L89:
+ 316:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 1479              		.loc 1 316 0
+ 1480 00d2 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 1481 00d4 4921     		movs	r1, #73
+ 1482 00d6 FFF7FEFF 		bl	u8x8_gpio_call
+ 1483              	.LVL201:
+ 317:Core/u8g2/u8x8_byte.c ****       break;
+ 1484              		.loc 1 317 0
+ 1485 00da 6569     		ldr	r5, [r4, #20]
+ 1486 00dc 2268     		ldr	r2, [r4]
+ 1487 00de 0023     		movs	r3, #0
+ 1488 00e0 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 1489 00e2 2C21     		movs	r1, #44
+ 1490 00e4 2046     		mov	r0, r4
+ 1491 00e6 A847     		blx	r5
+ 1492              	.LVL202:
+ 326:Core/u8g2/u8x8_byte.c **** }
+ 1493              		.loc 1 326 0
+ 1494 00e8 0120     		movs	r0, #1
+ 318:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 1495              		.loc 1 318 0
+ 1496 00ea DDE7     		b	.L85
+ 1497              	.LVL203:
+ 1498              	.L90:
+ 320:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_SetCS(u8x8, u8x8->display_info->chip_disable_level);
+ 1499              		.loc 1 320 0
+ 1500 00ec 4569     		ldr	r5, [r0, #20]
+ 1501 00ee 0023     		movs	r3, #0
+ 1502 00f0 D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 1503 00f2 2C21     		movs	r1, #44
+ 1504 00f4 A847     		blx	r5
+ 1505              	.LVL204:
+ 321:Core/u8g2/u8x8_byte.c ****       break;
+ 1506              		.loc 1 321 0
+ 1507 00f6 2368     		ldr	r3, [r4]
+ 1508 00f8 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1509 00fa 4921     		movs	r1, #73
+ 1510 00fc 2046     		mov	r0, r4
+ 1511 00fe FFF7FEFF 		bl	u8x8_gpio_call
+ 1512              	.LVL205:
+ 326:Core/u8g2/u8x8_byte.c **** }
+ 1513              		.loc 1 326 0
+ 1514 0102 0120     		movs	r0, #1
+ 322:Core/u8g2/u8x8_byte.c ****     default:
+ 1515              		.loc 1 322 0
+ 1516 0104 D0E7     		b	.L85
+ 1517              	.LVL206:
+ 1518              	.L98:
+ 324:Core/u8g2/u8x8_byte.c ****   }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 40
+
+
+ 1519              		.loc 1 324 0
+ 1520 0106 0020     		movs	r0, #0
+ 1521              	.LVL207:
+ 1522 0108 CEE7     		b	.L85
+ 1523              	.L102:
+ 1524 010a 00BF     		.align	2
+ 1525              	.L101:
+ 1526 010c 00000000 		.word	.LANCHOR0
+ 1527              		.cfi_endproc
+ 1528              	.LFE9:
+ 1530              		.section	.text.u8x8_byte_set_ks0108_cs,"ax",%progbits
+ 1531              		.align	1
+ 1532              		.global	u8x8_byte_set_ks0108_cs
+ 1533              		.syntax unified
+ 1534              		.thumb
+ 1535              		.thumb_func
+ 1536              		.fpu softvfp
+ 1538              	u8x8_byte_set_ks0108_cs:
+ 1539              	.LFB10:
+ 332:Core/u8g2/u8x8_byte.c ****   u8x8_gpio_SetCS(u8x8, arg&1);
+ 1540              		.loc 1 332 0
+ 1541              		.cfi_startproc
+ 1542              		@ args = 0, pretend = 0, frame = 0
+ 1543              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1544              	.LVL208:
+ 1545 0000 38B5     		push	{r3, r4, r5, lr}
+ 1546              	.LCFI22:
+ 1547              		.cfi_def_cfa_offset 16
+ 1548              		.cfi_offset 3, -16
+ 1549              		.cfi_offset 4, -12
+ 1550              		.cfi_offset 5, -8
+ 1551              		.cfi_offset 14, -4
+ 1552 0002 0546     		mov	r5, r0
+ 1553 0004 0C46     		mov	r4, r1
+ 333:Core/u8g2/u8x8_byte.c ****   arg = arg >> 1;
+ 1554              		.loc 1 333 0
+ 1555 0006 01F00102 		and	r2, r1, #1
+ 1556 000a 4921     		movs	r1, #73
+ 1557              	.LVL209:
+ 1558 000c FFF7FEFF 		bl	u8x8_gpio_call
+ 1559              	.LVL210:
+ 335:Core/u8g2/u8x8_byte.c ****   arg = arg >> 1;
+ 1560              		.loc 1 335 0
+ 1561 0010 C4F34002 		ubfx	r2, r4, #1, #1
+ 1562 0014 4E21     		movs	r1, #78
+ 1563 0016 2846     		mov	r0, r5
+ 1564 0018 FFF7FEFF 		bl	u8x8_gpio_call
+ 1565              	.LVL211:
+ 337:Core/u8g2/u8x8_byte.c **** }
+ 1566              		.loc 1 337 0
+ 1567 001c C4F38002 		ubfx	r2, r4, #2, #1
+ 1568 0020 4F21     		movs	r1, #79
+ 1569 0022 2846     		mov	r0, r5
+ 1570 0024 FFF7FEFF 		bl	u8x8_gpio_call
+ 1571              	.LVL212:
+ 338:Core/u8g2/u8x8_byte.c **** 
+ 1572              		.loc 1 338 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 41
+
+
+ 1573 0028 38BD     		pop	{r3, r4, r5, pc}
+ 1574              		.cfi_endproc
+ 1575              	.LFE10:
+ 1577              		.section	.text.u8x8_byte_ks0108,"ax",%progbits
+ 1578              		.align	1
+ 1579              		.global	u8x8_byte_ks0108
+ 1580              		.syntax unified
+ 1581              		.thumb
+ 1582              		.thumb_func
+ 1583              		.fpu softvfp
+ 1585              	u8x8_byte_ks0108:
+ 1586              	.LFB11:
+ 342:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 1587              		.loc 1 342 0
+ 1588              		.cfi_startproc
+ 1589              		@ args = 0, pretend = 0, frame = 0
+ 1590              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1591              	.LVL213:
+ 1592 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1593              	.LCFI23:
+ 1594              		.cfi_def_cfa_offset 24
+ 1595              		.cfi_offset 4, -24
+ 1596              		.cfi_offset 5, -20
+ 1597              		.cfi_offset 6, -16
+ 1598              		.cfi_offset 7, -12
+ 1599              		.cfi_offset 8, -8
+ 1600              		.cfi_offset 14, -4
+ 1601 0004 0646     		mov	r6, r0
+ 1602 0006 1746     		mov	r7, r2
+ 1603 0008 9846     		mov	r8, r3
+ 346:Core/u8g2/u8x8_byte.c ****   {
+ 1604              		.loc 1 346 0
+ 1605 000a 1439     		subs	r1, r1, #20
+ 1606              	.LVL214:
+ 1607 000c 0C29     		cmp	r1, #12
+ 1608 000e 5CD8     		bhi	.L116
+ 1609 0010 DFE801F0 		tbb	[pc, r1]
+ 1610              	.LVL215:
+ 1611              	.L108:
+ 1612 0014 32       		.byte	(.L107-.L108)/2
+ 1613 0015 5B       		.byte	(.L116-.L108)/2
+ 1614 0016 5B       		.byte	(.L116-.L108)/2
+ 1615 0017 28       		.byte	(.L109-.L108)/2
+ 1616 0018 43       		.byte	(.L110-.L108)/2
+ 1617 0019 4F       		.byte	(.L111-.L108)/2
+ 1618 001a 5B       		.byte	(.L116-.L108)/2
+ 1619 001b 5B       		.byte	(.L116-.L108)/2
+ 1620 001c 5B       		.byte	(.L116-.L108)/2
+ 1621 001d 5B       		.byte	(.L116-.L108)/2
+ 1622 001e 5B       		.byte	(.L116-.L108)/2
+ 1623 001f 5B       		.byte	(.L116-.L108)/2
+ 1624 0020 3E       		.byte	(.L112-.L108)/2
+ 1625 0021 00       		.p2align 1
+ 1626              	.L114:
+ 357:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ 1627              		.loc 1 357 0 discriminator 3
+ 1628 0022 05F00102 		and	r2, r5, #1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 42
+
+
+ 1629 0026 2146     		mov	r1, r4
+ 1630 0028 3046     		mov	r0, r6
+ 1631 002a FFF7FEFF 		bl	u8x8_gpio_call
+ 1632              	.LVL216:
+ 358:Core/u8g2/u8x8_byte.c **** 	}    
+ 1633              		.loc 1 358 0 discriminator 3
+ 1634 002e 6D08     		lsrs	r5, r5, #1
+ 1635              	.LVL217:
+ 355:Core/u8g2/u8x8_byte.c **** 	{
+ 1636              		.loc 1 355 0 discriminator 3
+ 1637 0030 0134     		adds	r4, r4, #1
+ 1638              	.LVL218:
+ 1639 0032 E4B2     		uxtb	r4, r4
+ 1640              	.LVL219:
+ 1641              	.L113:
+ 355:Core/u8g2/u8x8_byte.c **** 	{
+ 1642              		.loc 1 355 0 is_stmt 0 discriminator 1
+ 1643 0034 472C     		cmp	r4, #71
+ 1644 0036 F4D9     		bls	.L114
+ 361:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 1);
+ 1645              		.loc 1 361 0 is_stmt 1
+ 1646 0038 3368     		ldr	r3, [r6]
+ 1647 003a 9A7B     		ldrb	r2, [r3, #14]	@ zero_extendqisi2
+ 1648 003c 2C21     		movs	r1, #44
+ 1649 003e 3046     		mov	r0, r6
+ 1650 0040 FFF7FEFF 		bl	u8x8_gpio_call
+ 1651              	.LVL220:
+ 362:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);
+ 1652              		.loc 1 362 0
+ 1653 0044 0122     		movs	r2, #1
+ 1654 0046 4821     		movs	r1, #72
+ 1655 0048 3046     		mov	r0, r6
+ 1656 004a FFF7FEFF 		bl	u8x8_gpio_call
+ 1657              	.LVL221:
+ 363:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_E, 0);
+ 1658              		.loc 1 363 0
+ 1659 004e 3368     		ldr	r3, [r6]
+ 1660 0050 DA7B     		ldrb	r2, [r3, #15]	@ zero_extendqisi2
+ 1661 0052 2C21     		movs	r1, #44
+ 1662 0054 3046     		mov	r0, r6
+ 1663 0056 FFF7FEFF 		bl	u8x8_gpio_call
+ 1664              	.LVL222:
+ 364:Core/u8g2/u8x8_byte.c ****       }
+ 1665              		.loc 1 364 0
+ 1666 005a 0022     		movs	r2, #0
+ 1667 005c 4821     		movs	r1, #72
+ 1668 005e 3046     		mov	r0, r6
+ 1669 0060 FFF7FEFF 		bl	u8x8_gpio_call
+ 1670              	.LVL223:
+ 1671              	.L109:
+ 350:Core/u8g2/u8x8_byte.c ****       {
+ 1672              		.loc 1 350 0
+ 1673 0064 2FB1     		cbz	r7, .L118
+ 352:Core/u8g2/u8x8_byte.c **** 	data++;
+ 1674              		.loc 1 352 0
+ 1675 0066 18F8015B 		ldrb	r5, [r8], #1	@ zero_extendqisi2
+ 1676              	.LVL224:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 43
+
+
+ 354:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 1677              		.loc 1 354 0
+ 1678 006a 013F     		subs	r7, r7, #1
+ 1679              	.LVL225:
+ 1680 006c FFB2     		uxtb	r7, r7
+ 1681              	.LVL226:
+ 355:Core/u8g2/u8x8_byte.c **** 	{
+ 1682              		.loc 1 355 0
+ 1683 006e 4024     		movs	r4, #64
+ 1684 0070 E0E7     		b	.L113
+ 1685              	.LVL227:
+ 1686              	.L118:
+ 389:Core/u8g2/u8x8_byte.c **** }
+ 1687              		.loc 1 389 0
+ 1688 0072 0120     		movs	r0, #1
+ 1689              	.LVL228:
+ 1690              	.L106:
+ 390:Core/u8g2/u8x8_byte.c **** 
+ 1691              		.loc 1 390 0
+ 1692 0074 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1693              	.LVL229:
+ 1694              	.L107:
+ 370:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signal is low */
+ 1695              		.loc 1 370 0
+ 1696 0078 0368     		ldr	r3, [r0]
+ 1697 007a 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1698              	.LVL230:
+ 1699 007c 4921     		movs	r1, #73
+ 1700 007e FFF7FEFF 		bl	u8x8_gpio_call
+ 1701              	.LVL231:
+ 372:Core/u8g2/u8x8_byte.c ****       break;
+ 1702              		.loc 1 372 0
+ 1703 0082 0022     		movs	r2, #0
+ 1704 0084 4821     		movs	r1, #72
+ 1705 0086 3046     		mov	r0, r6
+ 1706 0088 FFF7FEFF 		bl	u8x8_gpio_call
+ 1707              	.LVL232:
+ 389:Core/u8g2/u8x8_byte.c **** }
+ 1708              		.loc 1 389 0
+ 1709 008c 0120     		movs	r0, #1
+ 373:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 1710              		.loc 1 373 0
+ 1711 008e F1E7     		b	.L106
+ 1712              	.LVL233:
+ 1713              	.L112:
+ 375:Core/u8g2/u8x8_byte.c ****       break;
+ 1714              		.loc 1 375 0
+ 1715 0090 4A21     		movs	r1, #74
+ 1716 0092 FFF7FEFF 		bl	u8x8_gpio_call
+ 1717              	.LVL234:
+ 389:Core/u8g2/u8x8_byte.c **** }
+ 1718              		.loc 1 389 0
+ 1719 0096 0120     		movs	r0, #1
+ 376:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 1720              		.loc 1 376 0
+ 1721 0098 ECE7     		b	.L106
+ 1722              	.LVL235:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 44
+
+
+ 1723              	.L110:
+ 379:Core/u8g2/u8x8_byte.c ****       u8x8->gpio_and_delay_cb(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->post_chip_enable_wait_
+ 1724              		.loc 1 379 0
+ 1725 009a 1146     		mov	r1, r2
+ 1726 009c FFF7FEFF 		bl	u8x8_byte_set_ks0108_cs
+ 1727              	.LVL236:
+ 380:Core/u8g2/u8x8_byte.c ****       break;
+ 1728              		.loc 1 380 0
+ 1729 00a0 7469     		ldr	r4, [r6, #20]
+ 1730 00a2 3268     		ldr	r2, [r6]
+ 1731 00a4 0023     		movs	r3, #0
+ 1732 00a6 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 1733 00a8 2C21     		movs	r1, #44
+ 1734 00aa 3046     		mov	r0, r6
+ 1735 00ac A047     		blx	r4
+ 1736              	.LVL237:
+ 389:Core/u8g2/u8x8_byte.c **** }
+ 1737              		.loc 1 389 0
+ 1738 00ae 0120     		movs	r0, #1
+ 381:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 1739              		.loc 1 381 0
+ 1740 00b0 E0E7     		b	.L106
+ 1741              	.LVL238:
+ 1742              	.L111:
+ 383:Core/u8g2/u8x8_byte.c ****       u8x8_byte_set_ks0108_cs(u8x8, arg_int);
+ 1743              		.loc 1 383 0
+ 1744 00b2 4469     		ldr	r4, [r0, #20]
+ 1745 00b4 0268     		ldr	r2, [r0]
+ 1746              	.LVL239:
+ 1747 00b6 0023     		movs	r3, #0
+ 1748 00b8 D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ 1749 00ba 2C21     		movs	r1, #44
+ 1750 00bc A047     		blx	r4
+ 1751              	.LVL240:
+ 384:Core/u8g2/u8x8_byte.c ****       break;
+ 1752              		.loc 1 384 0
+ 1753 00be 3946     		mov	r1, r7
+ 1754 00c0 3046     		mov	r0, r6
+ 1755 00c2 FFF7FEFF 		bl	u8x8_byte_set_ks0108_cs
+ 1756              	.LVL241:
+ 389:Core/u8g2/u8x8_byte.c **** }
+ 1757              		.loc 1 389 0
+ 1758 00c6 0120     		movs	r0, #1
+ 385:Core/u8g2/u8x8_byte.c ****     default:
+ 1759              		.loc 1 385 0
+ 1760 00c8 D4E7     		b	.L106
+ 1761              	.LVL242:
+ 1762              	.L116:
+ 387:Core/u8g2/u8x8_byte.c ****   }
+ 1763              		.loc 1 387 0
+ 1764 00ca 0020     		movs	r0, #0
+ 1765              	.LVL243:
+ 1766 00cc D2E7     		b	.L106
+ 1767              		.cfi_endproc
+ 1768              	.LFE11:
+ 1770              		.section	.text.u8x8_byte_sed1520,"ax",%progbits
+ 1771              		.align	1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 45
+
+
+ 1772              		.global	u8x8_byte_sed1520
+ 1773              		.syntax unified
+ 1774              		.thumb
+ 1775              		.thumb_func
+ 1776              		.fpu softvfp
+ 1778              	u8x8_byte_sed1520:
+ 1779              	.LFB12:
+ 398:Core/u8g2/u8x8_byte.c ****   uint8_t i, b;
+ 1780              		.loc 1 398 0
+ 1781              		.cfi_startproc
+ 1782              		@ args = 0, pretend = 0, frame = 0
+ 1783              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1784              	.LVL244:
+ 1785 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 1786              	.LCFI24:
+ 1787              		.cfi_def_cfa_offset 24
+ 1788              		.cfi_offset 4, -24
+ 1789              		.cfi_offset 5, -20
+ 1790              		.cfi_offset 6, -16
+ 1791              		.cfi_offset 7, -12
+ 1792              		.cfi_offset 8, -8
+ 1793              		.cfi_offset 14, -4
+ 1794 0004 0646     		mov	r6, r0
+ 1795 0006 1746     		mov	r7, r2
+ 1796 0008 9846     		mov	r8, r3
+ 403:Core/u8g2/u8x8_byte.c ****   {
+ 1797              		.loc 1 403 0
+ 1798 000a 1439     		subs	r1, r1, #20
+ 1799              	.LVL245:
+ 1800 000c 0C29     		cmp	r1, #12
+ 1801 000e 08D8     		bhi	.L120
+ 1802 0010 DFE801F0 		tbb	[pc, r1]
+ 1803              	.LVL246:
+ 1804              	.L122:
+ 1805 0014 39       		.byte	(.L121-.L122)/2
+ 1806 0015 07       		.byte	(.L120-.L122)/2
+ 1807 0016 07       		.byte	(.L120-.L122)/2
+ 1808 0017 30       		.byte	(.L123-.L122)/2
+ 1809 0018 52       		.byte	(.L124-.L122)/2
+ 1810 0019 5A       		.byte	(.L130-.L122)/2
+ 1811 001a 07       		.byte	(.L120-.L122)/2
+ 1812 001b 07       		.byte	(.L120-.L122)/2
+ 1813 001c 07       		.byte	(.L120-.L122)/2
+ 1814 001d 07       		.byte	(.L120-.L122)/2
+ 1815 001e 07       		.byte	(.L120-.L122)/2
+ 1816 001f 07       		.byte	(.L120-.L122)/2
+ 1817 0020 4D       		.byte	(.L126-.L122)/2
+ 1818 0021 00       		.p2align 1
+ 1819              	.L120:
+ 447:Core/u8g2/u8x8_byte.c ****   }
+ 1820              		.loc 1 447 0
+ 1821 0022 0020     		movs	r0, #0
+ 1822              	.LVL247:
+ 1823 0024 51E0     		b	.L125
+ 1824              	.LVL248:
+ 1825              	.L128:
+ 414:Core/u8g2/u8x8_byte.c **** 	  b >>= 1;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 46
+
+
+ 1826              		.loc 1 414 0 discriminator 3
+ 1827 0026 05F00102 		and	r2, r5, #1
+ 1828 002a 2146     		mov	r1, r4
+ 1829 002c 3046     		mov	r0, r6
+ 1830 002e FFF7FEFF 		bl	u8x8_gpio_call
+ 1831              	.LVL249:
+ 415:Core/u8g2/u8x8_byte.c **** 	}    
+ 1832              		.loc 1 415 0 discriminator 3
+ 1833 0032 6D08     		lsrs	r5, r5, #1
+ 1834              	.LVL250:
+ 412:Core/u8g2/u8x8_byte.c **** 	{
+ 1835              		.loc 1 412 0 discriminator 3
+ 1836 0034 0134     		adds	r4, r4, #1
+ 1837              	.LVL251:
+ 1838 0036 E4B2     		uxtb	r4, r4
+ 1839              	.LVL252:
+ 1840              	.L127:
+ 412:Core/u8g2/u8x8_byte.c **** 	{
+ 1841              		.loc 1 412 0 is_stmt 0 discriminator 1
+ 1842 0038 472C     		cmp	r4, #71
+ 1843 003a F4D9     		bls	.L128
+ 418:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, enable_pin, 1);
+ 1844              		.loc 1 418 0 is_stmt 1
+ 1845 003c 3368     		ldr	r3, [r6]
+ 1846 003e 9A7B     		ldrb	r2, [r3, #14]	@ zero_extendqisi2
+ 1847 0040 2C21     		movs	r1, #44
+ 1848 0042 3046     		mov	r0, r6
+ 1849 0044 FFF7FEFF 		bl	u8x8_gpio_call
+ 1850              	.LVL253:
+ 419:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, 200);		/* KS0108 requires 450 ns, use 200 here */
+ 1851              		.loc 1 419 0
+ 1852 0048 224C     		ldr	r4, .L134
+ 1853              	.LVL254:
+ 1854 004a 0122     		movs	r2, #1
+ 1855 004c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 1856 004e 3046     		mov	r0, r6
+ 1857 0050 FFF7FEFF 		bl	u8x8_gpio_call
+ 1858              	.LVL255:
+ 420:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_Delay(u8x8, U8X8_MSG_DELAY_NANO, u8x8->display_info->write_pulse_width_ns);  /* expect 2
+ 1859              		.loc 1 420 0
+ 1860 0054 C822     		movs	r2, #200
+ 1861 0056 2C21     		movs	r1, #44
+ 1862 0058 3046     		mov	r0, r6
+ 1863 005a FFF7FEFF 		bl	u8x8_gpio_call
+ 1864              	.LVL256:
+ 421:Core/u8g2/u8x8_byte.c **** 	u8x8_gpio_call(u8x8, enable_pin, 0);
+ 1865              		.loc 1 421 0
+ 1866 005e 3368     		ldr	r3, [r6]
+ 1867 0060 DA7B     		ldrb	r2, [r3, #15]	@ zero_extendqisi2
+ 1868 0062 2C21     		movs	r1, #44
+ 1869 0064 3046     		mov	r0, r6
+ 1870 0066 FFF7FEFF 		bl	u8x8_gpio_call
+ 1871              	.LVL257:
+ 422:Core/u8g2/u8x8_byte.c ****       }
+ 1872              		.loc 1 422 0
+ 1873 006a 0022     		movs	r2, #0
+ 1874 006c 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 47
+
+
+ 1875 006e 3046     		mov	r0, r6
+ 1876 0070 FFF7FEFF 		bl	u8x8_gpio_call
+ 1877              	.LVL258:
+ 1878              	.L123:
+ 407:Core/u8g2/u8x8_byte.c ****       {
+ 1879              		.loc 1 407 0
+ 1880 0074 2FB1     		cbz	r7, .L133
+ 409:Core/u8g2/u8x8_byte.c **** 	data++;
+ 1881              		.loc 1 409 0
+ 1882 0076 18F8015B 		ldrb	r5, [r8], #1	@ zero_extendqisi2
+ 1883              	.LVL259:
+ 411:Core/u8g2/u8x8_byte.c **** 	for( i = U8X8_MSG_GPIO_D0; i <= U8X8_MSG_GPIO_D7; i++ )
+ 1884              		.loc 1 411 0
+ 1885 007a 013F     		subs	r7, r7, #1
+ 1886              	.LVL260:
+ 1887 007c FFB2     		uxtb	r7, r7
+ 1888              	.LVL261:
+ 412:Core/u8g2/u8x8_byte.c **** 	{
+ 1889              		.loc 1 412 0
+ 1890 007e 4024     		movs	r4, #64
+ 1891 0080 DAE7     		b	.L127
+ 1892              	.LVL262:
+ 1893              	.L133:
+ 449:Core/u8g2/u8x8_byte.c **** }
+ 1894              		.loc 1 449 0
+ 1895 0082 0120     		movs	r0, #1
+ 1896 0084 21E0     		b	.L125
+ 1897              	.LVL263:
+ 1898              	.L121:
+ 428:Core/u8g2/u8x8_byte.c ****       /* ensure that the enable signals are low */
+ 1899              		.loc 1 428 0
+ 1900 0086 0368     		ldr	r3, [r0]
+ 1901 0088 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+ 1902              	.LVL264:
+ 1903 008a 4921     		movs	r1, #73
+ 1904 008c FFF7FEFF 		bl	u8x8_gpio_call
+ 1905              	.LVL265:
+ 430:Core/u8g2/u8x8_byte.c ****       u8x8_gpio_call(u8x8, U8X8_MSG_GPIO_CS, 0);
+ 1906              		.loc 1 430 0
+ 1907 0090 0022     		movs	r2, #0
+ 1908 0092 4821     		movs	r1, #72
+ 1909 0094 3046     		mov	r0, r6
+ 1910 0096 FFF7FEFF 		bl	u8x8_gpio_call
+ 1911              	.LVL266:
+ 431:Core/u8g2/u8x8_byte.c ****       enable_pin = U8X8_MSG_GPIO_E;
+ 1912              		.loc 1 431 0
+ 1913 009a 0022     		movs	r2, #0
+ 1914 009c 4921     		movs	r1, #73
+ 1915 009e 3046     		mov	r0, r6
+ 1916 00a0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1917              	.LVL267:
+ 432:Core/u8g2/u8x8_byte.c ****       break;
+ 1918              		.loc 1 432 0
+ 1919 00a4 0B4B     		ldr	r3, .L134
+ 1920 00a6 4822     		movs	r2, #72
+ 1921 00a8 1A70     		strb	r2, [r3]
+ 449:Core/u8g2/u8x8_byte.c **** }
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 48
+
+
+ 1922              		.loc 1 449 0
+ 1923 00aa 0120     		movs	r0, #1
+ 433:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 1924              		.loc 1 433 0
+ 1925 00ac 0DE0     		b	.L125
+ 1926              	.LVL268:
+ 1927              	.L126:
+ 435:Core/u8g2/u8x8_byte.c ****       break;
+ 1928              		.loc 1 435 0
+ 1929 00ae 4A21     		movs	r1, #74
+ 1930 00b0 FFF7FEFF 		bl	u8x8_gpio_call
+ 1931              	.LVL269:
+ 449:Core/u8g2/u8x8_byte.c **** }
+ 1932              		.loc 1 449 0
+ 1933 00b4 0120     		movs	r0, #1
+ 436:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 1934              		.loc 1 436 0
+ 1935 00b6 08E0     		b	.L125
+ 1936              	.LVL270:
+ 1937              	.L124:
+ 440:Core/u8g2/u8x8_byte.c ****       if ( arg_int != 0 )
+ 1938              		.loc 1 440 0
+ 1939 00b8 064B     		ldr	r3, .L134
+ 1940 00ba 4822     		movs	r2, #72
+ 1941              	.LVL271:
+ 1942 00bc 1A70     		strb	r2, [r3]
+ 441:Core/u8g2/u8x8_byte.c **** 	enable_pin = U8X8_MSG_GPIO_CS;
+ 1943              		.loc 1 441 0
+ 1944 00be 37B1     		cbz	r7, .L131
+ 442:Core/u8g2/u8x8_byte.c ****       break;
+ 1945              		.loc 1 442 0
+ 1946 00c0 4922     		movs	r2, #73
+ 1947 00c2 1A70     		strb	r2, [r3]
+ 449:Core/u8g2/u8x8_byte.c **** }
+ 1948              		.loc 1 449 0
+ 1949 00c4 0120     		movs	r0, #1
+ 1950              	.LVL272:
+ 1951 00c6 00E0     		b	.L125
+ 1952              	.LVL273:
+ 1953              	.L130:
+ 1954 00c8 0120     		movs	r0, #1
+ 1955              	.LVL274:
+ 1956              	.L125:
+ 450:Core/u8g2/u8x8_byte.c **** 
+ 1957              		.loc 1 450 0
+ 1958 00ca BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 1959              	.LVL275:
+ 1960              	.L131:
+ 449:Core/u8g2/u8x8_byte.c **** }
+ 1961              		.loc 1 449 0
+ 1962 00ce 0120     		movs	r0, #1
+ 1963              	.LVL276:
+ 1964 00d0 FBE7     		b	.L125
+ 1965              	.L135:
+ 1966 00d2 00BF     		.align	2
+ 1967              	.L134:
+ 1968 00d4 00000000 		.word	.LANCHOR1
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 49
+
+
+ 1969              		.cfi_endproc
+ 1970              	.LFE12:
+ 1972              		.section	.text.u8x8_byte_sw_i2c,"ax",%progbits
+ 1973              		.align	1
+ 1974              		.global	u8x8_byte_sw_i2c
+ 1975              		.syntax unified
+ 1976              		.thumb
+ 1977              		.thumb_func
+ 1978              		.fpu softvfp
+ 1980              	u8x8_byte_sw_i2c:
+ 1981              	.LFB24:
+ 576:Core/u8g2/u8x8_byte.c **** 
+ 577:Core/u8g2/u8x8_byte.c **** uint8_t u8x8_byte_sw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 578:Core/u8g2/u8x8_byte.c **** {
+ 1982              		.loc 1 578 0
+ 1983              		.cfi_startproc
+ 1984              		@ args = 0, pretend = 0, frame = 0
+ 1985              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1986              	.LVL277:
+ 1987 0000 70B5     		push	{r4, r5, r6, lr}
+ 1988              	.LCFI25:
+ 1989              		.cfi_def_cfa_offset 16
+ 1990              		.cfi_offset 4, -16
+ 1991              		.cfi_offset 5, -12
+ 1992              		.cfi_offset 6, -8
+ 1993              		.cfi_offset 14, -4
+ 1994 0002 0646     		mov	r6, r0
+ 1995 0004 1446     		mov	r4, r2
+ 1996 0006 1D46     		mov	r5, r3
+ 579:Core/u8g2/u8x8_byte.c ****   uint8_t *data;
+ 580:Core/u8g2/u8x8_byte.c **** 
+ 581:Core/u8g2/u8x8_byte.c ****   switch(msg)
+ 1997              		.loc 1 581 0
+ 1998 0008 1439     		subs	r1, r1, #20
+ 1999              	.LVL278:
+ 2000 000a 0C29     		cmp	r1, #12
+ 2001 000c 08D8     		bhi	.L137
+ 2002 000e DFE801F0 		tbb	[pc, r1]
+ 2003              	.LVL279:
+ 2004              	.L139:
+ 2005 0012 14       		.byte	(.L138-.L139)/2
+ 2006 0013 07       		.byte	(.L137-.L139)/2
+ 2007 0014 07       		.byte	(.L137-.L139)/2
+ 2008 0015 10       		.byte	(.L140-.L139)/2
+ 2009 0016 18       		.byte	(.L141-.L139)/2
+ 2010 0017 21       		.byte	(.L142-.L139)/2
+ 2011 0018 07       		.byte	(.L137-.L139)/2
+ 2012 0019 07       		.byte	(.L137-.L139)/2
+ 2013 001a 07       		.byte	(.L137-.L139)/2
+ 2014 001b 07       		.byte	(.L137-.L139)/2
+ 2015 001c 07       		.byte	(.L137-.L139)/2
+ 2016 001d 07       		.byte	(.L137-.L139)/2
+ 2017 001e 25       		.byte	(.L145-.L139)/2
+ 2018 001f 00       		.p2align 1
+ 2019              	.L137:
+ 582:Core/u8g2/u8x8_byte.c ****   {
+ 583:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SEND:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 50
+
+
+ 584:Core/u8g2/u8x8_byte.c ****       data = (uint8_t *)arg_ptr;
+ 585:Core/u8g2/u8x8_byte.c ****     
+ 586:Core/u8g2/u8x8_byte.c ****       while( arg_int > 0 )
+ 587:Core/u8g2/u8x8_byte.c ****       {
+ 588:Core/u8g2/u8x8_byte.c **** 	i2c_write_byte(u8x8, *data);
+ 589:Core/u8g2/u8x8_byte.c **** 	data++;
+ 590:Core/u8g2/u8x8_byte.c **** 	arg_int--;
+ 591:Core/u8g2/u8x8_byte.c ****       }
+ 592:Core/u8g2/u8x8_byte.c ****       
+ 593:Core/u8g2/u8x8_byte.c ****       break;
+ 594:Core/u8g2/u8x8_byte.c ****       
+ 595:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_INIT:
+ 596:Core/u8g2/u8x8_byte.c ****       i2c_init(u8x8);
+ 597:Core/u8g2/u8x8_byte.c ****       break;
+ 598:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 599:Core/u8g2/u8x8_byte.c ****       break;
+ 600:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_START_TRANSFER:
+ 601:Core/u8g2/u8x8_byte.c ****       i2c_start(u8x8);
+ 602:Core/u8g2/u8x8_byte.c ****       i2c_write_byte(u8x8, u8x8_GetI2CAddress(u8x8));
+ 603:Core/u8g2/u8x8_byte.c ****       //i2c_write_byte(u8x8, 0x078);
+ 604:Core/u8g2/u8x8_byte.c ****       break;
+ 605:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 606:Core/u8g2/u8x8_byte.c ****       i2c_stop(u8x8);
+ 607:Core/u8g2/u8x8_byte.c ****       break;
+ 608:Core/u8g2/u8x8_byte.c ****     default:
+ 609:Core/u8g2/u8x8_byte.c ****       return 0;
+ 2020              		.loc 1 609 0
+ 2021 0020 0020     		movs	r0, #0
+ 2022              	.LVL280:
+ 2023 0022 1CE0     		b	.L143
+ 2024              	.LVL281:
+ 2025              	.L144:
+ 588:Core/u8g2/u8x8_byte.c **** 	data++;
+ 2026              		.loc 1 588 0
+ 2027 0024 15F8011B 		ldrb	r1, [r5], #1	@ zero_extendqisi2
+ 2028              	.LVL282:
+ 2029 0028 3046     		mov	r0, r6
+ 2030 002a FFF7FEFF 		bl	i2c_write_byte
+ 2031              	.LVL283:
+ 590:Core/u8g2/u8x8_byte.c ****       }
+ 2032              		.loc 1 590 0
+ 2033 002e 013C     		subs	r4, r4, #1
+ 2034              	.LVL284:
+ 2035 0030 E4B2     		uxtb	r4, r4
+ 2036              	.LVL285:
+ 2037              	.L140:
+ 586:Core/u8g2/u8x8_byte.c ****       {
+ 2038              		.loc 1 586 0
+ 2039 0032 002C     		cmp	r4, #0
+ 2040 0034 F6D1     		bne	.L144
+ 610:Core/u8g2/u8x8_byte.c ****   }
+ 611:Core/u8g2/u8x8_byte.c ****   return 1;
+ 2041              		.loc 1 611 0
+ 2042 0036 0120     		movs	r0, #1
+ 2043 0038 11E0     		b	.L143
+ 2044              	.LVL286:
+ 2045              	.L138:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 51
+
+
+ 596:Core/u8g2/u8x8_byte.c ****       break;
+ 2046              		.loc 1 596 0
+ 2047 003a FFF7FEFF 		bl	i2c_init
+ 2048              	.LVL287:
+ 2049              		.loc 1 611 0
+ 2050 003e 0120     		movs	r0, #1
+ 597:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_SET_DC:
+ 2051              		.loc 1 597 0
+ 2052 0040 0DE0     		b	.L143
+ 2053              	.LVL288:
+ 2054              	.L141:
+ 601:Core/u8g2/u8x8_byte.c ****       i2c_write_byte(u8x8, u8x8_GetI2CAddress(u8x8));
+ 2055              		.loc 1 601 0
+ 2056 0042 FFF7FEFF 		bl	i2c_start
+ 2057              	.LVL289:
+ 602:Core/u8g2/u8x8_byte.c ****       //i2c_write_byte(u8x8, 0x078);
+ 2058              		.loc 1 602 0
+ 2059 0046 96F82410 		ldrb	r1, [r6, #36]	@ zero_extendqisi2
+ 2060 004a 3046     		mov	r0, r6
+ 2061 004c FFF7FEFF 		bl	i2c_write_byte
+ 2062              	.LVL290:
+ 2063              		.loc 1 611 0
+ 2064 0050 0120     		movs	r0, #1
+ 604:Core/u8g2/u8x8_byte.c ****     case U8X8_MSG_BYTE_END_TRANSFER:
+ 2065              		.loc 1 604 0
+ 2066 0052 04E0     		b	.L143
+ 2067              	.LVL291:
+ 2068              	.L142:
+ 606:Core/u8g2/u8x8_byte.c ****       break;
+ 2069              		.loc 1 606 0
+ 2070 0054 FFF7FEFF 		bl	i2c_stop
+ 2071              	.LVL292:
+ 2072              		.loc 1 611 0
+ 2073 0058 0120     		movs	r0, #1
+ 607:Core/u8g2/u8x8_byte.c ****     default:
+ 2074              		.loc 1 607 0
+ 2075 005a 00E0     		b	.L143
+ 2076              	.LVL293:
+ 2077              	.L145:
+ 2078              		.loc 1 611 0
+ 2079 005c 0120     		movs	r0, #1
+ 2080              	.LVL294:
+ 2081              	.L143:
+ 612:Core/u8g2/u8x8_byte.c **** }
+ 2082              		.loc 1 612 0
+ 2083 005e 70BD     		pop	{r4, r5, r6, pc}
+ 2084              		.cfi_endproc
+ 2085              	.LFE24:
+ 2087              		.section	.bss.enable_pin.5366,"aw",%nobits
+ 2088              		.set	.LANCHOR1,. + 0
+ 2091              	enable_pin.5366:
+ 2092 0000 00       		.space	1
+ 2093              		.section	.bss.last_dc.5317,"aw",%nobits
+ 2094              		.set	.LANCHOR0,. + 0
+ 2097              	last_dc.5317:
+ 2098 0000 00       		.space	1
+ 2099              		.text
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 52
+
+
+ 2100              	.Letext0:
+ 2101              		.file 2 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 2102              		.file 3 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 2103              		.file 4 "Core/u8g2/../u8g2/u8x8.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 53
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_byte.c
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:16     .text.i2c_delay:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:22     .text.i2c_delay:00000000 i2c_delay
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:47     .text.i2c_init:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:53     .text.i2c_init:00000000 i2c_init
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:87     .text.i2c_read_scl_and_delay:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:93     .text.i2c_read_scl_and_delay:00000000 i2c_read_scl_and_delay
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:121    .text.i2c_read_sda:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:127    .text.i2c_read_sda:00000000 i2c_read_sda
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:150    .text.i2c_clear_sda:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:156    .text.i2c_clear_sda:00000000 i2c_clear_sda
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:179    .text.i2c_stop:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:185    .text.i2c_stop:00000000 i2c_stop
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:226    .text.i2c_clear_scl:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:232    .text.i2c_clear_scl:00000000 i2c_clear_scl
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:255    .text.i2c_start:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:261    .text.i2c_start:00000000 i2c_start
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:318    .text.i2c_write_bit:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:324    .text.i2c_write_bit:00000000 i2c_write_bit
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:367    .text.i2c_read_bit:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:373    .text.i2c_read_bit:00000000 i2c_read_bit
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:415    .text.i2c_write_byte:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:421    .text.i2c_write_byte:00000000 i2c_write_byte
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:487    .text.u8x8_byte_SetDC:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:494    .text.u8x8_byte_SetDC:00000000 u8x8_byte_SetDC
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:520    .text.u8x8_byte_SendBytes:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:527    .text.u8x8_byte_SendBytes:00000000 u8x8_byte_SendBytes
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:554    .text.u8x8_byte_SendByte:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:561    .text.u8x8_byte_SendByte:00000000 u8x8_byte_SendByte
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:592    .text.u8x8_byte_StartTransfer:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:599    .text.u8x8_byte_StartTransfer:00000000 u8x8_byte_StartTransfer
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:624    .text.u8x8_byte_EndTransfer:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:631    .text.u8x8_byte_EndTransfer:00000000 u8x8_byte_EndTransfer
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:656    .text.u8x8_byte_empty:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:663    .text.u8x8_byte_empty:00000000 u8x8_byte_empty
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:679    .text.u8x8_byte_4wire_sw_spi:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:686    .text.u8x8_byte_4wire_sw_spi:00000000 u8x8_byte_4wire_sw_spi
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:724    .text.u8x8_byte_4wire_sw_spi:00000020 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:900    .text.u8x8_byte_8bit_6800mode:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:907    .text.u8x8_byte_8bit_6800mode:00000000 u8x8_byte_8bit_6800mode
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:934    .text.u8x8_byte_8bit_6800mode:00000014 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1098   .text.u8x8_byte_8bit_8080mode:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1105   .text.u8x8_byte_8bit_8080mode:00000000 u8x8_byte_8bit_8080mode
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1132   .text.u8x8_byte_8bit_8080mode:00000014 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1296   .text.u8x8_byte_3wire_sw_spi:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1303   .text.u8x8_byte_3wire_sw_spi:00000000 u8x8_byte_3wire_sw_spi
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1341   .text.u8x8_byte_3wire_sw_spi:00000020 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1526   .text.u8x8_byte_3wire_sw_spi:0000010c $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1531   .text.u8x8_byte_set_ks0108_cs:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1538   .text.u8x8_byte_set_ks0108_cs:00000000 u8x8_byte_set_ks0108_cs
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1578   .text.u8x8_byte_ks0108:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1585   .text.u8x8_byte_ks0108:00000000 u8x8_byte_ks0108
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1612   .text.u8x8_byte_ks0108:00000014 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1771   .text.u8x8_byte_sed1520:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1778   .text.u8x8_byte_sed1520:00000000 u8x8_byte_sed1520
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1805   .text.u8x8_byte_sed1520:00000014 $d
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s 			page 54
+
+
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1968   .text.u8x8_byte_sed1520:000000d4 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1973   .text.u8x8_byte_sw_i2c:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1980   .text.u8x8_byte_sw_i2c:00000000 u8x8_byte_sw_i2c
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2005   .text.u8x8_byte_sw_i2c:00000012 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2091   .bss.enable_pin.5366:00000000 enable_pin.5366
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2092   .bss.enable_pin.5366:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2097   .bss.last_dc.5317:00000000 last_dc.5317
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2098   .bss.last_dc.5317:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:737    .text.u8x8_byte_4wire_sw_spi:0000002d $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:737    .text.u8x8_byte_4wire_sw_spi:0000002e $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:947    .text.u8x8_byte_8bit_6800mode:00000021 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:947    .text.u8x8_byte_8bit_6800mode:00000022 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1145   .text.u8x8_byte_8bit_8080mode:00000021 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1145   .text.u8x8_byte_8bit_8080mode:00000022 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1354   .text.u8x8_byte_3wire_sw_spi:0000002d $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1354   .text.u8x8_byte_3wire_sw_spi:0000002e $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1625   .text.u8x8_byte_ks0108:00000021 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1625   .text.u8x8_byte_ks0108:00000022 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1818   .text.u8x8_byte_sed1520:00000021 $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:1818   .text.u8x8_byte_sed1520:00000022 $t
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2018   .text.u8x8_byte_sw_i2c:0000001f $d
+C:\Users\ASUS\AppData\Local\Temp\ccElcRjd.s:2018   .text.u8x8_byte_sw_i2c:00000020 $t
+
+UNDEFINED SYMBOLS
+u8x8_gpio_call

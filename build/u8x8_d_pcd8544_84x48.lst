@@ -1,0 +1,560 @@
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"u8x8_d_pcd8544_84x48.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.u8x8_d_pcd8544_84x48,"ax",%progbits
+  16              		.align	1
+  17              		.global	u8x8_d_pcd8544_84x48
+  18              		.syntax unified
+  19              		.thumb
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	u8x8_d_pcd8544_84x48:
+  24              	.LFB0:
+  25              		.file 1 "Core/u8g2/u8x8_d_pcd8544_84x48.c"
+   1:Core/u8g2/u8x8_d_pcd8544_84x48.c **** /*
+   2:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+   3:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   u8x8_d_pcd8544_84x48.c (so called "Nokia 5110" displays)
+   4:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   
+   5:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+   6:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+   7:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   Copyright (c) 2016, olikraus@gmail.com
+   8:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   All rights reserved.
+   9:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  10:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   Redistribution and use in source and binary forms, with or without modification, 
+  11:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   are permitted provided that the following conditions are met:
+  12:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  13:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   * Redistributions of source code must retain the above copyright notice, this list 
+  14:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     of conditions and the following disclaimer.
+  15:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+  16:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   * Redistributions in binary form must reproduce the above copyright notice, this 
+  17:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     list of conditions and the following disclaimer in the documentation and/or other 
+  18:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     materials provided with the distribution.
+  19:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  20:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND 
+  21:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
+  22:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF 
+  23:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+  24:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR 
+  25:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+  26:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT 
+  27:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+  28:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+  29:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
+  30:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+  31:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+  32:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  
+  33:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 2
+
+
+  34:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   
+  35:Core/u8g2/u8x8_d_pcd8544_84x48.c **** */
+  36:Core/u8g2/u8x8_d_pcd8544_84x48.c **** #include "../u8g2/u8x8.h"
+  37:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  38:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  39:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  40:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  41:Core/u8g2/u8x8_d_pcd8544_84x48.c **** static const uint8_t u8x8_d_pcd8544_84x48_init_seq[] = {
+  42:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+  43:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  44:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   
+  45:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x021),            			/* activate chip (PD=0), horizontal increment (V=0), enter extended 
+  46:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x006),		                /* temp. control: b10 = 2  */
+  47:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x013),		                /* bias system 1:48 */
+  48:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x0c0),		                /* medium Vop  */
+  49:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   
+  50:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x020),		                /* activate chip (PD=0), horizontal increment (V=0), enter normal
+  51:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x008),				/* blank */
+  52:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x024),		                /* power down (PD=1), horizontal increment (V=0), enter normal co
+  53:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+  54:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END_TRANSFER(),             	/* disable chip */
+  55:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END()             			/* end of sequence */
+  56:Core/u8g2/u8x8_d_pcd8544_84x48.c **** };
+  57:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  58:Core/u8g2/u8x8_d_pcd8544_84x48.c **** static const uint8_t u8x8_d_pcd8544_84x48_powersave0_seq[] = {
+  59:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  60:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x020),		                /* activate chip (PD=0), horizontal increment (V=0), enter normal
+  61:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x00c),				/* display on */
+  62:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END_TRANSFER(),             	/* disable chip */
+  63:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END()             			/* end of sequence */
+  64:Core/u8g2/u8x8_d_pcd8544_84x48.c **** };
+  65:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  66:Core/u8g2/u8x8_d_pcd8544_84x48.c **** static const uint8_t u8x8_d_pcd8544_84x48_powersave1_seq[] = {
+  67:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_START_TRANSFER(),             	/* enable chip, delay is part of the transfer start */
+  68:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x020),		                /* activate chip (PD=0), horizontal increment (V=0), enter normal
+  69:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x008),				/* blank */
+  70:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_C(0x024),		                /* power down (PD=1), horizontal increment (V=0), enter normal co
+  71:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END_TRANSFER(),             	/* disable chip */
+  72:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   U8X8_END()             			/* end of sequence */
+  73:Core/u8g2/u8x8_d_pcd8544_84x48.c **** };
+  74:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  75:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  76:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+  77:Core/u8g2/u8x8_d_pcd8544_84x48.c **** static const u8x8_display_info_t u8x8_pcd8544_84x48_display_info =
+  78:Core/u8g2/u8x8_d_pcd8544_84x48.c **** {
+  79:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* chip_enable_level = */ 0,
+  80:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* chip_disable_level = */ 1,
+  81:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   
+  82:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* post_chip_enable_wait_ns = */ 5,
+  83:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* pre_chip_disable_wait_ns = */ 5,
+  84:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* reset_pulse_width_ms = */ 2, 
+  85:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* post_reset_wait_ms = */ 2, 
+  86:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* sda_setup_time_ns = */ 12,		
+  87:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* sck_pulse_width_ns = */ 75,	/* half of cycle time (100ns according to datasheet), AVR: below 7
+  88:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* sck_clock_hz = */ 4000000UL,	/* since Arduino 1.6.0, the SPI bus speed in Hz. Should be  10000
+  89:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* spi_mode = */ 0,		/* active high, rising edge */
+  90:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* i2c_bus_clock_100kHz = */ 4,
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 3
+
+
+  91:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* data_setup_time_ns = */ 30,
+  92:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* write_pulse_width_ns = */ 40,
+  93:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* tile_width = */ 11,		/* width of 11*8=88 pixel */
+  94:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* tile_hight = */ 6,
+  95:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* default_x_offset = */ 0,
+  96:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* flipmode_x_offset = */ 0,
+  97:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* pixel_width = */ 84,
+  98:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   /* pixel_height = */ 48
+  99:Core/u8g2/u8x8_d_pcd8544_84x48.c **** };
+ 100:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 
+ 101:Core/u8g2/u8x8_d_pcd8544_84x48.c **** uint8_t u8x8_d_pcd8544_84x48(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+ 102:Core/u8g2/u8x8_d_pcd8544_84x48.c **** {
+  26              		.loc 1 102 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              	.LVL0:
+  31 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 4, -24
+  35              		.cfi_offset 5, -20
+  36              		.cfi_offset 6, -16
+  37              		.cfi_offset 7, -12
+  38              		.cfi_offset 8, -8
+  39              		.cfi_offset 14, -4
+  40 0004 0746     		mov	r7, r0
+  41 0006 1546     		mov	r5, r2
+  42 0008 1E46     		mov	r6, r3
+ 103:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   uint8_t x, c;
+ 104:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   uint8_t *ptr;
+ 105:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   switch(msg)
+  43              		.loc 1 105 0
+  44 000a 0939     		subs	r1, r1, #9
+  45              	.LVL1:
+  46 000c 0629     		cmp	r1, #6
+  47 000e 66D8     		bhi	.L13
+  48 0010 DFE801F0 		tbb	[pc, r1]
+  49              	.LVL2:
+  50              	.L4:
+  51 0014 04       		.byte	(.L3-.L4)/2
+  52 0015 0A       		.byte	(.L5-.L4)/2
+  53 0016 12       		.byte	(.L6-.L4)/2
+  54 0017 65       		.byte	(.L13-.L4)/2
+  55 0018 65       		.byte	(.L13-.L4)/2
+  56 0019 1D       		.byte	(.L7-.L4)/2
+  57 001a 2E       		.byte	(.L8-.L4)/2
+  58 001b 00       		.p2align 1
+  59              	.L3:
+ 106:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   {
+ 107:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_SETUP_MEMORY:
+ 108:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_d_helper_display_setup_memory(u8x8, &u8x8_pcd8544_84x48_display_info);
+  60              		.loc 1 108 0
+  61 001c 3149     		ldr	r1, .L15
+  62 001e FFF7FEFF 		bl	u8x8_d_helper_display_setup_memory
+  63              	.LVL3:
+ 109:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 4
+
+
+ 110:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_INIT:
+ 111:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_d_helper_display_init(u8x8);
+ 112:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendSequence(u8x8, u8x8_d_pcd8544_84x48_init_seq);
+ 113:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 114:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+ 115:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       if ( arg_int == 0 )
+ 116:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	u8x8_cad_SendSequence(u8x8, u8x8_d_pcd8544_84x48_powersave0_seq);
+ 117:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       else
+ 118:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	u8x8_cad_SendSequence(u8x8, u8x8_d_pcd8544_84x48_powersave1_seq);
+ 119:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 120:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     // case U8X8_MSG_DISPLAY_SET_FLIP_MODE:
+ 121:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     // 	  break; 	NOT SUPPORTED
+ 122:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       
+ 123:Core/u8g2/u8x8_d_pcd8544_84x48.c **** #ifdef U8X8_WITH_SET_CONTRAST
+ 124:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_SET_CONTRAST:
+ 125:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_StartTransfer(u8x8);
+ 126:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x021 ); /* command mode, extended function set */
+ 127:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x080 | (arg_int >> 1) );
+ 128:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_EndTransfer(u8x8);
+ 129:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 130:Core/u8g2/u8x8_d_pcd8544_84x48.c **** #endif
+ 131:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_DRAW_TILE:
+ 132:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_StartTransfer(u8x8);
+ 133:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+ 134:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       x = ((u8x8_tile_t *)arg_ptr)->x_pos;
+ 135:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       x *= 8;
+ 136:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       x += u8x8->x_offset;
+ 137:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x020 ); /* activate chip (PD=0), horizontal increment (V=0), enter no
+ 138:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x080 | (x) );	/* set X address */
+ 139:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x040 | (((u8x8_tile_t *)arg_ptr)->y_pos) );	/* set Y address */
+ 140:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+ 141:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       ptr = ((u8x8_tile_t *)arg_ptr)->tile_ptr;
+ 142:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       c = ((u8x8_tile_t *)arg_ptr)->cnt;
+ 143:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       c *= 8;	
+ 144:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       do
+ 145:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       {
+ 146:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	if ( c + x > 84u )
+ 147:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	{
+ 148:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	  if ( x >= 84u )
+ 149:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	    break;
+ 150:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	  c = 84u;
+ 151:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	  c -= x;
+ 152:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	}
+ 153:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	u8x8_cad_SendData(u8x8, c, ptr);	/* note: SendData can not handle more than 255 bytes */
+ 154:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	x += c;
+ 155:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	arg_int--;
+ 156:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       } while( arg_int > 0 );
+ 157:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       
+ 158:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_EndTransfer(u8x8);
+ 159:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 160:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     default:
+ 161:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       return 0;
+ 162:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   }
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   return 1;
+  64              		.loc 1 163 0
+  65 0022 0120     		movs	r0, #1
+  66              	.LVL4:
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 5
+
+
+  67              	.L2:
+ 164:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+  68              		.loc 1 164 0
+  69 0024 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+  70              	.LVL5:
+  71              	.L5:
+ 111:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendSequence(u8x8, u8x8_d_pcd8544_84x48_init_seq);
+  72              		.loc 1 111 0
+  73 0028 FFF7FEFF 		bl	u8x8_d_helper_display_init
+  74              	.LVL6:
+ 112:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+  75              		.loc 1 112 0
+  76 002c 2E49     		ldr	r1, .L15+4
+  77 002e 3846     		mov	r0, r7
+  78 0030 FFF7FEFF 		bl	u8x8_cad_SendSequence
+  79              	.LVL7:
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+  80              		.loc 1 163 0
+  81 0034 0120     		movs	r0, #1
+ 113:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     case U8X8_MSG_DISPLAY_SET_POWER_SAVE:
+  82              		.loc 1 113 0
+  83 0036 F5E7     		b	.L2
+  84              	.LVL8:
+  85              	.L6:
+ 115:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	u8x8_cad_SendSequence(u8x8, u8x8_d_pcd8544_84x48_powersave0_seq);
+  86              		.loc 1 115 0
+  87 0038 22B9     		cbnz	r2, .L9
+ 116:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       else
+  88              		.loc 1 116 0
+  89 003a 2C49     		ldr	r1, .L15+8
+  90 003c FFF7FEFF 		bl	u8x8_cad_SendSequence
+  91              	.LVL9:
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+  92              		.loc 1 163 0
+  93 0040 0120     		movs	r0, #1
+  94 0042 EFE7     		b	.L2
+  95              	.LVL10:
+  96              	.L9:
+ 118:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+  97              		.loc 1 118 0
+  98 0044 2A49     		ldr	r1, .L15+12
+  99 0046 FFF7FEFF 		bl	u8x8_cad_SendSequence
+ 100              	.LVL11:
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+ 101              		.loc 1 163 0
+ 102 004a 0120     		movs	r0, #1
+ 103 004c EAE7     		b	.L2
+ 104              	.LVL12:
+ 105              	.L7:
+ 125:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x021 ); /* command mode, extended function set */
+ 106              		.loc 1 125 0
+ 107 004e FFF7FEFF 		bl	u8x8_cad_StartTransfer
+ 108              	.LVL13:
+ 126:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x080 | (arg_int >> 1) );
+ 109              		.loc 1 126 0
+ 110 0052 2121     		movs	r1, #33
+ 111 0054 3846     		mov	r0, r7
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 6
+
+
+ 112 0056 FFF7FEFF 		bl	u8x8_cad_SendCmd
+ 113              	.LVL14:
+ 127:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_EndTransfer(u8x8);
+ 114              		.loc 1 127 0
+ 115 005a 6908     		lsrs	r1, r5, #1
+ 116 005c 41F08001 		orr	r1, r1, #128
+ 117 0060 3846     		mov	r0, r7
+ 118 0062 FFF7FEFF 		bl	u8x8_cad_SendCmd
+ 119              	.LVL15:
+ 128:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 120              		.loc 1 128 0
+ 121 0066 3846     		mov	r0, r7
+ 122 0068 FFF7FEFF 		bl	u8x8_cad_EndTransfer
+ 123              	.LVL16:
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+ 124              		.loc 1 163 0
+ 125 006c 0120     		movs	r0, #1
+ 129:Core/u8g2/u8x8_d_pcd8544_84x48.c **** #endif
+ 126              		.loc 1 129 0
+ 127 006e D9E7     		b	.L2
+ 128              	.LVL17:
+ 129              	.L8:
+ 132:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+ 130              		.loc 1 132 0
+ 131 0070 FFF7FEFF 		bl	u8x8_cad_StartTransfer
+ 132              	.LVL18:
+ 134:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       x *= 8;
+ 133              		.loc 1 134 0
+ 134 0074 7379     		ldrb	r3, [r6, #5]	@ zero_extendqisi2
+ 135              	.LVL19:
+ 135:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       x += u8x8->x_offset;
+ 136              		.loc 1 135 0
+ 137 0076 DB00     		lsls	r3, r3, #3
+ 138              	.LVL20:
+ 139 0078 DBB2     		uxtb	r3, r3
+ 140              	.LVL21:
+ 136:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x020 ); /* activate chip (PD=0), horizontal increment (V=0), enter no
+ 141              		.loc 1 136 0
+ 142 007a 97F82240 		ldrb	r4, [r7, #34]	@ zero_extendqisi2
+ 143 007e 1C44     		add	r4, r4, r3
+ 144 0080 E4B2     		uxtb	r4, r4
+ 145              	.LVL22:
+ 137:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x080 | (x) );	/* set X address */
+ 146              		.loc 1 137 0
+ 147 0082 2021     		movs	r1, #32
+ 148 0084 3846     		mov	r0, r7
+ 149 0086 FFF7FEFF 		bl	u8x8_cad_SendCmd
+ 150              	.LVL23:
+ 138:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       u8x8_cad_SendCmd(u8x8, 0x040 | (((u8x8_tile_t *)arg_ptr)->y_pos) );	/* set Y address */
+ 151              		.loc 1 138 0
+ 152 008a 44F08001 		orr	r1, r4, #128
+ 153 008e 3846     		mov	r0, r7
+ 154 0090 FFF7FEFF 		bl	u8x8_cad_SendCmd
+ 155              	.LVL24:
+ 139:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     
+ 156              		.loc 1 139 0
+ 157 0094 B179     		ldrb	r1, [r6, #6]	@ zero_extendqisi2
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 7
+
+
+ 158 0096 41F04001 		orr	r1, r1, #64
+ 159 009a 3846     		mov	r0, r7
+ 160 009c FFF7FEFF 		bl	u8x8_cad_SendCmd
+ 161              	.LVL25:
+ 141:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       c = ((u8x8_tile_t *)arg_ptr)->cnt;
+ 162              		.loc 1 141 0
+ 163 00a0 D6F80080 		ldr	r8, [r6]
+ 164              	.LVL26:
+ 142:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       c *= 8;	
+ 165              		.loc 1 142 0
+ 166 00a4 3679     		ldrb	r6, [r6, #4]	@ zero_extendqisi2
+ 167              	.LVL27:
+ 143:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       do
+ 168              		.loc 1 143 0
+ 169 00a6 F600     		lsls	r6, r6, #3
+ 170              	.LVL28:
+ 171 00a8 F6B2     		uxtb	r6, r6
+ 172              	.LVL29:
+ 173 00aa 0AE0     		b	.L12
+ 174              	.LVL30:
+ 175              	.L10:
+ 153:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	x += c;
+ 176              		.loc 1 153 0
+ 177 00ac 4246     		mov	r2, r8
+ 178 00ae 3146     		mov	r1, r6
+ 179 00b0 3846     		mov	r0, r7
+ 180 00b2 FFF7FEFF 		bl	u8x8_cad_SendData
+ 181              	.LVL31:
+ 154:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	arg_int--;
+ 182              		.loc 1 154 0
+ 183 00b6 3444     		add	r4, r4, r6
+ 184              	.LVL32:
+ 185 00b8 E4B2     		uxtb	r4, r4
+ 186              	.LVL33:
+ 155:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       } while( arg_int > 0 );
+ 187              		.loc 1 155 0
+ 188 00ba 013D     		subs	r5, r5, #1
+ 189              	.LVL34:
+ 156:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       
+ 190              		.loc 1 156 0
+ 191 00bc 15F0FF05 		ands	r5, r5, #255
+ 192              	.LVL35:
+ 193 00c0 08D0     		beq	.L11
+ 194              	.L12:
+ 195              	.LVL36:
+ 146:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	{
+ 196              		.loc 1 146 0
+ 197 00c2 3319     		adds	r3, r6, r4
+ 198 00c4 542B     		cmp	r3, #84
+ 199 00c6 F1D9     		bls	.L10
+ 148:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	    break;
+ 200              		.loc 1 148 0
+ 201 00c8 532C     		cmp	r4, #83
+ 202 00ca 03D8     		bhi	.L11
+ 203              	.LVL37:
+ 151:Core/u8g2/u8x8_d_pcd8544_84x48.c **** 	}
+ 204              		.loc 1 151 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 8
+
+
+ 205 00cc C4F15406 		rsb	r6, r4, #84
+ 206 00d0 F6B2     		uxtb	r6, r6
+ 207              	.LVL38:
+ 208 00d2 EBE7     		b	.L10
+ 209              	.LVL39:
+ 210              	.L11:
+ 158:Core/u8g2/u8x8_d_pcd8544_84x48.c ****       break;
+ 211              		.loc 1 158 0
+ 212 00d4 3846     		mov	r0, r7
+ 213 00d6 FFF7FEFF 		bl	u8x8_cad_EndTransfer
+ 214              	.LVL40:
+ 163:Core/u8g2/u8x8_d_pcd8544_84x48.c **** }
+ 215              		.loc 1 163 0
+ 216 00da 0120     		movs	r0, #1
+ 159:Core/u8g2/u8x8_d_pcd8544_84x48.c ****     default:
+ 217              		.loc 1 159 0
+ 218 00dc A2E7     		b	.L2
+ 219              	.LVL41:
+ 220              	.L13:
+ 161:Core/u8g2/u8x8_d_pcd8544_84x48.c ****   }
+ 221              		.loc 1 161 0
+ 222 00de 0020     		movs	r0, #0
+ 223              	.LVL42:
+ 224 00e0 A0E7     		b	.L2
+ 225              	.L16:
+ 226 00e2 00BF     		.align	2
+ 227              	.L15:
+ 228 00e4 00000000 		.word	.LANCHOR0
+ 229 00e8 00000000 		.word	.LANCHOR1
+ 230 00ec 00000000 		.word	.LANCHOR2
+ 231 00f0 00000000 		.word	.LANCHOR3
+ 232              		.cfi_endproc
+ 233              	.LFE0:
+ 235              		.section	.rodata.u8x8_d_pcd8544_84x48_init_seq,"a",%progbits
+ 236              		.align	2
+ 237              		.set	.LANCHOR1,. + 0
+ 240              	u8x8_d_pcd8544_84x48_init_seq:
+ 241 0000 18       		.byte	24
+ 242 0001 15       		.byte	21
+ 243 0002 21       		.byte	33
+ 244 0003 15       		.byte	21
+ 245 0004 06       		.byte	6
+ 246 0005 15       		.byte	21
+ 247 0006 13       		.byte	19
+ 248 0007 15       		.byte	21
+ 249 0008 C0       		.byte	-64
+ 250 0009 15       		.byte	21
+ 251 000a 20       		.byte	32
+ 252 000b 15       		.byte	21
+ 253 000c 08       		.byte	8
+ 254 000d 15       		.byte	21
+ 255 000e 24       		.byte	36
+ 256 000f 19       		.byte	25
+ 257 0010 FF       		.byte	-1
+ 258              		.section	.rodata.u8x8_d_pcd8544_84x48_powersave0_seq,"a",%progbits
+ 259              		.align	2
+ 260              		.set	.LANCHOR2,. + 0
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 9
+
+
+ 263              	u8x8_d_pcd8544_84x48_powersave0_seq:
+ 264 0000 18       		.byte	24
+ 265 0001 15       		.byte	21
+ 266 0002 20       		.byte	32
+ 267 0003 15       		.byte	21
+ 268 0004 0C       		.byte	12
+ 269 0005 19       		.byte	25
+ 270 0006 FF       		.byte	-1
+ 271              		.section	.rodata.u8x8_d_pcd8544_84x48_powersave1_seq,"a",%progbits
+ 272              		.align	2
+ 273              		.set	.LANCHOR3,. + 0
+ 276              	u8x8_d_pcd8544_84x48_powersave1_seq:
+ 277 0000 18       		.byte	24
+ 278 0001 15       		.byte	21
+ 279 0002 20       		.byte	32
+ 280 0003 15       		.byte	21
+ 281 0004 08       		.byte	8
+ 282 0005 15       		.byte	21
+ 283 0006 24       		.byte	36
+ 284 0007 19       		.byte	25
+ 285 0008 FF       		.byte	-1
+ 286              		.section	.rodata.u8x8_pcd8544_84x48_display_info,"a",%progbits
+ 287              		.align	2
+ 288              		.set	.LANCHOR0,. + 0
+ 291              	u8x8_pcd8544_84x48_display_info:
+ 292 0000 00       		.byte	0
+ 293 0001 01       		.byte	1
+ 294 0002 05       		.byte	5
+ 295 0003 05       		.byte	5
+ 296 0004 02       		.byte	2
+ 297 0005 02       		.byte	2
+ 298 0006 0C       		.byte	12
+ 299 0007 4B       		.byte	75
+ 300 0008 00093D00 		.word	4000000
+ 301 000c 00       		.byte	0
+ 302 000d 04       		.byte	4
+ 303 000e 1E       		.byte	30
+ 304 000f 28       		.byte	40
+ 305 0010 0B       		.byte	11
+ 306 0011 06       		.byte	6
+ 307 0012 00       		.byte	0
+ 308 0013 00       		.byte	0
+ 309 0014 5400     		.short	84
+ 310 0016 3000     		.short	48
+ 311              		.text
+ 312              	.Letext0:
+ 313              		.file 2 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 314              		.file 3 "c:\\program files (x86)\\gnu_tools_arm_embedded\\7_2017-q4-major\\arm-none-eabi\\include\
+ 315              		.file 4 "Core/u8g2/../u8g2/u8x8.h"
+ARM GAS  C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 u8x8_d_pcd8544_84x48.c
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:16     .text.u8x8_d_pcd8544_84x48:00000000 $t
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:23     .text.u8x8_d_pcd8544_84x48:00000000 u8x8_d_pcd8544_84x48
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:51     .text.u8x8_d_pcd8544_84x48:00000014 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:228    .text.u8x8_d_pcd8544_84x48:000000e4 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:236    .rodata.u8x8_d_pcd8544_84x48_init_seq:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:240    .rodata.u8x8_d_pcd8544_84x48_init_seq:00000000 u8x8_d_pcd8544_84x48_init_seq
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:259    .rodata.u8x8_d_pcd8544_84x48_powersave0_seq:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:263    .rodata.u8x8_d_pcd8544_84x48_powersave0_seq:00000000 u8x8_d_pcd8544_84x48_powersave0_seq
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:272    .rodata.u8x8_d_pcd8544_84x48_powersave1_seq:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:276    .rodata.u8x8_d_pcd8544_84x48_powersave1_seq:00000000 u8x8_d_pcd8544_84x48_powersave1_seq
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:287    .rodata.u8x8_pcd8544_84x48_display_info:00000000 $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:291    .rodata.u8x8_pcd8544_84x48_display_info:00000000 u8x8_pcd8544_84x48_display_info
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:58     .text.u8x8_d_pcd8544_84x48:0000001b $d
+C:\Users\ASUS\AppData\Local\Temp\ccMb1OqL.s:58     .text.u8x8_d_pcd8544_84x48:0000001c $t
+
+UNDEFINED SYMBOLS
+u8x8_d_helper_display_setup_memory
+u8x8_d_helper_display_init
+u8x8_cad_SendSequence
+u8x8_cad_StartTransfer
+u8x8_cad_SendCmd
+u8x8_cad_EndTransfer
+u8x8_cad_SendData
